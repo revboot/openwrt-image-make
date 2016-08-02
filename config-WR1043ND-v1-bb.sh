@@ -17,7 +17,7 @@ BUILDER_OPENWRT_PROFILE="TLWR1043";
 #       Package variables block       #
 #######################################
 
-# LuCi / LuCi HTTPS: boolean
+# LuCi HTTP/HTTPS: boolean
 FUNCTION_LUCI_MODE=true;
 FUNCTION_LUCIS_MODE=true;
 # Tools (...): boolean
@@ -34,18 +34,20 @@ FUNCTION_FIREWALL6_MODE=true;
 FUNCTION_IPV4_MODE=true;
 # IPv6 (kmod-ipv6): boolean
 FUNCTION_IPV6_MODE=true;
-# DHCP (dnsmasq): boolean
-FUNCTION_DHCP_MODE=true;
-# HNCP (hnetd): boolean
+# DHCPv4 (dnsmasq): boolean
+FUNCTION_DHCPV4_MODE=true;
+# DHCPv6 (dnsmasq-dhcpv6): boolean
+FUNCTION_DHCPV6_MODE=true;
+# HNCP (hnetd-full): boolean
 FUNCTION_HNCP_MODE=false;
-# PPP/PPTP (ppp): boolean
-FUNCTION_PPP_MODE=false;
+# PPP (ppp): boolean
+FUNCTION_PPP_MODE=true;
 # 3G/UMTS (comgt): boolean
-FUNCTION_3GUMTS_MODE=false;
+FUNCTION_3GUMTS_MODE=true;
 # WiFi (iw): boolean
 FUNCTION_WIFI_MODE=true;
 # Relay (relayd): boolean
-FUNCTION_RELAY_MODE=false;
+FUNCTION_RELAY_MODE=true;
 # Multi-WAN (multiwan): boolean
 FUNCTION_MULTIWAN_MODE=false;
 # UPNP (miniupnpd): boolean
@@ -56,34 +58,37 @@ FUNCTION_QOS_MODE=true;
 FUNCTION_WOL_MODE=true;
 # DDNS (ddns-scripts): boolean
 FUNCTION_DDNS_MODE=true;
-# OpenVPN (openvpn-openssl): boolean
-FUNCTION_OPENVPN_MODE=true;
-# SSH: array (dropbear openssh)
+# VPN option: array (openvpn vpnc openconnect pptp)
+FUNCTION_VPN_MODE=('openvpn');
+# SSH option: array (dropbear openssh)
 FUNCTION_SSH_MODE=('dropbear');
 # USB (kmod-usb-core): boolean
 FUNCTION_USB_MODE=true;
-# USB driver: array (usb2 ohci uhci)
+# USB option: array (usb2 ohci uhci)
 FUNCTION_USBDRV_MODE=('usb2 ohci');
-# 3G/Tether Dongle: array (net serial)
-FUNCTION_DONGLE_MODE=('');
-# Video: array (basic gspca)
+# Dongle option: array (net serial)
+FUNCTION_DONGLE_MODE=('net serial');
+# Video option: array (basic gspca)
 FUNCTION_VIDEO_MODE=('');
-# Audio (kmod-sound-core): boolean
+# Audio (kmod-usb-audio) boolean
 FUNCTION_AUDIO_MODE=false;
 # Printer (kmod-usb-printer)
 FUNCTION_PRINTER_MODE=false;
-# Printer driver: array (p910nd cups)
+# Printer option: array (p910nd cups)
 FUNCTION_PRINTERDRV_MODE=('');
-# Storage (block-mount): boolean
-FUNCTION_STORAGE_MODE=false;
-# Filesystem: array (ext hfs ntfs vfat)
-FUNCTION_FILESYSTEM_MODE=('');
+# Storage (kmod-usb-storage): boolean
+FUNCTION_STORAGE_MODE=true;
+# Filesystem option: array (ext hfs ntfs vfat f2fs)
+FUNCTION_FILESYSTEM_MODE=('ext vfat f2fs');
 # Samba (samba36-server): boolean
 FUNCTION_SAMBA_MODE=false;
+# NFS (nfs-kernel-server): boolean
+FUNCTION_NFS_MODE=true;
+# DLNA (minidlna): boolean
+FUNCTION_DLNA_MODE=true;
 # MJPG Streamer (mjpg-streamer): boolean
 FUNCTION_MJPG_MODE=false;
 # Extra Packages: boolean, string
 FUNCTION_EXTRA_MODE=false;
 FUNCTION_EXTRA_PKG='';
 FUNCTION_EXTRA_FILES='';
-

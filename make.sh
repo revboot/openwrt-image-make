@@ -80,14 +80,14 @@ function prepareBuilder() {
       ;;
     'cc' | 'chaos_calmer')
       BUILDER_OPENWRT_DIR="openwrt-chaos_calmer";
-      BUILDER_OPENWRT_FILE="OpenWrt-ImageBuilder-${BUILDER_OPENWRT_SOC}-${BUILDER_OPENWRT_FLASH}.Linux-x86_64.tar.bz2";
-      BUILDER_OPENWRT_URL="http://downloads.openwrt.org/snapshots/trunk/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/${BUILDER_OPENWRT_FILE}";
-      BUILDER_OPENWRT_REPOS="src/gz chaos_calmer_base http://downloads.openwrt.org/snapshots/trunk/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/packages/base\n";
-      BUILDER_OPENWRT_REPOS+="src/gz chaos_calmer_luci http://downloads.openwrt.org/snapshots/trunk/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/packages/luci\n";
-      BUILDER_OPENWRT_REPOS+="src/gz chaos_calmer_management http://downloads.openwrt.org/snapshots/trunk/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/packages/management\n";
-      BUILDER_OPENWRT_REPOS+="src/gz chaos_calmer_packages http://downloads.openwrt.org/snapshots/trunk/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/packages/packages\n";
-      BUILDER_OPENWRT_REPOS+="src/gz chaos_calmer_routing http://downloads.openwrt.org/snapshots/trunk/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/packages/routing\n";
-      BUILDER_OPENWRT_REPOS+="src/gz chaos_calmer_telephony http://downloads.openwrt.org/snapshots/trunk/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/packages/telephony"
+      BUILDER_OPENWRT_FILE="OpenWrt-ImageBuilder-15.05.1-${BUILDER_OPENWRT_SOC}-${BUILDER_OPENWRT_FLASH}.Linux-x86_64.tar.bz2";
+      BUILDER_OPENWRT_URL="http://downloads.openwrt.org/chaos_calmer/15.05.1/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/${BUILDER_OPENWRT_FILE}";
+      BUILDER_OPENWRT_REPOS="src/gz chaos_calmer_base http://downloads.openwrt.org/chaos_calmer/15.05.1/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/packages/base\n";
+      BUILDER_OPENWRT_REPOS+="src/gz chaos_calmer_luci http://downloads.openwrt.org/chaos_calmer/15.05.1/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/packages/luci\n";
+      BUILDER_OPENWRT_REPOS+="src/gz chaos_calmer_management http://downloads.openwrt.org/chaos_calmer/15.05.1/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/packages/management\n";
+      BUILDER_OPENWRT_REPOS+="src/gz chaos_calmer_packages http://downloads.openwrt.org/chaos_calmer/15.05.1/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/packages/packages\n";
+      BUILDER_OPENWRT_REPOS+="src/gz chaos_calmer_routing http://downloads.openwrt.org/chaos_calmer/15.05.1/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/packages/routing\n";
+      BUILDER_OPENWRT_REPOS+="src/gz chaos_calmer_telephony http://downloads.openwrt.org/chaos_calmer/15.05.1/${BUILDER_OPENWRT_SOC}/${BUILDER_OPENWRT_FLASH}/packages/telephony"
       downloadBuilder;
       extractBuilder;
       ;;
@@ -166,12 +166,12 @@ function decideOnArray() {
 # Base (...)
 function addBase() {
   local packages files;
-  packages="libuci uci kmod-zram zram-swap";
+  packages="libuci uci kmod-zram zram-swap udev";
   files="";
   echo "${packages}|${files}";
 }
 
-# LuCi (...)
+# LuCi HTTP/HTTPS (...)
 function addLuCi() {
   local packages files;
   packages="uhttpd luci luci-mod-admin-full luci-theme-bootstrap";
@@ -212,7 +212,10 @@ function addStatistics() {
 # Firewallv4 (iptables)
 function addFirewallv4() {
   local packages files;
-  packages="kmod-ipt-core kmod-ipt-nat kmod-ipt-nat-extra kmod-ipt-nathelper kmod-ipt-nathelper-extra iptables kmod-ipt-iprange iptables-mod-nat-extra iptables-mod-iprange firewall";
+  packages="kmod-ipt-core kmod-ipt-nat kmod-ipt-nat-extra iptables kmod-ipt-iprange iptables-mod-nat-extra iptables-mod-iprange firewall";
+  if [ "$BUILDER_OPENWRT_VERSION" == "bb" ];
+    then packages+=" kmod-ipt-nathelper";
+  fi;
   files="files/etc/config/firewall";
   if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-app-firewall"; fi;
   echo "${packages}|${files}";
@@ -237,33 +240,41 @@ function addIPv4() {
 # IPv6 (kmod-ipv6)
 function addIPv6() {
   local packages files;
-  packages="kmod-ipv6 6in4 6to4 6rd";
+  packages="kmod-ipv6 6to4 6in4 6rd ds-lite xl2tpd";
   files="files/etc/config/network";
   if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-proto-ipv6"; fi;
   echo "${packages}|${files}";
 }
 
-# DHCP (dnsmasq)
-function addDHCP() {
+# DHCPv4 (dnsmasq)
+function addDHCPv4() {
   local packages files;
   packages="dnsmasq";
   files="files/etc/config/dhcp";
   echo "${packages}|${files}";
 }
 
-# HNCP (hnetd)
+# DHCPv6 (dnsmasq-dhcpv6)
+function addDHCPv6() {
+  local packages files;
+  packages="dnsmasq-dhcpv6";
+  files="files/etc/config/dhcpv6";
+  echo "${packages}|${files}";
+}
+
+# HNCP (hnet-full)
 function addHNCP() {
   local packages files;
-  packages="hnetd";
+  packages="hnet-full";
   files="files/etc/config/hnet";
   if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-app-hnet"; fi;
   echo "${packages}|${files}";
 }
 
-# PPP/PPTP (ppp)
+# PPP (ppp)
 function addPPP() {
   local packages files;
-  packages="ppp ppp-mod-pppoe kmod-pppox ppp-mod-pptp";
+  packages="kmod-ppp kmod-pppoe ppp ppp-mod-pppoe";
   files="";
   if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-proto-ppp"; fi;
   echo "${packages}|${files}";
@@ -335,20 +346,54 @@ function addWOL() {
 function addDDNS() {
   local packages files;
   packages="ddns-scripts";
+  if [ "$BUILDER_OPENWRT_VERSION" == "cc" ];
+    then packages+=" ddns-scripts_no-ip_com";
+  fi;
   files="files/etc/config/ddns";
   if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-app-ddns"; fi;
   echo "${packages}|${files}";
 }
 
-# OpenVPN (openvpn-openssl)
-function addOpenVPN() {
+# VPN: OpenVPN (openvpn-openssl)
+function addVPNOpenVPN() {
   local packages files;
   packages="openvpn-openssl openvpn-easy-rsa";
   files="files/etc/config/openvpn";
   echo "${packages}|${files}";
 }
 
-# SSH: dropbear (dropbear)
+# VPN: VPNC (vpnc)
+function addVPNVPNC() {
+  local packages files;
+  packages="vpnc";
+  files="files/etc/config/vpnc";
+  echo "${packages}|${files}";
+}
+
+# VPN: OpenConnect (openconnect)
+function addVPNOpenConnect() {
+  local packages files;
+  packages="openconnect";
+  files="files/etc/config/openconnect";
+  if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-proto-openconnect"; fi;
+  echo "${packages}|${files}";
+}
+
+# VPN: PPTP (kmod-pptp)
+function addVPNPPTP() {
+  local packages files;
+  packages="kmod-pptp kmod-pppox kmod-mppe ppp-mod-pptp";
+  if [ "$BUILDER_OPENWRT_VERSION" == "cc" ];
+    then packages+=" kmod-nf-nathelper-extra";
+  elif [ "$BUILDER_OPENWRT_VERSION" == "bb" ];
+    then packages+=" kmod-ipt-nathelper-extra";
+  fi;
+  files="";
+  if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-proto-ppp"; fi;
+  echo "${packages}|${files}";
+}
+
+# SSH: Dropbear (dropbear)
 function addSSHDropbear() {
   local packages files;
   packages="dropbear";
@@ -356,7 +401,7 @@ function addSSHDropbear() {
   echo "${packages}|${files}";
 }
 
-# SSH: openssh (openssh-server)
+# SSH: OpenSSH (openssh-server)
 function addSSHOpenSSH() {
   local packages files;
   packages="openssh-server openssh-sftp-server";
@@ -367,12 +412,12 @@ function addSSHOpenSSH() {
 # USB (kmod-usb-core)
 function addUSB() {
   local packages files;
-  packages="kmod-usb-core kmod-usb-wdm kmod-ledtrig-usbdev usb-modeswitch";
+  packages="kmod-usb-core kmod-usb-wdm kmod-ledtrig-usbdev usb-modeswitch usbutils";
   files="";
   echo "${packages}|${files}";
 }
 
-# USB: usb2 (kmod-usb2)
+# USB: USB2 (kmod-usb2)
 function addUSB2() {
   local packages files;
   packages="kmod-usb2";
@@ -380,7 +425,7 @@ function addUSB2() {
   echo "${packages}|${files}";
 }
 
-# USB: ohci (kmod-usb-ohci)
+# USB: OHCI (kmod-usb-ohci)
 function addUSBOHCI() {
   local packages files;
   packages="kmod-usb-ohci";
@@ -388,7 +433,7 @@ function addUSBOHCI() {
   echo "${packages}|${files}";
 }
 
-# USB: uhci (kmod-usb-uhci)
+# USB: UHCI (kmod-usb-uhci)
 function addUSBUHCI() {
   local packages files;
   packages="kmod-usb-uhci";
@@ -396,23 +441,23 @@ function addUSBUHCI() {
   echo "${packages}|${files}";
 }
 
-# Dongle: net (kmod-usb-net)
+# Dongle: Net (kmod-usb-net)
 function addDongleNet() {
   local packages files;
-  packages="kmod-usb-net kmod-usb-net-hso kmod-usb-net-rndis kmod-usb-net-cdc-eem kmod-usb-net-cdc-ether kmod-usb-net-cdc-subset kmod-usb-net-cdc-ncm kmod-usb-net-cdc-mbim kmod-usb-net-asix kmod-usb-net-dm9601-ether kmod-usb-net-ipheth kmod-usb-net-kalmia kmod-usb-net-kaweth kmod-usb-net-mcs7830 kmod-usb-net-pegasus kmod-usb-net-qmi-wwan kmod-usb-net-sierrawireless kmod-usb-net-smsc95xx kmod-mii";
+  packages="kmod-usb-net kmod-usb-net-hso kmod-usb-net-rndis kmod-usb-net-cdc-eem kmod-usb-net-cdc-ether kmod-usb-net-cdc-subset kmod-usb-net-cdc-ncm kmod-usb-net-cdc-mbim kmod-usb-net-ipheth kmod-usb-net-kalmia";
   files="";
   echo "${packages}|${files}";
 }
 
-# Dongle: serial (kmod-usb-serial)
+# Dongle: Serial (kmod-usb-serial)
 function addDongleSerial() {
   local packages files;
-  packages="kmod-usb-serial kmod-usb-serial-option kmod-usb-serial-wwan kmod-usb-serial-ark3116 kmod-usb-serial-belkin kmod-usb-serial-ch341 kmod-usb-serial-cp210x kmod-usb-serial-cypress-m8 kmod-usb-serial-ftdi kmod-usb-serial-ipw kmod-usb-serial-keyspan kmod-usb-serial-mct kmod-usb-serial-mos7720 kmod-usb-serial-motorola-phone kmod-usb-serial-oti6858 kmod-usb-serial-pl2303 kmod-usb-serial-qualcomm kmod-usb-serial-sierrawireless kmod-usb-serial-ti-usb kmod-usb-serial-visor kmod-usb-acm";
+  packages="kmod-usb-serial kmod-usb-serial-option kmod-usb-serial-wwan kmod-usb-serial-belkin kmod-usb-serial-qualcomm kmod-usb-acm";
   files="";
   echo "${packages}|${files}";
 }
 
-# Video: basic (kmod-video-core)
+# Video: Basic (kmod-video-core)
 function addVideoBasic() {
   local packages files;
   packages="kmod-video-core kmod-video-uvc";
@@ -420,7 +465,7 @@ function addVideoBasic() {
   echo "${packages}|${files}";
 }
 
-# Video: gspca (kmod-video-gspca-core)
+# Video: GSPCA (kmod-video-gspca-core)
 function addVideoGSPCA() {
   local packages files;
   packages="kmod-video-gspca-core";
@@ -431,7 +476,7 @@ function addVideoGSPCA() {
 # Audio (kmod-usb-audio)
 function addAudio() {
   local packages files;
-  packages="kmod-usb-audio kmod-sound-core kmod-sound-soc-core kmod-sound-cs5535audio kmod-sound-i8x0";
+  packages="kmod-usb-audio kmod-sound-core kmod-sound-soc-core";
   files="";
   echo "${packages}|${files}";
 }
@@ -444,7 +489,7 @@ function addPrinter() {
   echo "${packages}|${files}";
 }
 
-# Printer: p910nd (p910nd)
+# Printer: P910nd (p910nd)
 function addPrinterP910nd() {
   local packages files;
   packages="p910nd";
@@ -453,7 +498,7 @@ function addPrinterP910nd() {
   echo "${packages}|${files}";
 }
 
-# Printer: cups (cups)
+# Printer: CUPS (cups)
 function addPrinterCUPS() {
   local packages files;
   packages="cups";
@@ -461,32 +506,32 @@ function addPrinterCUPS() {
   echo "${packages}|${files}";
 }
 
-# Storage (kmod-fuse)
+# Storage (kmod-usb-storage)
 function addStorage() {
   local packages files;
-  packages="kmod-usb-storage kmod-scsi-core kmod-fuse block-mount swap-utils hd-idle";
+  packages="kmod-usb-storage kmod-usb-storage-extras kmod-scsi-core kmod-fuse block-mount swap-utils hd-idle";
   files="files/etc/config/fstab files/etc/config/hd-idle";
   if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-app-hd-idle"; fi;
   echo "${packages}|${files}";
 }
 
-# Filesystem: ext (kmod-fs-ext4)
+# Filesystem: EXT2/3/4 (kmod-fs-ext4)
 function addFilesystemExt() {
   local packages files;
-  packages="kmod-fs-ext4";
+  packages="kmod-fs-ext4 e2fsprogs";
   files="";
   echo "${packages}|${files}";
 }
 
-# Filesystem: hfs (kmod-fs-hfsplus)
+# Filesystem: HFS (kmod-fs-hfsplus)
 function addFilesystemHfs() {
   local packages files;
-  packages="kmod-fs-hfsplus";
+  packages="kmod-fs-hfs kmod-fs-hfsplus";
   files="";
   echo "${packages}|${files}";
 }
 
-# Filesystem: ntfs (kmod-fs-ntfs)
+# Filesystem: NTFS (kmod-fs-ntfs)
 function addFilesystemNTFS() {
   local packages files;
   packages="kmod-fs-ntfs";
@@ -494,7 +539,7 @@ function addFilesystemNTFS() {
   echo "${packages}|${files}";
 }
 
-# Filesystem: vfat (kmod-fs-vfat)
+# Filesystem: VFAT (kmod-fs-vfat)
 function addFilesystemVFAT() {
   local packages files;
   packages="kmod-fs-vfat kmod-nls-cp1250 kmod-nls-cp1251 kmod-nls-cp437 kmod-nls-cp850 kmod-nls-cp852 kmod-nls-iso8859-1 kmod-nls-iso8859-8";
@@ -502,19 +547,43 @@ function addFilesystemVFAT() {
   echo "${packages}|${files}";
 }
 
+# Filesystem: F2FS (kmod-fs-f2fs)
+function addFilesystemF2FS() {
+  local packages files;
+  packages="kmod-fs-f2fs";
+  files="";
+  echo "${packages}|${files}";
+}
+
 # Samba (samba36-server)
 function addSamba() {
   local packages files;
-  packages="samba36-server";
+  packages="kmod-fs-cifs samba36-server";
   files="files/etc/config/samba";
   if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-app-samba"; fi;
+  echo "${packages}|${files}";
+}
+
+# NFS (nfs-kernel-server)
+function addNFS() {
+  local packages files;
+  packages=" kmod-fs-nfs kmod-fs-nfsd kmod-loop nfs-kernel-server nfs-utils";
+  files="files/etc/config/nfs";
+  echo "${packages}|${files}";
+}
+
+# DLNA (minidlna)
+function addDLNA() {
+  local packages files;
+  packages="minidlna";
+  files="";
   echo "${packages}|${files}";
 }
 
 # MJPG (mjpg-streamer)
 function addMJPG() {
   local packages files;
-  packages="mjpg-streamer";
+  packages="mjpg-streamer uvcdynctrl";
   files="files/etc/config/mjpg-streamer";
   echo "${packages}|${files}";
 }
@@ -545,7 +614,7 @@ prepareBuilder;
 # Base (...)
 decideNoConfig "Base" "addBase";
 
-# LuCi (...)
+# LuCi HTTP/HTTPS (...)
 decideOnBoolean "LuCi" "addLuCi" "FUNCTION_LUCI_MODE";
 decideOnBoolean "LuCi HTTPS" "addLuCi_https" "FUNCTION_LUCI_MODE";
 
@@ -570,14 +639,17 @@ decideOnBoolean "IPv4 (ip)" "addIPv4" "FUNCTION_IPV4_MODE";
 # IPv6 (kmod-ipv6)
 decideOnBoolean "IPv6 (kmod-ipv6)" "addIPv6" "FUNCTION_IPV6_MODE";
 
-# DHCP (dnsmasq)
-decideOnBoolean "DHCP (dnsmasq)" "addDHCP" "FUNCTION_DHCP_MODE";
+# DHCPv4 (dnsmasq)
+decideOnBoolean "DHCPv4 (dnsmasq)" "addDHCPv4" "FUNCTION_DHCPV4_MODE";
 
-# HNCP (hnetd)
-decideOnBoolean "HNCP (hnetd)" "addHNCP" "FUNCTION_HNCP_MODE";
+# DHCPv6 (dnsmasq-dhcpv6)
+decideOnBoolean "DHCPv6 (dnsmasq-dhcpv6)" "addDHCPv6" "FUNCTION_DHCPV6_MODE";
 
-# PPP/PPTP (ppp)
-decideOnBoolean "PPP/PPTP (ppp)" "addPPP" "FUNCTION_PPP_MODE";
+# HNCP (hnetd-full)
+decideOnBoolean "HNCP (hnetd-full)" "addHNCP" "FUNCTION_HNCP_MODE";
+
+# PPP (ppp)
+decideOnBoolean "PPP (ppp)" "addPPP" "FUNCTION_PPP_MODE";
 
 # 3G/UMTS (comgt)
 decideOnBoolean "3G/UMTS (comgt)" "add3GUMTS" "FUNCTION_3GUMTS_MODE";
@@ -603,68 +675,86 @@ decideOnBoolean "WOL (etherwake)" "addWOL" "FUNCTION_WOL_MODE";
 # DDNS (ddns-scripts)
 decideOnBoolean "DDNS (ddns-scripts)" "addDDNS" "FUNCTION_DDNS_MODE";
 
-# OpenVPN (openvpn-openssl
-decideOnBoolean "OpenVPN (openvpn-openssl" "addOpenVPN" "FUNCTION_OPENVPN_MODE";
+# VPN: OpenVPN (openvpn-openssl)
+decideOnArray "VPN: OpenVPN (openvpn-openssl)" "addVPN" "FUNCTION_VPN_MODE" "openvpn";
 
-# SSH (dropbear)
-decideOnArray "SSH (dropbear)" "addSSHDropbear" "FUNCTION_SSH_MODE" "dropbear";
+# VPN: VPNC (vpnc)
+decideOnArray "VPN: VPNC (vpnc)" "addVPN" "FUNCTION_VPN_MODE" "vpnc";
 
-# SSH (OpenSSH)
-decideOnArray "SSH (OpenSSH)" "addSSHOpenSSH" "FUNCTION_SSH_MODE" "openssh";
+# VPN: OpenConnect (openconnect)
+decideOnArray "VPN: OpenConnect (openconnect)" "addVPN" "FUNCTION_VPN_MODE" "openconnect";
+
+# VPN: PPTP (kmod-pptp)
+decideOnArray "VPN: PPTP (kmod-pptp)" "addVPN" "FUNCTION_VPN_MODE" "pptp";
+
+# SSH: Dropbear (dropbear)
+decideOnArray "SSH: Dropbear (dropbear)" "addSSHDropbear" "FUNCTION_SSH_MODE" "dropbear";
+
+# SSH: OpenSSH (openssh-server)
+decideOnArray "SSH: OpenSSH (openssh-server)" "addSSHOpenSSH" "FUNCTION_SSH_MODE" "openssh";
 
 # USB (kmod-usb-core)
 decideOnBoolean "USB (kmod-usb-core)" "addUSB" "FUNCTION_USB_MODE";
 
-# USB driver (usb2)
-decideOnArray "USB (usb2)" "addUSB2" "FUNCTION_USBDRV_MODE" "usb2";
+# USB: USB2 (kmod-usb2)
+decideOnArray "USB: USB2 (kmod-usb2)" "addUSB2" "FUNCTION_USBDRV_MODE" "usb2";
 
-# USB driver (ohci)
-decideOnArray "USB (ohci)" "addUSBOHCI" "FUNCTION_USBDRV_MODE" "ohci";
+# USB: OHCI (kmod-usb-ohci)
+decideOnArray "USB: OHCI (kmod-usb-ohci)" "addUSBOHCI" "FUNCTION_USBDRV_MODE" "ohci";
 
-# USB driver (uhci)
-decideOnArray "USB (uhci)" "addUSBUHCI" "FUNCTION_USBDRV_MODE" "uhci";
+# USB: UHCI (kmod-usb-uhci)
+decideOnArray "USB: UHCI (kmod-usb-uhci)" "addUSBUHCI" "FUNCTION_USBDRV_MODE" "uhci";
 
-# Dongle (net)
-decideOnArray "Dongle (net)" "addDongleNet" "FUNCTION_DONGLE_MODE" "net";
+# Dongle: Net (kmod-usb-net)
+decideOnArray "Dongle: Net (kmod-usb-net)" "addDongleNet" "FUNCTION_DONGLE_MODE" "net";
 
-# Dongle (serial)
-decideOnArray "Dongle (serial)" "addDongleSerial" "FUNCTION_DONGLE_MODE" "serial";
+# Dongle: Serial (kmod-usb-serial)
+decideOnArray "Dongle: Serial (kmod-usb-serial)" "addDongleSerial" "FUNCTION_DONGLE_MODE" "serial";
 
-# Video (basic)
-decideOnArray "Video (basic)" "addVideoBasic" "FUNCTION_VIDEO_MODE" "basic";
+# Video: Basic (kmod-video-core)
+decideOnArray "Video: Basic (kmod-video-core)" "addVideoBasic" "FUNCTION_VIDEO_MODE" "basic";
 
-# Video (gspca)
-decideOnArray "Video (gspca)" "addVideoGSPCA" "FUNCTION_VIDEO_MODE" "gspca";
+# Video: GSPCA (kmod-video-gspca-core)
+decideOnArray "Video: GSPCA (kmod-video-gspca-core)" "addVideoGSPCA" "FUNCTION_VIDEO_MODE" "gspca";
 
-# Audio (kmod-sound-core)
-decideOnBoolean "Audio (kmod-sound-core)" "addAudio" "FUNCTION_AUDIO_MODE";
+# Audio (kmod-usb-audio)
+decideOnBoolean "Audio (kmod-usb-audio)" "addAudio" "FUNCTION_AUDIO_MODE";
 
 # Printer (kmod-usb-printer)
 decideOnBoolean "Printer (kmod-usb-printer)" "addPrinter" "FUNCTION_PRINTER_MODE";
 
-# Printer driver (p910nd)
-decideOnArray "Printer (p910nd)" "addPrinterP910nd" "FUNCTION_PRINTERDRV_MODE" "p910nd";
+# Printer: P910nd (p910nd)
+decideOnArray "Printer: P910nd (p910nd)" "addPrinterP910nd" "FUNCTION_PRINTERDRV_MODE" "p910nd";
 
-# Printer driver (cups)
-decideOnArray "Printer (cups)" "addPrinterCUPS" "FUNCTION_PRINTERDRV_MODE" "cups";
+# Printer: CUPS (cups)
+decideOnArray "Printer: CUPS (cups)" "addPrinterCUPS" "FUNCTION_PRINTERDRV_MODE" "cups";
 
-# Storage (block-mount)
-decideOnBoolean "Storage" "addStorage" "FUNCTION_STORAGE_MODE";
+# Storage (kmod-usb-storage)
+decideOnBoolean "Storage (kmod-usb-storage)" "addStorage" "FUNCTION_STORAGE_MODE";
 
-# Filesystem (ext2/3/4)
-decideOnArray "Filesystem (ext2/3/4)" "addFilesystemExt" "FUNCTION_FILESYSTEM_MODE" "ext";
+# Filesystem: EXT2/3/4 (kmod-fs-ext4)
+decideOnArray "Filesystem: EXT2/3/4 (kmod-fs-ext4)" "addFilesystemExt" "FUNCTION_FILESYSTEM_MODE" "ext";
 
-# Filesystem (hfs/hfsplus)
-decideOnArray "Filesystem (hfs/hfsplus)" "addFilesystemHfs" "FUNCTION_FILESYSTEM_MODE" "hfs";
+# Filesystem: HFS (kmod-fs-hfsplus)
+decideOnArray "Filesystem: HFS (kmod-fs-hfsplus)" "addFilesystemHfs" "FUNCTION_FILESYSTEM_MODE" "hfs";
 
-# Filesystem (ntfs)
-decideOnArray "Filesystem (ntfs)" "addFilesystemNTFS" "FUNCTION_FILESYSTEM_MODE" "ntfs";
+# Filesystem: NTFS (kmod-fs-ntfs)
+decideOnArray "Filesystem: NTFS (kmod-fs-ntfs)" "addFilesystemNTFS" "FUNCTION_FILESYSTEM_MODE" "ntfs";
 
-# Filesystem (vfat)
-decideOnArray "Filesystem (vfat)" "addFilesystemVFAT" "FUNCTION_FILESYSTEM_MODE" "vfat";
+# Filesystem: VFAT (kmod-fs-vfat)
+decideOnArray "Filesystem: VFAT (kmod-fs-vfat)" "addFilesystemVFAT" "FUNCTION_FILESYSTEM_MODE" "vfat";
+
+# Filesystem: F2FS (kmod-fs-f2fs)
+decideOnArray "Filesystem: F2FS (kmod-fs-f2fs)" "addFilesystemF2FS" "FUNCTION_FILESYSTEM_MODE" "f2fs";
 
 # Samba (samba36-server)
 decideOnBoolean "Samba (samba36-server)" "addSamba" "FUNCTION_SAMBA_MODE";
+
+# NFS (nfs-kernel-server)
+decideOnBoolean "NFS (nfs-kernel-server)" "addNFS" "FUNCTION_NFS_MODE";
+
+# DLNA (minidlna)
+decideOnBoolean "DLNA (minidlna)" "addDLNA" "FUNCTION_DLNA_MODE";
 
 # MJPG Streamer (mjpg-streamer)
 decideOnBoolean "MJPG Streamer (mjpg-streamer)" "addMJPG" "FUNCTION_MJPG_MODE";
@@ -690,4 +780,3 @@ make image PROFILE=$BUILDER_OPENWRT_PROFILE PACKAGES="${PACKAGES}";
 
 IFS=$OIFS;
 exit;
-
