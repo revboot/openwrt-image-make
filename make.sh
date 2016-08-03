@@ -359,6 +359,7 @@ function addVPNOpenVPN() {
   local packages files;
   packages="openvpn-openssl openvpn-easy-rsa";
   files="files/etc/config/openvpn";
+  if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-app-openvpn"; fi;
   echo "${packages}|${files}";
 }
 
@@ -676,16 +677,16 @@ decideOnBoolean "WOL (etherwake)" "addWOL" "FUNCTION_WOL_MODE";
 decideOnBoolean "DDNS (ddns-scripts)" "addDDNS" "FUNCTION_DDNS_MODE";
 
 # VPN: OpenVPN (openvpn-openssl)
-decideOnArray "VPN: OpenVPN (openvpn-openssl)" "addVPN" "FUNCTION_VPN_MODE" "openvpn";
+decideOnArray "VPN: OpenVPN (openvpn-openssl)" "addVPNOpenVPN" "FUNCTION_VPN_MODE" "openvpn";
 
 # VPN: VPNC (vpnc)
-decideOnArray "VPN: VPNC (vpnc)" "addVPN" "FUNCTION_VPN_MODE" "vpnc";
+decideOnArray "VPN: VPNC (vpnc)" "addVPNVPNC" "FUNCTION_VPN_MODE" "vpnc";
 
 # VPN: OpenConnect (openconnect)
-decideOnArray "VPN: OpenConnect (openconnect)" "addVPN" "FUNCTION_VPN_MODE" "openconnect";
+decideOnArray "VPN: OpenConnect (openconnect)" "addVPNOpenConnect" "FUNCTION_VPN_MODE" "openconnect";
 
 # VPN: PPTP (kmod-pptp)
-decideOnArray "VPN: PPTP (kmod-pptp)" "addVPN" "FUNCTION_VPN_MODE" "pptp";
+decideOnArray "VPN: PPTP (kmod-pptp)" "addVPNPPTP" "FUNCTION_VPN_MODE" "pptp";
 
 # SSH: Dropbear (dropbear)
 decideOnArray "SSH: Dropbear (dropbear)" "addSSHDropbear" "FUNCTION_SSH_MODE" "dropbear";
