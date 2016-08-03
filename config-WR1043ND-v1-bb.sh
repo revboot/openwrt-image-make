@@ -38,8 +38,8 @@ FUNCTION_IPV6_MODE=true;
 FUNCTION_DHCPV4_MODE=true;
 # DHCPv6 (dnsmasq-dhcpv6): boolean
 FUNCTION_DHCPV6_MODE=true;
-# HNCP (hnetd-full): boolean
-FUNCTION_HNCP_MODE=false;
+# Zeroconf: option: array (hnet miniupnpd minidlna mdnsresponder)
+FUNCTION_ZEROCONF_MODE=('miniupnpd');
 # PPP (ppp): boolean
 FUNCTION_PPP_MODE=false;
 # 3G/UMTS (comgt): boolean
@@ -50,8 +50,6 @@ FUNCTION_WIFI_MODE=true;
 FUNCTION_RELAY_MODE=true;
 # Multi-WAN (multiwan): boolean
 FUNCTION_MULTIWAN_MODE=false;
-# UPNP (miniupnpd): boolean
-FUNCTION_UPNP_MODE=true;
 # QOS (qos-scripts): boolean
 FUNCTION_QOS_MODE=true;
 # WOL (etherwake): boolean
@@ -80,12 +78,8 @@ FUNCTION_PRINTERDRV_MODE=('');
 FUNCTION_STORAGE_MODE=true;
 # Filesystem option: array (ext hfs ntfs vfat f2fs)
 FUNCTION_FILESYSTEM_MODE=('ext vfat');
-# Samba (samba36-server): boolean
-FUNCTION_SAMBA_MODE=false;
-# NFS (nfs-kernel-server): boolean
-FUNCTION_NFS_MODE=false;
-# DLNA (minidlna): boolean
-FUNCTION_DLNA_MODE=false;
+# NAS option: array (sshfs smb nfs afp)
+FUNCTION_NAS_MODE=('sshfs');
 # MJPG Streamer (mjpg-streamer): boolean
 FUNCTION_MJPG_MODE=false;
 # Extra Packages: boolean, string
