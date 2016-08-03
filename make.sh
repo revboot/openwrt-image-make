@@ -525,7 +525,7 @@ function addFilesystemExt() {
 }
 
 # Filesystem: HFS (kmod-fs-hfsplus)
-function addFilesystemHfs() {
+function addFilesystemHFS() {
   local packages files;
   packages="kmod-fs-hfs kmod-fs-hfsplus";
   files="";
@@ -556,8 +556,16 @@ function addFilesystemF2FS() {
   echo "${packages}|${files}";
 }
 
-# Samba (samba36-server)
-function addSamba() {
+# NAS: SSHFS (sshfs)
+function addNASSSHFS() {
+  local packages files;
+  packages="sshfs";
+  files="";
+  echo "${packages}|${files}";
+}
+
+# NAS: SMB/CIFS (samba36-server)
+function addNASSamba() {
   local packages files;
   packages="kmod-fs-cifs samba36-server";
   files="files/etc/config/samba";
@@ -565,11 +573,19 @@ function addSamba() {
   echo "${packages}|${files}";
 }
 
-# NFS (nfs-kernel-server)
-function addNFS() {
+# NAS: NFS (nfs-kernel-server)
+function addNASNFS() {
   local packages files;
-  packages=" kmod-fs-nfs kmod-fs-nfsd kmod-loop nfs-kernel-server nfs-utils";
+  packages="kmod-fs-nfs kmod-fs-nfsd kmod-fs-exportfs kmod-loop nfs-kernel-server nfs-utils";
   files="files/etc/config/nfs";
+  echo "${packages}|${files}";
+}
+
+# NAS: AFP (netatalk)
+function addNASAFP() {
+  local packages files;
+  packages="kmod-appletalk netatalk";
+  files="";
   echo "${packages}|${files}";
 }
 
@@ -737,7 +753,7 @@ decideOnBoolean "Storage (kmod-usb-storage)" "addStorage" "FUNCTION_STORAGE_MODE
 decideOnArray "Filesystem: EXT2/3/4 (kmod-fs-ext4)" "addFilesystemExt" "FUNCTION_FILESYSTEM_MODE" "ext";
 
 # Filesystem: HFS (kmod-fs-hfsplus)
-decideOnArray "Filesystem: HFS (kmod-fs-hfsplus)" "addFilesystemHfs" "FUNCTION_FILESYSTEM_MODE" "hfs";
+decideOnArray "Filesystem: HFS (kmod-fs-hfsplus)" "addFilesystemHFS" "FUNCTION_FILESYSTEM_MODE" "hfs";
 
 # Filesystem: NTFS (kmod-fs-ntfs)
 decideOnArray "Filesystem: NTFS (kmod-fs-ntfs)" "addFilesystemNTFS" "FUNCTION_FILESYSTEM_MODE" "ntfs";
@@ -748,11 +764,17 @@ decideOnArray "Filesystem: VFAT (kmod-fs-vfat)" "addFilesystemVFAT" "FUNCTION_FI
 # Filesystem: F2FS (kmod-fs-f2fs)
 decideOnArray "Filesystem: F2FS (kmod-fs-f2fs)" "addFilesystemF2FS" "FUNCTION_FILESYSTEM_MODE" "f2fs";
 
-# Samba (samba36-server)
-decideOnBoolean "Samba (samba36-server)" "addSamba" "FUNCTION_SAMBA_MODE";
+# NAS: SSHFS (sshfs)
+decideOnArray "NAS: SSHFS (sshfs)" "addNASSSHFS" "FUNCTION_NAS_MODE" "sshfs";
 
-# NFS (nfs-kernel-server)
-decideOnBoolean "NFS (nfs-kernel-server)" "addNFS" "FUNCTION_NFS_MODE";
+# NAS: SMB/CIFS (samba36-server)
+decideOnArray "NAS: SMB/CIFS (samba36-server)" "addNASSamba" "FUNCTION_NAS_MODE" "smb";
+
+# NAS: NFS (nfs-kernel-server)
+decideOnArray "NAS: NFS (nfs-kernel-server)" "addNASNFS" "FUNCTION_NAS_MODE" "nfs";
+
+# NAS: AFP (netatalk)
+decideOnArray "NAS: AFP (netatalk)" "addNASAFP" "FUNCTION_NAS_MODE" "afp";
 
 # DLNA (minidlna)
 decideOnBoolean "DLNA (minidlna)" "addDLNA" "FUNCTION_DLNA_MODE";
