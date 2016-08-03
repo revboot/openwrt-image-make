@@ -78,8 +78,8 @@ FUNCTION_PRINTER_STATUS=false;
 FUNCTION_PRINTER_OPT=('');
 # Storage (kmod-usb-storage): boolean
 FUNCTION_STORAGE_STATUS=true;
-# Storage option: array (ext hfs ntfs vfat f2fs)
-FUNCTION_STORAGE_OPT=('ext vfat');
+# Storage option: array (card hdd ext hfs ntfs vfat f2fs)
+FUNCTION_STORAGE_OPT=('card hdd ext vfat');
 # NAS option: array (sshfs smb nfs afp)
 FUNCTION_NAS_OPT=('sshfs');
 # Extra Packages: boolean, string

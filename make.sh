@@ -560,8 +560,24 @@ function addPrinterCUPS() {
 # Storage (kmod-usb-storage)
 function addStorage() {
   local packages files;
-  packages="kmod-usb-storage kmod-usb-storage-extras kmod-scsi-core kmod-fuse block-mount swap-utils hd-idle";
-  files="files/etc/config/fstab files/etc/config/hd-idle";
+  packages="kmod-usb-storage kmod-fuse block-mount swap-utils";
+  files="files/etc/config/fstab";
+  echo "${packages}|${files}";
+}
+
+# Storage option: SmartCard (kmod-usb-storage-extras)
+function addStorageCard() {
+  local packages files;
+  packages="kmod-usb-storage-extras";
+  files="";
+  echo "${packages}|${files}";
+}
+
+# Storage option: HDD (kmod-scsi-core)
+function addStorageHDD() {
+  local packages files;
+  packages="kmod-scsi-core hd-idle";
+  files="files/etc/config/hd-idle";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-hd-idle"; fi;
   echo "${packages}|${files}";
 }
@@ -797,6 +813,12 @@ decideOnArray "Printer option: CUPS (cups)" "addPrinterCUPS" "FUNCTION_PRINTER_O
 
 # Storage (kmod-usb-storage)
 decideOnBoolean "Storage (kmod-usb-storage)" "addStorage" "FUNCTION_STORAGE_STATUS";
+
+# Storage option: SmartCard (kmod-usb-storage-extras)
+decideOnArray "# Storage option: SmartCard (kmod-usb-storage-extras)" "addStorageCard" "FUNCTION_STORAGE_OPT" "card";
+
+# Storage option: HDD (kmod-scsi-core)
+decideOnArray "# Storage option: HDD (kmod-scsi-core)" "addStorageHDD" "FUNCTION_STORAGE_OPT" "hdd";
 
 # Storage option: EXT2/3/4 (kmod-fs-ext4)
 decideOnArray "Storage option: EXT2/3/4 (kmod-fs-ext4)" "addStorageExt" "FUNCTION_STORAGE_OPT" "ext";
