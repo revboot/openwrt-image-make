@@ -70,6 +70,8 @@ FUNCTION_DONGLE_MODE=('');
 FUNCTION_VIDEO_MODE=('');
 # Audio (kmod-usb-audio) boolean
 FUNCTION_AUDIO_MODE=false;
+# Audio option: array (pulseaudio portaudio)
+FUNCTION_AUDIODRV_MODE=('');
 # Printer (kmod-usb-printer)
 FUNCTION_PRINTER_MODE=false;
 # Printer option: array (p910nd cups)

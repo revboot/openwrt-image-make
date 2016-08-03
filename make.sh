@@ -508,6 +508,22 @@ function addAudio() {
   echo "${packages}|${files}";
 }
 
+# Audio: PulseAudio (pulseaudio-daemon)
+function addAudioPulseAudio() {
+  local packages files;
+  packages="pulseaudio-daemon";
+  files="";
+  echo "${packages}|${files}";
+}
+
+# Audio: PortAudio (portaudio)
+function addAudioPortAudio() {
+  local packages files;
+  packages="portaudio";
+  files="";
+  echo "${packages}|${files}";
+}
+
 # Printer (kmod-usb-printer)
 function addPrinter() {
   local packages files;
@@ -760,6 +776,12 @@ decideOnArray "Video: GSPCA (kmod-video-gspca-core)" "addVideoGSPCA" "FUNCTION_V
 
 # Audio (kmod-usb-audio)
 decideOnBoolean "Audio (kmod-usb-audio)" "addAudio" "FUNCTION_AUDIO_MODE";
+
+# Audio: PulseAudio (pulseaudio-daemon)
+decideOnArray "Audio: PulseAudio (pulseaudio-daemon)" "addAudioPulseAudio" "FUNCTION_AUDIODRV_MODE" "pulseaudio";
+
+# Audio: PortAudio (portaudio)
+decideOnArray "Audio: PortAudio (portaudio)" "addAudioPortAudio" "FUNCTION_AUDIODRV_MODE" "portaudio";
 
 # Printer (kmod-usb-printer)
 decideOnBoolean "Printer (kmod-usb-printer)" "addPrinter" "FUNCTION_PRINTER_MODE";
