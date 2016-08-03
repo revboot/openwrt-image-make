@@ -262,12 +262,47 @@ function addDHCPv6() {
   echo "${packages}|${files}";
 }
 
-# HNCP (hnet-full)
-function addHNCP() {
+# Zeroconf: HNCP (hnet-full)
+function addZeroconfHNCP() {
   local packages files;
   packages="hnet-full";
   files="files/etc/config/hnet";
   if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-app-hnet"; fi;
+  echo "${packages}|${files}";
+}
+
+# Zeroconf: UPNP (miniupnpd)
+function addZeroconfUPNP() {
+  local packages files;
+  packages="miniupnpd";
+  files="files/etc/config/upnpd";
+  if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-app-upnp"; fi;
+  echo "${packages}|${files}";
+}
+
+# Zeroconf: DLNA (minidlna)
+function addZeroconfDLNA() {
+  local packages files;
+  packages="minidlna";
+  files="";
+  if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-app-minidlna"; fi;
+  echo "${packages}|${files}";
+}
+
+# Zeroconf: DNSSD (avahi-daemon)
+function addZeroconfDNSSD() {
+  local packages files;
+  packages="avahi-daemon avahi-daemon-service-http avahi-daemon-service-ssh avahi-dnsconfd avahi-autoipd";
+  files="";
+  if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-app-minidlna"; fi;
+  echo "${packages}|${files}";
+}
+
+# Zeroconf: mDNS (mdnsresponder)
+function addZeroconfmDNS() {
+  local packages files;
+  packages="mdnsresponder";
+  files="";
   echo "${packages}|${files}";
 }
 
@@ -312,15 +347,6 @@ function addMultiWAN() {
   packages="multiwan";
   files="files/etc/config/mwan3";
   if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-app-multiwan"; fi;
-  echo "${packages}|${files}";
-}
-
-# UPNP (miniupnpd)
-function addUPNP() {
-  local packages files;
-  packages="miniupnpd";
-  files="files/etc/config/upnpd";
-  if [ "$FUNCTION_LUCI_MODE" = true ]; then packages+=" luci-app-upnp"; fi;
   echo "${packages}|${files}";
 }
 
@@ -589,14 +615,6 @@ function addNASAFP() {
   echo "${packages}|${files}";
 }
 
-# DLNA (minidlna)
-function addDLNA() {
-  local packages files;
-  packages="minidlna";
-  files="";
-  echo "${packages}|${files}";
-}
-
 # MJPG (mjpg-streamer)
 function addMJPG() {
   local packages files;
@@ -662,8 +680,17 @@ decideOnBoolean "DHCPv4 (dnsmasq)" "addDHCPv4" "FUNCTION_DHCPV4_MODE";
 # DHCPv6 (dnsmasq-dhcpv6)
 decideOnBoolean "DHCPv6 (dnsmasq-dhcpv6)" "addDHCPv6" "FUNCTION_DHCPV6_MODE";
 
-# HNCP (hnetd-full)
-decideOnBoolean "HNCP (hnetd-full)" "addHNCP" "FUNCTION_HNCP_MODE";
+# Zeroconf: HNCP (hnet-full)
+decideOnArray "Zeroconf: HNCP (hnet-full)" "addZeroconfHNCP" "FUNCTION_ZEROCONF_MODE" "hnet";
+
+# Zeroconf: UPNP (miniupnpd)
+decideOnArray "Zeroconf: UPNP (miniupnpd)" "addZeroconfUPNP" "FUNCTION_ZEROCONF_MODE" "miniupnpd";
+
+# Zeroconf: DLNA (minidlna)
+decideOnArray "Zeroconf: DLNA (minidlna)" "addZeroconfDLNA" "FUNCTION_ZEROCONF_MODE" "minidlna";
+
+# Zeroconf: mDNS (mdnsresponder)
+decideOnArray "Zeroconf: mDNS (mdnsresponder)" "addZeroconfmDNS" "FUNCTION_ZEROCONF_MODE" "mdnsresponder";
 
 # PPP (ppp)
 decideOnBoolean "PPP (ppp)" "addPPP" "FUNCTION_PPP_MODE";
@@ -679,9 +706,6 @@ decideOnBoolean "Relay (relayd)" "addRelay" "FUNCTION_RELAY_MODE";
 
 # Multi-WAN (multiwan)
 decideOnBoolean "Multi-WAN (multiwan)" "addMultiWAN" "FUNCTION_MULTIWAN_MODE";
-
-# UPNP (miniupnpd)
-decideOnBoolean "UPNP (miniupnpd)" "addUPNP" "FUNCTION_UPNP_MODE";
 
 # QOS (qos-scripts)
 decideOnBoolean "QOS (qos-scripts)" "addQOS" "FUNCTION_QOS_MODE";
@@ -775,9 +799,6 @@ decideOnArray "NAS: NFS (nfs-kernel-server)" "addNASNFS" "FUNCTION_NAS_MODE" "nf
 
 # NAS: AFP (netatalk)
 decideOnArray "NAS: AFP (netatalk)" "addNASAFP" "FUNCTION_NAS_MODE" "afp";
-
-# DLNA (minidlna)
-decideOnBoolean "DLNA (minidlna)" "addDLNA" "FUNCTION_DLNA_MODE";
 
 # MJPG Streamer (mjpg-streamer)
 decideOnBoolean "MJPG Streamer (mjpg-streamer)" "addMJPG" "FUNCTION_MJPG_MODE";
