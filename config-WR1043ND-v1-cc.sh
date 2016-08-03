@@ -66,7 +66,7 @@ FUNCTION_USB_STATUS=true;
 FUNCTION_USB_OPT=('usb2 ohci');
 # Dongle option: array (net serial)
 FUNCTION_DONGLE_OPT=('');
-# Video option: array (basic gspca)
+# Video option: array (basic gspca mjpg)
 FUNCTION_VIDEO_OPT=('');
 # Audio (kmod-usb-audio) boolean
 FUNCTION_AUDIO_STATUS=false;
@@ -82,8 +82,6 @@ FUNCTION_STORAGE_STATUS=true;
 FUNCTION_STORAGE_OPT=('ext vfat');
 # NAS option: array (sshfs smb nfs afp)
 FUNCTION_NAS_OPT=('sshfs');
-# MJPG Streamer (mjpg-streamer): boolean
-FUNCTION_MJPG_STATUS=false;
 # Extra Packages: boolean, string
 FUNCTION_EXTRA_STATUS=false;
 FUNCTION_EXTRA_PKG='';

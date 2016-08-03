@@ -500,6 +500,14 @@ function addVideoGSPCA() {
   echo "${packages}|${files}";
 }
 
+# Video option: MJPG Streamer (mjpg-streamer)
+function addVideoMJPG() {
+  local packages files;
+  packages="mjpg-streamer uvcdynctrl";
+  files="files/etc/config/mjpg-streamer";
+  echo "${packages}|${files}";
+}
+
 # Audio (kmod-usb-audio)
 function addAudio() {
   local packages files;
@@ -628,14 +636,6 @@ function addNASAFP() {
   local packages files;
   packages="kmod-appletalk netatalk";
   files="";
-  echo "${packages}|${files}";
-}
-
-# MJPG (mjpg-streamer)
-function addMJPG() {
-  local packages files;
-  packages="mjpg-streamer uvcdynctrl";
-  files="files/etc/config/mjpg-streamer";
   echo "${packages}|${files}";
 }
 
@@ -774,6 +774,9 @@ decideOnArray "Video option: Basic (kmod-video-core)" "addVideoBasic" "FUNCTION_
 # Video option: GSPCA (kmod-video-gspca-core)
 decideOnArray "Video option: GSPCA (kmod-video-gspca-core)" "addVideoGSPCA" "FUNCTION_VIDEO_OPT" "gspca";
 
+# Video option: MJPG Streamer (mjpg-streamer)
+decideOnArray "Video option: MJPG Streamer (mjpg-streamer)" "addVideoMJPG" "FUNCTION_MJPG_STATUS" "mjpg";
+
 # Audio (kmod-usb-audio)
 decideOnBoolean "Audio (kmod-usb-audio)" "addAudio" "FUNCTION_AUDIO_STATUS";
 
@@ -821,9 +824,6 @@ decideOnArray "NAS option: NFS (nfs-kernel-server)" "addNASNFS" "FUNCTION_NAS_OP
 
 # NAS option: AFP (netatalk)
 decideOnArray "NAS option: AFP (netatalk)" "addNASAFP" "FUNCTION_NAS_OPT" "afp";
-
-# MJPG Streamer (mjpg-streamer)
-decideOnBoolean "MJPG Streamer (mjpg-streamer)" "addMJPG" "FUNCTION_MJPG_STATUS";
 
 # Extra (...)
 decideOnBoolean "Extra" "addExtra" "FUNCTION_EXTRA_STATUS";
