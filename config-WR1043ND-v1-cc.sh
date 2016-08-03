@@ -25,7 +25,7 @@ FUNCTION_TOOLS_MODE=true;
 # Commands (luci-app-commands): boolean
 FUNCTION_COMMANDS_MODE=true;
 # Statistics (luci-app-statistics): boolean
-FUNCTION_STATISTICS_MODE=true;
+FUNCTION_STATISTICS_MODE=false;
 # Firewallv4 (iptables): boolean
 FUNCTION_FIREWALL4_MODE=true;
 # Firewallv6 (ip6tables): boolean
@@ -41,9 +41,9 @@ FUNCTION_DHCPV6_MODE=true;
 # HNCP (hnetd-full): boolean
 FUNCTION_HNCP_MODE=false;
 # PPP (ppp): boolean
-FUNCTION_PPP_MODE=true;
+FUNCTION_PPP_MODE=false;
 # 3G/UMTS (comgt): boolean
-FUNCTION_3GUMTS_MODE=true;
+FUNCTION_3GUMTS_MODE=false;
 # WiFi (iw): boolean
 FUNCTION_WIFI_MODE=true;
 # Relay (relayd): boolean
@@ -67,7 +67,7 @@ FUNCTION_USB_MODE=true;
 # USB option: array (usb2 ohci uhci)
 FUNCTION_USBDRV_MODE=('usb2 ohci');
 # Dongle option: array (net serial)
-FUNCTION_DONGLE_MODE=('net serial');
+FUNCTION_DONGLE_MODE=('');
 # Video option: array (basic gspca)
 FUNCTION_VIDEO_MODE=('');
 # Audio (kmod-usb-audio) boolean
@@ -79,13 +79,13 @@ FUNCTION_PRINTERDRV_MODE=('');
 # Storage (kmod-usb-storage): boolean
 FUNCTION_STORAGE_MODE=true;
 # Filesystem option: array (ext hfs ntfs vfat f2fs)
-FUNCTION_FILESYSTEM_MODE=('ext vfat f2fs');
+FUNCTION_FILESYSTEM_MODE=('ext vfat');
 # Samba (samba36-server): boolean
 FUNCTION_SAMBA_MODE=false;
 # NFS (nfs-kernel-server): boolean
-FUNCTION_NFS_MODE=true;
+FUNCTION_NFS_MODE=false;
 # DLNA (minidlna): boolean
-FUNCTION_DLNA_MODE=true;
+FUNCTION_DLNA_MODE=false;
 # MJPG Streamer (mjpg-streamer): boolean
 FUNCTION_MJPG_MODE=false;
 # Extra Packages: boolean, string
