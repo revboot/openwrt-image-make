@@ -359,6 +359,15 @@ function addQOS() {
   echo "${packages}|${files}";
 }
 
+# SQM (sqm-scripts)
+function addSQM() {
+  local packages files;
+  packages="sqm-scripts";
+  files="files/sqm";
+  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-sqm"; fi;
+  echo "${packages}|${files}";
+}
+
 # WOL (etherwake)
 function addWOL() {
   local packages files;
@@ -741,6 +750,9 @@ decideOnBoolean "Multi-WAN (multiwan)" "addMultiWAN" "FUNCTION_MULTIWAN_STATUS";
 
 # QOS (qos-scripts)
 decideOnBoolean "QOS (qos-scripts)" "addQOS" "FUNCTION_QOS_STATUS";
+
+# SQM (sqm-scripts)
+decideOnBoolean "SQM (sqm-scripts)" "addSQM" "FUNCTION_SQM_STATUS";
 
 # WOL (etherwake)
 decideOnBoolean "WOL (etherwake)" "addWOL" "FUNCTION_WOL_STATUS";

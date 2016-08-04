@@ -52,6 +52,8 @@ FUNCTION_RELAY_STATUS=true;
 FUNCTION_MULTIWAN_STATUS=false;
 # QOS (qos-scripts): boolean
 FUNCTION_QOS_STATUS=true;
+# SQM (sqm-scripts): boolean
+FUNCTION_SQM_STATUS=true;
 # WOL (etherwake): boolean
 FUNCTION_WOL_STATUS=true;
 # DDNS (ddns-scripts): boolean
