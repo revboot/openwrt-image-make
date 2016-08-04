@@ -167,7 +167,7 @@ function decideOnArray() {
 function addBase() {
   local packages files;
   packages="libuci uci kmod-zram zram-swap udev";
-  files="";
+  files="files/";
   echo "${packages}|${files}";
 }
 
@@ -175,20 +175,20 @@ function addBase() {
 function addLuCi() {
   local packages files;
   packages="uhttpd luci luci-mod-admin-full luci-theme-bootstrap";
-  files="files/etc/config/uhttpd files/etc/config/luci";
+  files="files/luci";
   echo "${packages}|${files}";
 }
 function addLuCi_https() {
   local packages files;
   packages="uhttpd-mod-tls luci-ssl";
-  files="";
+  files="files/luci-https";
   echo "${packages}|${files}";
 }
 
 # Tools (...)
 function addTools() {
   local packages files;
-  packages="nano htop";
+  packages="htop iftop tar";
   files="";
   echo "${packages}|${files}";
 }
@@ -204,8 +204,9 @@ function addCommands() {
 # Statistics (luci-app-statistics)
 function addStatistics() {
   local packages files;
-  packages="luci-app-statistics";
-  files="";
+  packages="collectd rrdtool1";
+  files="files/luci-statistics";
+  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-statistics"; fi;
   echo "${packages}|${files}";
 }
 
@@ -216,7 +217,7 @@ function addFirewallv4() {
   if [ "$BUILDER_OPENWRT_VERSION" == "bb" ];
     then packages+=" kmod-ipt-nathelper";
   fi;
-  files="files/etc/config/firewall";
+  files="files/firewallv4";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-firewall"; fi;
   echo "${packages}|${files}";
 }
@@ -225,7 +226,7 @@ function addFirewallv4() {
 function addFirewallv6() {
   local packages files;
   packages="kmod-ip6tables kmod-ipt-nat6 ip6tables ip6tables-mod-nat";
-  files="files/etc/config/firewall";
+  files="files/firewallv6";
   echo "${packages}|${files}";
 }
 
@@ -233,7 +234,7 @@ function addFirewallv6() {
 function addIPv4() {
   local packages files;
   packages="kmod-ledtrig-netdev ip";
-  files="files/etc/config/network";
+  files="files/ipv4";
   echo "${packages}|${files}";
 }
 
@@ -241,7 +242,7 @@ function addIPv4() {
 function addIPv6() {
   local packages files;
   packages="kmod-ipv6 6to4 6in4 6rd ds-lite xl2tpd";
-  files="files/etc/config/network";
+  files="files/ipv6";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-proto-ipv6"; fi;
   echo "${packages}|${files}";
 }
@@ -250,7 +251,7 @@ function addIPv6() {
 function addDHCPv4() {
   local packages files;
   packages="dnsmasq";
-  files="files/etc/config/dhcp";
+  files="files/dhcpv4";
   echo "${packages}|${files}";
 }
 
@@ -258,7 +259,7 @@ function addDHCPv4() {
 function addDHCPv6() {
   local packages files;
   packages="dnsmasq-dhcpv6";
-  files="files/etc/config/dhcpv6";
+  files="files/dhcpv6";
   echo "${packages}|${files}";
 }
 
@@ -266,7 +267,7 @@ function addDHCPv6() {
 function addZeroconfHNCP() {
   local packages files;
   packages="hnet-full";
-  files="files/etc/config/hnet";
+  files="files/hnet";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-hnet"; fi;
   echo "${packages}|${files}";
 }
@@ -275,7 +276,7 @@ function addZeroconfHNCP() {
 function addZeroconfUPNP() {
   local packages files;
   packages="miniupnpd";
-  files="files/etc/config/upnpd";
+  files="files/upnpd";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-upnp"; fi;
   echo "${packages}|${files}";
 }
@@ -284,7 +285,7 @@ function addZeroconfUPNP() {
 function addZeroconfDLNA() {
   local packages files;
   packages="minidlna";
-  files="";
+  files="files/minidlna";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-minidlna"; fi;
   echo "${packages}|${files}";
 }
@@ -293,8 +294,7 @@ function addZeroconfDLNA() {
 function addZeroconfDNSSD() {
   local packages files;
   packages="avahi-daemon avahi-daemon-service-http avahi-daemon-service-ssh avahi-dnsconfd avahi-autoipd";
-  files="";
-  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-minidlna"; fi;
+  files="files/avahi";
   echo "${packages}|${files}";
 }
 
@@ -302,7 +302,7 @@ function addZeroconfDNSSD() {
 function addZeroconfmDNS() {
   local packages files;
   packages="mdnsresponder";
-  files="";
+  files="files/mdnsresponder";
   echo "${packages}|${files}";
 }
 
@@ -310,7 +310,7 @@ function addZeroconfmDNS() {
 function addPPP() {
   local packages files;
   packages="kmod-ppp kmod-pppoe ppp ppp-mod-pppoe";
-  files="";
+  files="files/ppp";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-proto-ppp"; fi;
   echo "${packages}|${files}";
 }
@@ -319,7 +319,7 @@ function addPPP() {
 function add3GUMTS() {
   local packages files;
   packages="comgt uqmi";
-  files="";
+  files="files/3gumts";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-proto-3g"; fi;
   echo "${packages}|${files}";
 }
@@ -328,7 +328,7 @@ function add3GUMTS() {
 function addWIFI() {
   local packages files;
   packages="iw iwinfo hostapd-common";
-  files="files/etc/config/wireless";
+  files="files/wireless";
   echo "${packages}|${files}";
 }
 
@@ -336,7 +336,7 @@ function addWIFI() {
 function addRelay() {
   local packages files;
   packages="relayd";
-  files="";
+  files="files/relay";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-proto-relay"; fi;
   echo "${packages}|${files}";
 }
@@ -345,7 +345,7 @@ function addRelay() {
 function addMultiWAN() {
   local packages files;
   packages="multiwan";
-  files="files/etc/config/mwan3";
+  files="files/multiwan";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-multiwan"; fi;
   echo "${packages}|${files}";
 }
@@ -354,7 +354,7 @@ function addMultiWAN() {
 function addQOS() {
   local packages files;
   packages="qos-scripts";
-  files="files/etc/config/qos";
+  files="files/qos";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-qos"; fi;
   echo "${packages}|${files}";
 }
@@ -363,7 +363,7 @@ function addQOS() {
 function addWOL() {
   local packages files;
   packages="etherwake";
-  files="files/etc/config/etherwake";
+  files="files/etherwake";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-wol"; fi;
   echo "${packages}|${files}";
 }
@@ -375,7 +375,7 @@ function addDDNS() {
   if [ "$BUILDER_OPENWRT_VERSION" == "cc" ];
     then packages+=" ddns-scripts_no-ip_com";
   fi;
-  files="files/etc/config/ddns";
+  files="files/ddns";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-ddns"; fi;
   echo "${packages}|${files}";
 }
@@ -384,7 +384,7 @@ function addDDNS() {
 function addVPNOpenVPN() {
   local packages files;
   packages="openvpn-openssl openvpn-easy-rsa";
-  files="files/etc/config/openvpn";
+  files="files/openvpn";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-openvpn"; fi;
   echo "${packages}|${files}";
 }
@@ -393,7 +393,7 @@ function addVPNOpenVPN() {
 function addVPNVPNC() {
   local packages files;
   packages="vpnc";
-  files="files/etc/config/vpnc";
+  files="files/vpnc";
   echo "${packages}|${files}";
 }
 
@@ -401,7 +401,7 @@ function addVPNVPNC() {
 function addVPNOpenConnect() {
   local packages files;
   packages="openconnect";
-  files="files/etc/config/openconnect";
+  files="files/openconnect";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-proto-openconnect"; fi;
   echo "${packages}|${files}";
 }
@@ -415,7 +415,7 @@ function addVPNPPTP() {
   elif [ "$BUILDER_OPENWRT_VERSION" == "bb" ];
     then packages+=" kmod-ipt-nathelper-extra";
   fi;
-  files="";
+  files="files/pptp";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-proto-ppp"; fi;
   echo "${packages}|${files}";
 }
@@ -424,7 +424,7 @@ function addVPNPPTP() {
 function addSSHDropbear() {
   local packages files;
   packages="dropbear";
-  files="files/etc/config/dropbear";
+  files="files/dropbear";
   echo "${packages}|${files}";
 }
 
@@ -432,7 +432,7 @@ function addSSHDropbear() {
 function addSSHOpenSSH() {
   local packages files;
   packages="openssh-server openssh-sftp-server";
-  files="files/etc/config/sshd_config";
+  files="files/openssh";
   echo "${packages}|${files}";
 }
 
@@ -504,7 +504,7 @@ function addVideoGSPCA() {
 function addVideoMJPG() {
   local packages files;
   packages="mjpg-streamer uvcdynctrl";
-  files="files/etc/config/mjpg-streamer";
+  files="files/mjpg";
   echo "${packages}|${files}";
 }
 
@@ -520,7 +520,7 @@ function addAudio() {
 function addAudioPulseAudio() {
   local packages files;
   packages="pulseaudio-daemon";
-  files="";
+  files="files/pulseaudio";
   echo "${packages}|${files}";
 }
 
@@ -528,7 +528,7 @@ function addAudioPulseAudio() {
 function addAudioPortAudio() {
   local packages files;
   packages="portaudio";
-  files="";
+  files="files/portaudio";
   echo "${packages}|${files}";
 }
 
@@ -544,7 +544,7 @@ function addPrinter() {
 function addPrinterP910nd() {
   local packages files;
   packages="p910nd";
-  files="files/etc/config/p910nd";
+  files="files/p910nd";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-p910nd"; fi;
   echo "${packages}|${files}";
 }
@@ -553,15 +553,15 @@ function addPrinterP910nd() {
 function addPrinterCUPS() {
   local packages files;
   packages="cups";
-  files="";
+  files="files/cups";
   echo "${packages}|${files}";
 }
 
 # Storage (kmod-usb-storage)
 function addStorage() {
   local packages files;
-  packages="kmod-usb-storage kmod-fuse block-mount swap-utils";
-  files="files/etc/config/fstab";
+  packages="kmod-usb-storage kmod-fuse kmod-nls-utf8 block-mount swap-utils";
+  files="";
   echo "${packages}|${files}";
 }
 
@@ -576,8 +576,8 @@ function addStorageCard() {
 # Storage option: HDD (kmod-scsi-core)
 function addStorageHDD() {
   local packages files;
-  packages="kmod-scsi-core hd-idle";
-  files="files/etc/config/hd-idle";
+  packages="kmod-scsi-core hd-idle hdparm";
+  files="files/hdd";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-hd-idle"; fi;
   echo "${packages}|${files}";
 }
@@ -633,8 +633,8 @@ function addNASSSHFS() {
 # NAS option: SMB/CIFS (samba36-server)
 function addNASSamba() {
   local packages files;
-  packages="kmod-fs-cifs samba36-server";
-  files="files/etc/config/samba";
+  packages="kmod-fs-cifs samba36-server cifsmount";
+  files="files/smb";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-samba"; fi;
   echo "${packages}|${files}";
 }
@@ -642,8 +642,8 @@ function addNASSamba() {
 # NAS option: NFS (nfs-kernel-server)
 function addNASNFS() {
   local packages files;
-  packages="kmod-fs-nfs kmod-fs-nfsd kmod-fs-exportfs kmod-loop nfs-kernel-server nfs-utils";
-  files="files/etc/config/nfs";
+  packages="kmod-fs-nfs-common kmod-fs-nfs kmod-fs-nfsd kmod-fs-exportfs kmod-loop nfs-kernel-server nfs-utils";
+  files="files/nfs";
   echo "${packages}|${files}";
 }
 
@@ -651,7 +651,7 @@ function addNASNFS() {
 function addNASAFP() {
   local packages files;
   packages="kmod-appletalk netatalk";
-  files="";
+  files="files/afp";
   echo "${packages}|${files}";
 }
 

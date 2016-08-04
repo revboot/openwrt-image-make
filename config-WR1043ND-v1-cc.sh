@@ -83,6 +83,6 @@ FUNCTION_STORAGE_OPT=('card hdd ext vfat');
 # NAS option: array (sshfs smb nfs afp)
 FUNCTION_NAS_OPT=('sshfs');
 # Extra Packages: boolean, string
-FUNCTION_EXTRA_STATUS=false;
-FUNCTION_EXTRA_PKG='';
-FUNCTION_EXTRA_FILES='';
+FUNCTION_EXTRA_STATUS=true;
+FUNCTION_EXTRA_PKG='nano screen';
+FUNCTION_EXTRA_FILES='files/extra';
