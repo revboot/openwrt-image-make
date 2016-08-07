@@ -171,20 +171,6 @@ function addBase() {
   echo "${packages}|${files}";
 }
 
-# LuCi HTTP/HTTPS (...)
-function addLuCi() {
-  local packages files;
-  packages="uhttpd luci luci-mod-admin-full luci-theme-bootstrap";
-  files="files/luci";
-  echo "${packages}|${files}";
-}
-function addLuCi_https() {
-  local packages files;
-  packages="uhttpd-mod-tls luci-ssl";
-  files="files/luci-https";
-  echo "${packages}|${files}";
-}
-
 # Tools (...)
 function addTools() {
   local packages files;
@@ -193,10 +179,42 @@ function addTools() {
   echo "${packages}|${files}";
 }
 
+# LuCi (luci)
+function addLuCi() {
+  local packages files;
+  packages="uhttpd luci luci-mod-admin-full luci-theme-bootstrap";
+  files="files/luci";
+  echo "${packages}|${files}";
+}
+
+# LuCi option: HTTPS (luci-ssl)
+function addLuCiHTTPS() {
+  local packages files;
+  packages="uhttpd-mod-tls luci-ssl";
+  files="";
+  echo "${packages}|${files}";
+}
+
+# LuCi option: Failsafe (luci-mod-failsafe)
+function addLuCiFailsafe() {
+  local packages files;
+  packages="luci-mod-failsafe";
+  files="";
+  echo "${packages}|${files}";
+}
+
 # Commands (luci-app-commands)
 function addCommands() {
   local packages files;
   packages="luci-app-commands";
+  files="";
+  echo "${packages}|${files}";
+}
+
+# Diagnostics (luci-app-diag-core)
+function addDiagnostics() {
+  local packages files;
+  packages="luci-app-diag-core";
   files="";
   echo "${packages}|${files}";
 }
@@ -698,15 +716,23 @@ prepareBuilder;
 # Base (...)
 decideNoConfig "Base" "addBase";
 
-# LuCi HTTP/HTTPS (...)
-decideOnBoolean "LuCi" "addLuCi" "FUNCTION_LUCI_STATUS";
-decideOnBoolean "LuCi HTTPS" "addLuCi_https" "FUNCTION_LUCI_STATUS";
-
 # Tools (...)
 decideOnBoolean "Tools (...)" "addTools" "FUNCTION_TOOLS_STATUS";
 
+# LuCi (luci)
+decideOnBoolean "LuCi (luci)" "addLuCi" "FUNCTION_LUCI_STATUS";
+
+# LuCi option: HTTPS (luci-ssl)
+decideOnArray "LuCi option: HTTPS (luci-ssl)" "addLuCiHTTPS" "FUNCTION_LUCI_OPT" "https";
+
+# LuCi option: Failsafe (luci-mod-failsafe)
+decideOnArray "LuCi option: Failsafe (luci-mod-failsafe)" "addLuCiFailsafe" "FUNCTION_LUCI_OPT" "failsafe";
+
 # Commands (luci-app-commands)
 decideOnBoolean "Commands (luci-app-commands)" "addCommands" "FUNCTION_COMMANDS_STATUS";
+
+# Diagnostics (luci-app-diag-core)
+decideOnBoolean "Diagnostics (luci-app-diag-core)" "addDiagnostics" "FUNCTION_DIAGNOSTICS_STATUS";
 
 # Statistics (luci-app-statistics)
 decideOnBoolean "Statistics (luci-app-statistics)" "addStatistics" "FUNCTION_STATISTICS_STATUS";

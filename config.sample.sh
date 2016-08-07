@@ -17,13 +17,16 @@ BUILDER_OPENWRT_PROFILE="";
 #       Package variables block       #
 #######################################
 
-# LuCi HTTP/HTTPS: boolean
-FUNCTION_LUCI_STATUS=true;
-FUNCTION_LUCIS_STATUS=true;
 # Tools (...): boolean
 FUNCTION_TOOLS_STATUS=true;
+# LuCi: boolean
+FUNCTION_LUCI_STATUS=true;
+# LuCi option: array (https failsafe)
+FUNCTION_LUCI_OPT=('https failsafe');
 # Commands (luci-app-commands): boolean
 FUNCTION_COMMANDS_STATUS=true;
+# Diagnostics (luci-app-diag-core): boolean
+FUNCTION_DIAGNOSTICS_STATUS=true;
 # Statistics (luci-app-statistics): boolean
 FUNCTION_STATISTICS_STATUS=false;
 # Networking (ip): boolean
