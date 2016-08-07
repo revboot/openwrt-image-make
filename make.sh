@@ -254,19 +254,12 @@ function addFirewall() {
   echo "${packages}|${files}";
 }
 
-# DHCPv4 (dnsmasq)
-function addDHCPv4() {
+# DHCP (dnsmasq dnsmasq-dhcpv6)
+function addDHCP() {
   local packages files;
   packages="dnsmasq";
-  files="files/dhcpv4";
-  echo "${packages}|${files}";
-}
-
-# DHCPv6 (dnsmasq-dhcpv6)
-function addDHCPv6() {
-  local packages files;
-  packages="dnsmasq-dhcpv6";
-  files="files/dhcpv6";
+  if [ ${FUNCTION_IPV6_STATUS} = true ]; then packages+=" dnsmasq-dhcpv6"; fi;
+  files="files/dhcp";
   echo "${packages}|${files}";
 }
 
@@ -733,11 +726,8 @@ decideOnArray "IPv6 option: L2TP (xl2tpd)" "addIPv6L2TP" "FUNCTION_IPV6_OPT" "l2
 # Firewall (iptables ip6tables)
 decideOnBoolean "Firewall (iptables ip6tables)" "addFirewall" "FUNCTION_FIREWALL_STATUS";
 
-# DHCPv4 (dnsmasq)
-decideOnBoolean "DHCPv4 (dnsmasq)" "addDHCPv4" "FUNCTION_DHCPV4_STATUS";
-
-# DHCPv6 (dnsmasq-dhcpv6)
-decideOnBoolean "DHCPv6 (dnsmasq-dhcpv6)" "addDHCPv6" "FUNCTION_DHCPV6_STATUS";
+# DHCP (dnsmasq dnsmasq-dhcpv6)
+decideOnBoolean "DHCP (dnsmasq dnsmasq-dhcpv6)" "addDHCP" "FUNCTION_DHCP_STATUS";
 
 # Zeroconf option: HNCP (hnet-full)
 decideOnArray "Zeroconf option: HNCP (hnet-full)" "addZeroconfHNCP" "FUNCTION_ZEROCONF_OPT" "hnet";

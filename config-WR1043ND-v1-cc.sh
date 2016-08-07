@@ -34,10 +34,8 @@ FUNCTION_IPV6_STATUS=true;
 FUNCTION_IPV6_OPT=('dslite l2tp');
 # Firewall (iptables ip6tables): boolean
 FUNCTION_FIREWALL_STATUS=true;
-# DHCPv4 (dnsmasq): boolean
-FUNCTION_DHCPV4_STATUS=true;
-# DHCPv6 (dnsmasq-dhcpv6): boolean
-FUNCTION_DHCPV6_STATUS=true;
+# DHCP (dnsmasq dnsmasq-dhcpv6): boolean
+FUNCTION_DHCP_STATUS=true;
 # Zeroconf option: array (hnet miniupnpd minidlna mdnsresponder)
 FUNCTION_ZEROCONF_OPT=('miniupnpd');
 # PPP (ppp): boolean
