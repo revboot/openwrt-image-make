@@ -166,7 +166,7 @@ function decideOnArray() {
 # Base (...)
 function addBase() {
   local packages files;
-  packages="libuci uci kmod-zram zram-swap udev";
+  packages="libuci uci kmod-zram zram-swap";
   files="files/";
   echo "${packages}|${files}";
 }
@@ -188,7 +188,7 @@ function addLuCi_https() {
 # Tools (...)
 function addTools() {
   local packages files;
-  packages="htop iftop tar";
+  packages="tar htop iftop";
   files="";
   echo "${packages}|${files}";
 }
@@ -210,6 +210,39 @@ function addStatistics() {
   echo "${packages}|${files}";
 }
 
+# Networking (ip)
+function addNetworking() {
+  local packages files;
+  packages="kmod-ledtrig-netdev ip";
+  files="files/ipv4";
+  echo "${packages}|${files}";
+}
+
+# IPv6 (kmod-ipv6)
+function addIPv6() {
+  local packages files;
+  packages="kmod-ipv6 6to4 6in4 6rd";
+  files="files/ipv6";
+  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-proto-ipv6"; fi;
+  echo "${packages}|${files}";
+}
+
+# IPv6 option: DS-Lite (ds-lite)
+function addIPv6DSLite() {
+  local packages files;
+  packages="ds-lite";
+  files="files/ipv6";
+  echo "${packages}|${files}";
+}
+
+# IPv6 option: L2TP (xl2tpd)
+function addIPv6L2TP() {
+  local packages files;
+  packages="xl2tpd";
+  files="files/ipv6";
+  echo "${packages}|${files}";
+}
+
 # Firewallv4 (iptables)
 function addFirewallv4() {
   local packages files;
@@ -227,23 +260,6 @@ function addFirewallv6() {
   local packages files;
   packages="kmod-ip6tables kmod-ipt-nat6 ip6tables ip6tables-mod-nat";
   files="files/firewallv6";
-  echo "${packages}|${files}";
-}
-
-# IPv4 (ip)
-function addIPv4() {
-  local packages files;
-  packages="kmod-ledtrig-netdev ip";
-  files="files/ipv4";
-  echo "${packages}|${files}";
-}
-
-# IPv6 (kmod-ipv6)
-function addIPv6() {
-  local packages files;
-  packages="kmod-ipv6 6to4 6in4 6rd ds-lite xl2tpd";
-  files="files/ipv6";
-  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-proto-ipv6"; fi;
   echo "${packages}|${files}";
 }
 
@@ -406,6 +422,14 @@ function addVPNVPNC() {
   echo "${packages}|${files}";
 }
 
+# VPN option: IPSec (ipsec-tools)
+function addVPNIPSec() {
+  local packages files;
+  packages="kmod-gre kmod-ipsec kmod-ipsec4 kmod-ipsec6 ipsec-tools openssl-util";
+  files="files/ipsec";
+  echo "${packages}|${files}";
+}
+
 # VPN option: OpenConnect (openconnect)
 function addVPNOpenConnect() {
   local packages files;
@@ -418,7 +442,7 @@ function addVPNOpenConnect() {
 # VPN option: PPTP (kmod-pptp)
 function addVPNPPTP() {
   local packages files;
-  packages="kmod-pptp kmod-pppox kmod-mppe ppp-mod-pptp";
+  packages="kmod-gre kmod-pptp kmod-pppox kmod-mppe ppp-mod-pptp";
   if [ "$BUILDER_OPENWRT_VERSION" == "cc" ];
     then packages+=" kmod-nf-nathelper-extra";
   elif [ "$BUILDER_OPENWRT_VERSION" == "bb" ];
@@ -703,17 +727,23 @@ decideOnBoolean "Commands (luci-app-commands)" "addCommands" "FUNCTION_COMMANDS_
 # Statistics (luci-app-statistics)
 decideOnBoolean "Statistics (luci-app-statistics)" "addStatistics" "FUNCTION_STATISTICS_STATUS";
 
+# Networking (ip)
+decideOnBoolean "Networking (ip)" "addNetworking" "FUNCTION_NETWORKING_STATUS";
+
+# IPv6 (kmod-ipv6)
+decideOnBoolean "IPv6 (kmod-ipv6)" "addIPv6" "FUNCTION_IPV6_STATUS";
+
+# IPv6 option: DS-Lite (ds-lite)
+decideOnArray "IPv6 option: DS-Lite (ds-lite)" "addIPv6DSLite" "FUNCTION_IPV6_OPT" "dslite";
+
+# IPv6 option: L2TP (xl2tpd)
+decideOnArray "IPv6 option: L2TP (xl2tpd)" "addIPv6L2TP" "FUNCTION_IPV6_OPT" "l2tp";
+
 # Firewallv4 (iptables)
 decideOnBoolean "Firewallv4 (iptables)" "addFirewallv4" "FUNCTION_FIREWALL4_STATUS";
 
 # Firewallv6 (ip6tables)
 decideOnBoolean "Firewallv6 (ip6tables)" "addFirewallv6" "FUNCTION_FIREWALL6_STATUS";
-
-# IPv4 (ip)
-decideOnBoolean "IPv4 (ip)" "addIPv4" "FUNCTION_IPV4_STATUS";
-
-# IPv6 (kmod-ipv6)
-decideOnBoolean "IPv6 (kmod-ipv6)" "addIPv6" "FUNCTION_IPV6_STATUS";
 
 # DHCPv4 (dnsmasq)
 decideOnBoolean "DHCPv4 (dnsmasq)" "addDHCPv4" "FUNCTION_DHCPV4_STATUS";
@@ -765,6 +795,9 @@ decideOnArray "VPN option: OpenVPN (openvpn-openssl)" "addVPNOpenVPN" "FUNCTION_
 
 # VPN option: VPNC (vpnc)
 decideOnArray "VPN option: VPNC (vpnc)" "addVPNVPNC" "FUNCTION_VPN_OPT" "vpnc";
+
+# VPN option: IPSec (ipsec-tools)
+decideOnArray "VPN option: IPSec (ipsec-tools)" "addVPNIPSec" "FUNCTION_VPN_OPT" "ipsec";
 
 # VPN option: OpenConnect (openconnect)
 decideOnArray "VPN option: OpenConnect (openconnect)" "addVPNOpenConnect" "FUNCTION_VPN_OPT" "openconnect";

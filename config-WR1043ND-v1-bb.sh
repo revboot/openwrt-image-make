@@ -26,14 +26,16 @@ FUNCTION_TOOLS_STATUS=true;
 FUNCTION_COMMANDS_STATUS=true;
 # Statistics (luci-app-statistics): boolean
 FUNCTION_STATISTICS_STATUS=false;
+# Networking (ip): boolean
+FUNCTION_NETWORKING_STATUS=true;
+# IPv6 (kmod-ipv6): boolean
+FUNCTION_IPV6_STATUS=true;
+# IPv6 option: array (dslite l2tp)
+FUNCTION_IPV6_OPT=('dslite l2tp');
 # Firewallv4 (iptables): boolean
 FUNCTION_FIREWALL4_STATUS=true;
 # Firewallv6 (ip6tables): boolean
 FUNCTION_FIREWALL6_STATUS=true;
-# IPv4 (ip): boolean
-FUNCTION_IPV4_STATUS=true;
-# IPv6 (kmod-ipv6): boolean
-FUNCTION_IPV6_STATUS=true;
 # DHCPv4 (dnsmasq): boolean
 FUNCTION_DHCPV4_STATUS=true;
 # DHCPv6 (dnsmasq-dhcpv6): boolean
@@ -58,7 +60,7 @@ FUNCTION_SQM_STATUS=true;
 FUNCTION_WOL_STATUS=true;
 # DDNS (ddns-scripts): boolean
 FUNCTION_DDNS_STATUS=true;
-# VPN option: array (openvpn vpnc openconnect pptp)
+# VPN option: array (openvpn vpnc ipsec openconnect pptp)
 FUNCTION_VPN_OPT=('openvpn');
 # SSH option: array (dropbear openssh)
 FUNCTION_SSH_OPT=('dropbear');
