@@ -32,10 +32,8 @@ FUNCTION_NETWORKING_STATUS=true;
 FUNCTION_IPV6_STATUS=true;
 # IPv6 option: array (dslite l2tp)
 FUNCTION_IPV6_OPT=('dslite l2tp');
-# Firewallv4 (iptables): boolean
-FUNCTION_FIREWALL4_STATUS=true;
-# Firewallv6 (ip6tables): boolean
-FUNCTION_FIREWALL6_STATUS=true;
+# Firewall (iptables ip6tables): boolean
+FUNCTION_FIREWALL_STATUS=true;
 # DHCPv4 (dnsmasq): boolean
 FUNCTION_DHCPV4_STATUS=true;
 # DHCPv6 (dnsmasq-dhcpv6): boolean

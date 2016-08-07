@@ -243,23 +243,14 @@ function addIPv6L2TP() {
   echo "${packages}|${files}";
 }
 
-# Firewallv4 (iptables)
-function addFirewallv4() {
+# Firewall (iptables ip6tables)
+function addFirewall() {
   local packages files;
   packages="kmod-ipt-core kmod-ipt-nat kmod-ipt-nat-extra iptables kmod-ipt-iprange iptables-mod-nat-extra iptables-mod-iprange firewall";
-  if [ "$BUILDER_OPENWRT_VERSION" == "bb" ];
-    then packages+=" kmod-ipt-nathelper";
-  fi;
-  files="files/firewallv4";
+  if [ "$BUILDER_OPENWRT_VERSION" == "bb" ]; then packages+=" kmod-ipt-nathelper"; fi;
+  if [ ${FUNCTION_IPV6_STATUS} = true ]; then packages+=" kmod-ip6tables kmod-ipt-nat6 ip6tables ip6tables-mod-nat"; fi;
+  files=" files/firewall";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-firewall"; fi;
-  echo "${packages}|${files}";
-}
-
-# Firewallv6 (ip6tables)
-function addFirewallv6() {
-  local packages files;
-  packages="kmod-ip6tables kmod-ipt-nat6 ip6tables ip6tables-mod-nat";
-  files="files/firewallv6";
   echo "${packages}|${files}";
 }
 
@@ -739,11 +730,8 @@ decideOnArray "IPv6 option: DS-Lite (ds-lite)" "addIPv6DSLite" "FUNCTION_IPV6_OP
 # IPv6 option: L2TP (xl2tpd)
 decideOnArray "IPv6 option: L2TP (xl2tpd)" "addIPv6L2TP" "FUNCTION_IPV6_OPT" "l2tp";
 
-# Firewallv4 (iptables)
-decideOnBoolean "Firewallv4 (iptables)" "addFirewallv4" "FUNCTION_FIREWALL4_STATUS";
-
-# Firewallv6 (ip6tables)
-decideOnBoolean "Firewallv6 (ip6tables)" "addFirewallv6" "FUNCTION_FIREWALL6_STATUS";
+# Firewall (iptables ip6tables)
+decideOnBoolean "Firewall (iptables ip6tables)" "addFirewall" "FUNCTION_FIREWALL_STATUS";
 
 # DHCPv4 (dnsmasq)
 decideOnBoolean "DHCPv4 (dnsmasq)" "addDHCPv4" "FUNCTION_DHCPV4_STATUS";
