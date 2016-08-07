@@ -7,11 +7,11 @@
 # OpenWRT version to build: string (aa/altitude_adjustment, bb/barrier_breaker, cc/chaos_calmer)
 BUILDER_OPENWRT_VERSION="cc";
 # SoC device to build
-BUILDER_OPENWRT_SOC="";
+BUILDER_OPENWRT_SOC="ar71xx";
 # Flash memory type to build
-BUILDER_OPENWRT_FLASH="";
+BUILDER_OPENWRT_FLASH="generic";
 # Device profile to build
-BUILDER_OPENWRT_PROFILE="";
+BUILDER_OPENWRT_PROFILE="ARCHERC7";
 
 #######################################
 #       Package variables block       #
@@ -42,7 +42,7 @@ FUNCTION_DHCP_STATUS=true;
 # Zeroconf: boolean
 FUNCTION_ZEROCONF_STATUS=true;
 # Zeroconf option: array (hnet miniupnpd minidlna mdnsresponder avahi)
-FUNCTION_ZEROCONF_OPT=('miniupnpd');
+FUNCTION_ZEROCONF_OPT=('miniupnpd minidlna mdnsresponder avahi');
 # PPP (ppp): boolean
 FUNCTION_PPP_STATUS=true;
 # 3G/UMTS (comgt): boolean
@@ -56,13 +56,13 @@ FUNCTION_MULTIWAN_STATUS=false;
 # QOS (qos-scripts): boolean
 FUNCTION_QOS_STATUS=true;
 # SQM (sqm-scripts): boolean
-FUNCTION_SQM_STATUS=false;
+FUNCTION_SQM_STATUS=true;
 # WOL (etherwake): boolean
 FUNCTION_WOL_STATUS=true;
 # DDNS (ddns-scripts): boolean
 FUNCTION_DDNS_STATUS=true;
 # VPN: boolean
-FUNCTION_VPN_STATUS=false;
+FUNCTION_VPN_STATUS=true;
 # VPN option: array (openvpn vpnc ipsec openconnect pptp)
 FUNCTION_VPN_OPT=('openvpn');
 # SSH: boolean
@@ -90,14 +90,14 @@ FUNCTION_PRINTER_STATUS=false;
 # Printer option: array (usb p910nd cups)
 FUNCTION_PRINTER_OPT=('usb cups');
 # Storage (block-mount): boolean
-FUNCTION_STORAGE_STATUS=false;
+FUNCTION_STORAGE_STATUS=true;
 # Storage option: array (usb card hdd ext hfs ntfs vfat f2fs)
-FUNCTION_STORAGE_OPT=('usb card hdd ext vfat');
+FUNCTION_STORAGE_OPT=('usb card hdd ext hfs ntfs vfat f2fs');
 # NAS: boolean
-FUNCTION_NAS_STATUS=false;
+FUNCTION_NAS_STATUS=true;
 # NAS option: array (sshfs smb nfs afp)
-FUNCTION_NAS_OPT=('sshfs nfs');
+FUNCTION_NAS_OPT=('sshfs smb nfs afp');
 # Extra Packages: boolean, string
-FUNCTION_EXTRA_STATUS=false;
+FUNCTION_EXTRA_STATUS=true;
 FUNCTION_EXTRA_PKG='nano screen';
 FUNCTION_EXTRA_FILES='files/extra';

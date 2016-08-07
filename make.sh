@@ -102,15 +102,19 @@ function prepareBuilder() {
 function processPackage() {
   local curPackage=$1 curFunction=$2;
   local -a params=();
-  printf "Adding ${curPackage} support...\n";
   params=($(${curFunction}));
-  if [ ! -z "${params[0]}" ]; then
-    PACKAGES+=" ${params[0]}";
+  if [ "${params}" = false ]; then
+    abortPackage $curPackage $curFunction;
+  else
+    printf "Adding ${curPackage} support via ${curFunction}...\n";
+    if [ ! -z "${params[0]}" ]; then
+      PACKAGES+=" ${params[0]}";
+    fi;
+    if [ ! -z "${params[1]}" ]; then
+      FILES+=" ${params[1]}";
+    fi;
+    printf "  packages: ${params[0]} \n  files: ${params[1]} \n";
   fi;
-  if [ ! -z "${params[1]}" ]; then
-    FILES+=" ${params[1]}";
-  fi;
-  printf "  packages: ${params[0]} \n  files: ${params[1]} \n";
 }
 
 # Abort a package utilization
@@ -135,7 +139,7 @@ function decideNoConfig() {
 function decideOnBoolean() {
   local curPackage=$1 curFunction=$2 curVariable=$3;
   if [ -n "${!curVariable}" ]; then
-    if [ ${!curVariable} = true ]; then
+    if [ "${!curVariable}" = true ]; then
       processPackage $curPackage $curFunction;
     else
       abortPackage $curPackage $curFunction;
@@ -189,34 +193,46 @@ function addLuCi() {
 
 # LuCi option: HTTPS (luci-ssl)
 function addLuCiHTTPS() {
-  local packages files;
-  packages="uhttpd-mod-tls luci-ssl";
-  files="";
-  echo "${packages}|${files}";
+  if [ "$FUNCTION_LUCI_STATUS" = true ]; then
+    local packages files;
+    packages="uhttpd-mod-tls luci-ssl";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # LuCi option: Failsafe (luci-mod-failsafe)
 function addLuCiFailsafe() {
-  local packages files;
-  packages="luci-mod-failsafe";
-  files="";
-  echo "${packages}|${files}";
+  if [ "$FUNCTION_LUCI_STATUS" = true ]; then
+    local packages files;
+    packages="luci-mod-failsafe";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Commands (luci-app-commands)
 function addCommands() {
-  local packages files;
-  packages="luci-app-commands";
-  files="";
-  echo "${packages}|${files}";
+  if [ "$FUNCTION_LUCI_STATUS" = true ]; then
+    local packages files;
+    packages="luci-app-commands";
+    files="";
+    echo "${packages}|${files}";
+  fi;
 }
 
 # Diagnostics (luci-app-diag-core)
 function addDiagnostics() {
-  local packages files;
-  packages="luci-app-diag-core";
-  files="";
-  echo "${packages}|${files}";
+  if [ "$FUNCTION_LUCI_STATUS" = true ]; then
+    local packages files;
+    packages="luci-app-diag-core";
+    files="";
+    echo "${packages}|${files}";
+  fi;
 }
 
 # Statistics (luci-app-statistics)
@@ -245,20 +261,41 @@ function addIPv6() {
   echo "${packages}|${files}";
 }
 
+# IPv6 option: Routing Advertisement (radvd)
+function addIPv6RA() {
+  if [ "$FUNCTION_IPV6_STATUS" = true ]; then
+    local packages files;
+    packages="radvd";
+    files="files/ipv6";
+    if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-radvd"; fi;
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
+}
+
 # IPv6 option: DS-Lite (ds-lite)
 function addIPv6DSLite() {
-  local packages files;
-  packages="ds-lite";
-  files="files/ipv6";
-  echo "${packages}|${files}";
+  if [ "$FUNCTION_IPV6_STATUS" = true ]; then
+    local packages files;
+    packages="ds-lite";
+    files="files/ipv6";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # IPv6 option: L2TP (xl2tpd)
 function addIPv6L2TP() {
-  local packages files;
-  packages="xl2tpd";
-  files="files/ipv6";
-  echo "${packages}|${files}";
+  if [ "$FUNCTION_IPV6_STATUS" = true ]; then
+    local packages files;
+    packages="xl2tpd";
+    files="files/ipv6";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Firewall (iptables ip6tables)
@@ -266,7 +303,7 @@ function addFirewall() {
   local packages files;
   packages="kmod-ipt-core kmod-ipt-nat kmod-ipt-nat-extra iptables kmod-ipt-iprange iptables-mod-nat-extra iptables-mod-iprange firewall";
   if [ "$BUILDER_OPENWRT_VERSION" == "bb" ]; then packages+=" kmod-ipt-nathelper"; fi;
-  if [ ${FUNCTION_IPV6_STATUS} = true ]; then packages+=" kmod-ip6tables kmod-ipt-nat6 ip6tables ip6tables-mod-nat"; fi;
+  if [ "$FUNCTION_IPV6_STATUS" = true ]; then packages+=" kmod-ip6tables kmod-ipt-nat6 ip6tables ip6tables-mod-nat"; fi;
   files=" files/firewall";
   if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-firewall"; fi;
   echo "${packages}|${files}";
@@ -276,52 +313,72 @@ function addFirewall() {
 function addDHCP() {
   local packages files;
   packages="dnsmasq";
-  if [ ${FUNCTION_IPV6_STATUS} = true ]; then packages+=" dnsmasq-dhcpv6"; fi;
+  if [ "$FUNCTION_IPV6_STATUS" = true ]; then packages+=" dnsmasq-dhcpv6"; fi;
   files="files/dhcp";
   echo "${packages}|${files}";
 }
 
 # Zeroconf option: HNCP (hnet-full)
 function addZeroconfHNCP() {
-  local packages files;
-  packages="hnet-full";
-  files="files/hnet";
-  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-hnet"; fi;
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_ZEROCONF_STATUS}" = true ]; then
+    local packages files;
+    packages="hnet-full";
+    files="files/hnet";
+    if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-hnet"; fi;
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Zeroconf option: UPNP (miniupnpd)
 function addZeroconfUPNP() {
-  local packages files;
-  packages="miniupnpd";
-  files="files/upnpd";
-  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-upnp"; fi;
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_ZEROCONF_STATUS}" = true ]; then
+    local packages files;
+    packages="miniupnpd";
+    files="files/upnpd";
+    if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-upnp"; fi;
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Zeroconf option: DLNA (minidlna)
 function addZeroconfDLNA() {
-  local packages files;
-  packages="minidlna";
-  files="files/minidlna";
-  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-minidlna"; fi;
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_ZEROCONF_STATUS}" = true ]; then
+    local packages files;
+    packages="minidlna";
+    files="files/minidlna";
+    if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-minidlna"; fi;
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Zeroconf option: DNSSD (avahi-daemon)
 function addZeroconfDNSSD() {
-  local packages files;
-  packages="avahi-daemon avahi-daemon-service-http avahi-daemon-service-ssh avahi-dnsconfd avahi-autoipd";
-  files="files/avahi";
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_ZEROCONF_STATUS}" = true ]; then
+    local packages files;
+    packages="avahi-daemon avahi-daemon-service-http avahi-daemon-service-ssh avahi-dnsconfd avahi-autoipd";
+    files="files/avahi";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Zeroconf option: mDNS (mdnsresponder)
 function addZeroconfmDNS() {
-  local packages files;
-  packages="mdnsresponder";
-  files="files/mdnsresponder";
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_ZEROCONF_STATUS}" = true ]; then
+    local packages files;
+    packages="mdnsresponder";
+    files="files/mdnsresponder";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # PPP (ppp)
@@ -409,66 +466,94 @@ function addDDNS() {
 
 # VPN option: OpenVPN (openvpn-openssl)
 function addVPNOpenVPN() {
-  local packages files;
-  packages="openvpn-openssl openvpn-easy-rsa";
-  files="files/openvpn";
-  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-openvpn"; fi;
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_VPN_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-tun openvpn-openssl openvpn-easy-rsa";
+    files="files/openvpn";
+    if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-openvpn"; fi;
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # VPN option: VPNC (vpnc)
 function addVPNVPNC() {
-  local packages files;
-  packages="vpnc";
-  files="files/vpnc";
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_VPN_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-tun vpnc";
+    files="files/vpnc";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # VPN option: IPSec (ipsec-tools)
 function addVPNIPSec() {
-  local packages files;
-  packages="kmod-gre kmod-ipsec kmod-ipsec4 kmod-ipsec6 ipsec-tools openssl-util";
-  files="files/ipsec";
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_VPN_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-gre kmod-ipsec kmod-ipsec4 kmod-ipsec6 ipsec-tools openssl-util";
+    files="files/ipsec";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # VPN option: OpenConnect (openconnect)
 function addVPNOpenConnect() {
-  local packages files;
-  packages="openconnect";
-  files="files/openconnect";
-  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-proto-openconnect"; fi;
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_VPN_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-tun openconnect";
+    files="files/openconnect";
+    if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-proto-openconnect"; fi;
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # VPN option: PPTP (kmod-pptp)
 function addVPNPPTP() {
-  local packages files;
-  packages="kmod-gre kmod-pptp kmod-pppox kmod-mppe ppp-mod-pptp";
-  if [ "$BUILDER_OPENWRT_VERSION" == "cc" ];
-    then packages+=" kmod-nf-nathelper-extra";
-  elif [ "$BUILDER_OPENWRT_VERSION" == "bb" ];
-    then packages+=" kmod-ipt-nathelper-extra";
+  if [ "${FUNCTION_VPN_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-gre kmod-pptp kmod-pppox kmod-mppe ppp-mod-pptp";
+    if [ "$BUILDER_OPENWRT_VERSION" == "cc" ];
+      then packages+=" kmod-nf-nathelper-extra";
+    elif [ "$BUILDER_OPENWRT_VERSION" == "bb" ];
+      then packages+=" kmod-ipt-nathelper-extra";
+    fi;
+    files="files/pptp";
+    if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-proto-ppp"; fi;
+    echo "${packages}|${files}";
+  else
+    echo false;
   fi;
-  files="files/pptp";
-  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-proto-ppp"; fi;
-  echo "${packages}|${files}";
 }
 
 # SSH option: Dropbear (dropbear)
 function addSSHDropbear() {
-  local packages files;
-  packages="dropbear";
-  files="files/dropbear";
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_SSH_STATUS}" = true ]; then
+    local packages files;
+    packages="dropbear";
+    files="files/dropbear";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # SSH option: OpenSSH (openssh-server)
 function addSSHOpenSSH() {
-  local packages files;
-  packages="openssh-server openssh-sftp-server";
-  files="files/openssh";
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_SSH_STATUS}" = true ]; then
+    local packages files;
+    packages="openssh-server openssh-sftp-server";
+    files="files/openssh";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # USB (kmod-usb-core)
@@ -481,213 +566,341 @@ function addUSB() {
 
 # USB option: USB2 (kmod-usb2)
 function addUSB2() {
-  local packages files;
-  packages="kmod-usb2";
-  files="";
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_USB_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-usb2";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # USB option: OHCI (kmod-usb-ohci)
 function addUSBOHCI() {
-  local packages files;
-  packages="kmod-usb-ohci";
-  files="";
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_USB_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-usb-ohci";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # USB option: UHCI (kmod-usb-uhci)
 function addUSBUHCI() {
-  local packages files;
-  packages="kmod-usb-uhci";
-  files="";
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_USB_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-usb-uhci";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
-# Dongle option: Net (kmod-usb-net)
+# USB Dongle option: Net (kmod-usb-net)
 function addDongleNet() {
-  local packages files;
-  packages="kmod-usb-net kmod-usb-net-hso kmod-usb-net-rndis kmod-usb-net-cdc-eem kmod-usb-net-cdc-ether kmod-usb-net-cdc-subset kmod-usb-net-cdc-ncm kmod-usb-net-cdc-mbim kmod-usb-net-ipheth kmod-usb-net-kalmia";
-  files="";
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_DONGLE_STATUS}" = true ] && [ "${FUNCTION_USB_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-usb-net kmod-usb-net-hso kmod-usb-net-rndis kmod-usb-net-cdc-eem kmod-usb-net-cdc-ether kmod-usb-net-cdc-subset kmod-usb-net-cdc-ncm kmod-usb-net-cdc-mbim kmod-usb-net-ipheth kmod-usb-net-kalmia";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
-# Dongle option: Serial (kmod-usb-serial)
+# USB Dongle option: Serial (kmod-usb-serial)
 function addDongleSerial() {
-  local packages files;
-  packages="kmod-usb-serial kmod-usb-serial-option kmod-usb-serial-wwan kmod-usb-serial-belkin kmod-usb-serial-qualcomm kmod-usb-acm";
-  files="";
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_DONGLE_STATUS}" = true ] && [ "${FUNCTION_USB_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-usb-serial kmod-usb-serial-option kmod-usb-serial-wwan kmod-usb-serial-belkin kmod-usb-serial-qualcomm kmod-usb-acm";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
-# Video option: Basic (kmod-video-core)
-function addVideoBasic() {
-  local packages files;
-  packages="kmod-video-core kmod-video-uvc";
-  files="";
-  echo "${packages}|${files}";
-}
-
-# Video option: GSPCA (kmod-video-gspca-core)
-function addVideoGSPCA() {
-  local packages files;
-  packages="kmod-video-gspca-core";
-  files="";
-  echo "${packages}|${files}";
-}
-
-# Video option: MJPG Streamer (mjpg-streamer)
-function addVideoMJPG() {
-  local packages files;
-  packages="mjpg-streamer uvcdynctrl";
-  files="files/mjpg";
-  echo "${packages}|${files}";
-}
-
-# Audio (kmod-usb-audio)
+# Audio (kmod-sound-core)
 function addAudio() {
   local packages files;
-  packages="kmod-usb-audio kmod-sound-core kmod-sound-soc-core";
+  packages="kmod-sound-core";
   files="";
   echo "${packages}|${files}";
+}
+
+# Audio option: USB (kmod-usb-audio)
+function addAudioUSB() {
+  if [ "${FUNCTION_AUDIO_STATUS}" = true ] && [ "${FUNCTION_USB_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-usb-audio";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Audio option: PulseAudio (pulseaudio-daemon)
 function addAudioPulseAudio() {
-  local packages files;
-  packages="pulseaudio-daemon";
-  files="files/pulseaudio";
-  echo "${packages}|${files}";
+  if [ "${FUNCTION_AUDIO_STATUS}" = true ]; then
+    local packages files;
+    packages="pulseaudio-daemon";
+    files="files/pulseaudio";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Audio option: PortAudio (portaudio)
 function addAudioPortAudio() {
+  if [ "${FUNCTION_AUDIO_STATUS}" = true ]; then
+    local packages files;
+    packages="portaudio";
+    files="files/portaudio";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
+}
+
+# Video (kmod-video-core)
+function addVideo() {
   local packages files;
-  packages="portaudio";
-  files="files/portaudio";
+  packages="kmod-video-core";
+  files="";
   echo "${packages}|${files}";
 }
 
-# Printer (kmod-usb-printer)
-function addPrinter() {
-  local packages files;
-  packages="kmod-usb-printer";
-  files="";
-  echo "${packages}|${files}";
+# Video option: USB UVC (kmod-video-uvc)
+function addVideoUVC() {
+  if [ "${FUNCTION_VIDEO_STATUS}" = true ] && [ "${FUNCTION_USB_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-video-uvc";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
+}
+
+# Video option: USB GSPCA (kmod-video-gspca-core)
+function addVideoGSPCA() {
+  if [ "${FUNCTION_VIDEO_STATUS}" = true ] && [ "${FUNCTION_USB_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-video-gspca-core";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
+}
+
+# Video option: MJPG Streamer (mjpg-streamer)
+function addVideoMJPG() {
+  if [ "${FUNCTION_VIDEO_STATUS}" = true ]; then
+    local packages files;
+    packages="mjpg-streamer uvcdynctrl";
+    files="files/mjpg";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
+}
+
+# Printer option: USB (kmod-usb-printer)
+function addPrinterUSB() {
+  if "${FUNCTION_PRINTER_STATUS}" = true ] && [ "${FUNCTION_USB_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-usb-printer";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Printer option: P910nd (p910nd)
 function addPrinterP910nd() {
-  local packages files;
-  packages="p910nd";
-  files="files/p910nd";
-  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-p910nd"; fi;
-  echo "${packages}|${files}";
+  if "${FUNCTION_PRINTER_STATUS}" = true ]; then
+    local packages files;
+    packages="p910nd";
+    files="files/p910nd";
+    if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-p910nd"; fi;
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Printer option: CUPS (cups)
 function addPrinterCUPS() {
-  local packages files;
-  packages="cups";
-  files="files/cups";
-  echo "${packages}|${files}";
+  if "${FUNCTION_PRINTER_STATUS}" = true ]; then
+    local packages files;
+    packages="cups";
+    files="files/cups";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
-# Storage (kmod-usb-storage)
+# Storage (block-mount)
 function addStorage() {
   local packages files;
-  packages="kmod-usb-storage kmod-fuse kmod-nls-utf8 block-mount swap-utils";
+  packages="kmod-fuse kmod-nls-utf8 block-mount swap-utils";
   files="";
   echo "${packages}|${files}";
 }
 
-# Storage option: SmartCard (kmod-usb-storage-extras)
-function addStorageCard() {
+# Storage option: USB Generic (kmod-usb-storage)
+function addStorageUSB() {
+  if "${FUNCTION_STORAGE_STATUS}" = true ]; then
   local packages files;
-  packages="kmod-usb-storage-extras";
-  files="";
-  echo "${packages}|${files}";
+    packages="kmod-usb-storage";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
+}
+
+# Storage option: USB SmartCard (kmod-usb-storage-extras)
+function addStorageUSBCard() {
+  if "${FUNCTION_STORAGE_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-usb-storage-extras";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Storage option: HDD (kmod-scsi-core)
 function addStorageHDD() {
-  local packages files;
-  packages="kmod-scsi-core hd-idle hdparm";
-  files="files/hdd";
-  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-hd-idle"; fi;
-  echo "${packages}|${files}";
+  if "${FUNCTION_STORAGE_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-scsi-core hd-idle hdparm";
+    files="files/hdd";
+    if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-hd-idle"; fi;
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Storage option: EXT2/3/4 (kmod-fs-ext4)
 function addStorageExt() {
-  local packages files;
-  packages="kmod-fs-ext4 e2fsprogs";
-  files="";
-  echo "${packages}|${files}";
+  if "${FUNCTION_STORAGE_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-fs-ext4 e2fsprogs";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Storage option: HFS (kmod-fs-hfsplus)
 function addStorageHFS() {
-  local packages files;
-  packages="kmod-fs-hfs kmod-fs-hfsplus";
-  files="";
-  echo "${packages}|${files}";
+  if "${FUNCTION_STORAGE_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-fs-hfs kmod-fs-hfsplus";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Storage option: NTFS (kmod-fs-ntfs)
 function addStorageNTFS() {
-  local packages files;
-  packages="kmod-fs-ntfs";
-  files="";
-  echo "${packages}|${files}";
+  if "${FUNCTION_STORAGE_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-fs-ntfs";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Storage option: VFAT (kmod-fs-vfat)
 function addStorageVFAT() {
-  local packages files;
-  packages="kmod-fs-vfat kmod-nls-cp1250 kmod-nls-cp1251 kmod-nls-cp437 kmod-nls-cp850 kmod-nls-cp852 kmod-nls-iso8859-1 kmod-nls-iso8859-8";
-  files="";
-  echo "${packages}|${files}";
+  if "${FUNCTION_STORAGE_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-fs-vfat kmod-nls-cp1250 kmod-nls-cp1251 kmod-nls-cp437 kmod-nls-cp850 kmod-nls-cp852 kmod-nls-iso8859-1 kmod-nls-iso8859-8";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Storage option: F2FS (kmod-fs-f2fs)
 function addStorageF2FS() {
-  local packages files;
-  packages="kmod-fs-f2fs";
-  files="";
-  echo "${packages}|${files}";
+  if "${FUNCTION_STORAGE_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-fs-f2fs";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # NAS option: SSHFS (sshfs)
 function addNASSSHFS() {
-  local packages files;
-  packages="sshfs";
-  files="";
-  echo "${packages}|${files}";
+  if "${FUNCTION_NAS_STATUS}" = true ]; then
+    local packages files;
+    packages="sshfs";
+    files="";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # NAS option: SMB/CIFS (samba36-server)
 function addNASSamba() {
-  local packages files;
-  packages="kmod-fs-cifs samba36-server cifsmount";
-  files="files/smb";
-  if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-samba"; fi;
-  echo "${packages}|${files}";
+  if "${FUNCTION_NAS_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-fs-cifs samba36-server";
+    files="files/smb";
+    if [ "$FUNCTION_LUCI_STATUS" = true ]; then packages+=" luci-app-samba"; fi;
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # NAS option: NFS (nfs-kernel-server)
 function addNASNFS() {
-  local packages files;
-  packages="kmod-fs-nfs-common kmod-fs-nfs kmod-fs-nfsd kmod-fs-exportfs kmod-loop nfs-kernel-server nfs-utils";
-  files="files/nfs";
-  echo "${packages}|${files}";
+  if "${FUNCTION_NAS_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-fs-nfs-common kmod-fs-nfs kmod-fs-nfsd kmod-fs-exportfs kmod-loop nfs-kernel-server nfs-utils";
+    files="files/nfs";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # NAS option: AFP (netatalk)
 function addNASAFP() {
-  local packages files;
-  packages="kmod-appletalk netatalk";
-  files="files/afp";
-  echo "${packages}|${files}";
+  if "${FUNCTION_NAS_STATUS}" = true ]; then
+    local packages files;
+    packages="kmod-appletalk netatalk";
+    files="files/afp";
+    echo "${packages}|${files}";
+  else
+    echo false;
+  fi;
 }
 
 # Extra (...)
@@ -743,6 +956,9 @@ decideOnBoolean "Networking (ip)" "addNetworking" "FUNCTION_NETWORKING_STATUS";
 # IPv6 (kmod-ipv6)
 decideOnBoolean "IPv6 (kmod-ipv6)" "addIPv6" "FUNCTION_IPV6_STATUS";
 
+# IPv6 option: Routing Advertisement (radvd)
+decideOnArray "IPv6 option: Routing Advertisement (radvd)" "addIPv6RA" "FUNCTION_IPV6_OPT" "ra";
+
 # IPv6 option: DS-Lite (ds-lite)
 decideOnArray "IPv6 option: DS-Lite (ds-lite)" "addIPv6DSLite" "FUNCTION_IPV6_OPT" "dslite";
 
@@ -766,6 +982,9 @@ decideOnArray "Zeroconf option: DLNA (minidlna)" "addZeroconfDLNA" "FUNCTION_ZER
 
 # Zeroconf option: mDNS (mdnsresponder)
 decideOnArray "Zeroconf option: mDNS (mdnsresponder)" "addZeroconfmDNS" "FUNCTION_ZEROCONF_OPT" "mdnsresponder";
+
+# Zeroconf option: DNSSD (avahi-daemon)
+decideOnArray "Zeroconf option: DNSSD (avahi-daemon)" "addZeroconfDNSSD" "FUNCTION_ZEROCONF_OPT" "avahi";
 
 # PPP (ppp)
 decideOnBoolean "PPP (ppp)" "addPPP" "FUNCTION_PPP_STATUS";
@@ -827,23 +1046,17 @@ decideOnArray "USB option: OHCI (kmod-usb-ohci)" "addUSBOHCI" "FUNCTION_USB_OPT"
 # USB option: UHCI (kmod-usb-uhci)
 decideOnArray "USB option: UHCI (kmod-usb-uhci)" "addUSBUHCI" "FUNCTION_USB_OPT" "uhci";
 
-# Dongle option: Net (kmod-usb-net)
-decideOnArray "Dongle option: Net (kmod-usb-net)" "addDongleNet" "FUNCTION_DONGLE_OPT" "net";
+# USB Dongle option: Net (kmod-usb-net)
+decideOnArray "USB Dongle option: Net (kmod-usb-net)" "addDongleNet" "FUNCTION_DONGLE_OPT" "net";
 
-# Dongle option: Serial (kmod-usb-serial)
-decideOnArray "Dongle option: Serial (kmod-usb-serial)" "addDongleSerial" "FUNCTION_DONGLE_OPT" "serial";
+# USB Dongle option: Serial (kmod-usb-serial)
+decideOnArray "USB Dongle option: Serial (kmod-usb-serial)" "addDongleSerial" "FUNCTION_DONGLE_OPT" "serial";
 
-# Video option: Basic (kmod-video-core)
-decideOnArray "Video option: Basic (kmod-video-core)" "addVideoBasic" "FUNCTION_VIDEO_OPT" "basic";
+# Audio (kmod-sound-core)
+decideOnBoolean "Audio (kmod-sound-core)" "addAudio" "FUNCTION_AUDIO_STATUS";
 
-# Video option: GSPCA (kmod-video-gspca-core)
-decideOnArray "Video option: GSPCA (kmod-video-gspca-core)" "addVideoGSPCA" "FUNCTION_VIDEO_OPT" "gspca";
-
-# Video option: MJPG Streamer (mjpg-streamer)
-decideOnArray "Video option: MJPG Streamer (mjpg-streamer)" "addVideoMJPG" "FUNCTION_MJPG_STATUS" "mjpg";
-
-# Audio (kmod-usb-audio)
-decideOnBoolean "Audio (kmod-usb-audio)" "addAudio" "FUNCTION_AUDIO_STATUS";
+# Audio option: USB (kmod-usb-audio)
+decideOnArray "Audio option: USB (kmod-usb-audio)" "addAudioUSB" "FUNCTION_AUDIO_OPT" "usb";
 
 # Audio option: PulseAudio (pulseaudio-daemon)
 decideOnArray "Audio option: PulseAudio (pulseaudio-daemon)" "addAudioPulseAudio" "FUNCTION_AUDIO_OPT" "pulseaudio";
@@ -851,8 +1064,20 @@ decideOnArray "Audio option: PulseAudio (pulseaudio-daemon)" "addAudioPulseAudio
 # Audio option: PortAudio (portaudio)
 decideOnArray "Audio option: PortAudio (portaudio)" "addAudioPortAudio" "FUNCTION_AUDIO_OPT" "portaudio";
 
-# Printer (kmod-usb-printer)
-decideOnBoolean "Printer (kmod-usb-printer)" "addPrinter" "FUNCTION_PRINTER_STATUS";
+# Video (kmod-video-core)
+decideOnBoolean "Video (kmod-video-core)" "addVideo" "FUNCTION_VIDEO_STATUS";
+
+# Video option: USB UVC (kmod-video-uvc)
+decideOnArray "Video option: USB UVC (kmod-video-uvc)" "addVideoUVC" "FUNCTION_VIDEO_OPT" "uvc";
+
+# Video option: USB GSPCA (kmod-video-gspca-core)
+decideOnArray "Video option: USB GSPCA (kmod-video-gspca-core)" "addVideoGSPCA" "FUNCTION_VIDEO_OPT" "gspca";
+
+# Video option: MJPG Streamer (mjpg-streamer)
+decideOnArray "Video option: MJPG Streamer (mjpg-streamer)" "addVideoMJPG" "FUNCTION_VIDEO_OPT" "mjpg";
+
+# Printer option: USB (kmod-usb-printer)
+decideOnBoolean "Printer option: USB (kmod-usb-printer)" "addPrinterUSB" "FUNCTION_PRINTER_STATUS" "usb";
 
 # Printer option: P910nd (p910nd)
 decideOnArray "Printer option: P910nd (p910nd)" "addPrinterP910nd" "FUNCTION_PRINTER_OPT" "p910nd";
@@ -860,14 +1085,17 @@ decideOnArray "Printer option: P910nd (p910nd)" "addPrinterP910nd" "FUNCTION_PRI
 # Printer option: CUPS (cups)
 decideOnArray "Printer option: CUPS (cups)" "addPrinterCUPS" "FUNCTION_PRINTER_OPT" "cups";
 
-# Storage (kmod-usb-storage)
-decideOnBoolean "Storage (kmod-usb-storage)" "addStorage" "FUNCTION_STORAGE_STATUS";
+# Storage (block-mount)
+decideOnBoolean "Storage (block-mount)" "addStorage" "FUNCTION_STORAGE_STATUS";
 
-# Storage option: SmartCard (kmod-usb-storage-extras)
-decideOnArray "# Storage option: SmartCard (kmod-usb-storage-extras)" "addStorageCard" "FUNCTION_STORAGE_OPT" "card";
+# Storage option: USB Generic (kmod-usb-storage)
+decideOnArray "Storage option: USB Generic (kmod-usb-storage)" "addStorageUSB" "FUNCTION_STORAGE_OPT" "usb";
+
+# Storage option: USB SmartCard (kmod-usb-storage-extras)
+decideOnArray "Storage option: USB SmartCard (kmod-usb-storage-extras)" "addStorageUSBCard" "FUNCTION_STORAGE_OPT" "card";
 
 # Storage option: HDD (kmod-scsi-core)
-decideOnArray "# Storage option: HDD (kmod-scsi-core)" "addStorageHDD" "FUNCTION_STORAGE_OPT" "hdd";
+decideOnArray "Storage option: HDD (kmod-scsi-core)" "addStorageHDD" "FUNCTION_STORAGE_OPT" "hdd";
 
 # Storage option: EXT2/3/4 (kmod-fs-ext4)
 decideOnArray "Storage option: EXT2/3/4 (kmod-fs-ext4)" "addStorageExt" "FUNCTION_STORAGE_OPT" "ext";
@@ -905,13 +1133,13 @@ decideOnBoolean "Extra" "addExtra" "FUNCTION_EXTRA_STATUS";
 
 PACKAGES="${PACKAGES} ${extraPkg}";
 
-printf "\nCompleted selection!\n  packages: ${PACKAGES}\n  files: ${FILES}\n";
+printf "\nCompleted selection!\n  profile: ${BUILDER_OPENWRT_PROFILE}\n  packages: ${PACKAGES}\n  files: ${FILES}\n";
 echo $PACKAGES > "${BUILDER_OPENWRT_DIR}/bin/${BUILDER_OPENWRT_SOC}/openwrt-${BUILDER_OPENWRT_SOC}-${BUILDER_OPENWRT_FLASH}-selected-packages.txt";
 sed -i 's/ /\n/g' "${BUILDER_OPENWRT_DIR}/bin/${BUILDER_OPENWRT_SOC}/openwrt-${BUILDER_OPENWRT_SOC}-${BUILDER_OPENWRT_FLASH}-selected-packages.txt";
 echo $FILES > "${BUILDER_OPENWRT_DIR}/bin/${BUILDER_OPENWRT_SOC}/openwrt-${BUILDER_OPENWRT_SOC}-${BUILDER_OPENWRT_FLASH}-selected-files.txt";
 sed -i 's/ /\n/g' "${BUILDER_OPENWRT_DIR}/bin/${BUILDER_OPENWRT_SOC}/openwrt-${BUILDER_OPENWRT_SOC}-${BUILDER_OPENWRT_FLASH}-selected-files.txt";
 
-printf "\nPress any key to start building...\n\n"; read -p "";
+printf "\nPress [ENTER] key to start building...\n\n"; read -p "";
 cd $BUILDER_OPENWRT_DIR;
 make image PROFILE=$BUILDER_OPENWRT_PROFILE PACKAGES="${PACKAGES}";
 
