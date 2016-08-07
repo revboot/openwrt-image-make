@@ -19,6 +19,8 @@ BUILDER_OPENWRT_PROFILE="";
 
 # Tools (...): boolean
 FUNCTION_TOOLS_STATUS=true;
+# ZRAM Swap (zram-swap)
+FUNCTION_ZRAMSWAP_STATUS=true;
 # LuCi: boolean
 FUNCTION_LUCI_STATUS=true;
 # LuCi option: array (https failsafe)

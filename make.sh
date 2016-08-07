@@ -170,7 +170,7 @@ function decideOnArray() {
 # Base (...)
 function addBase() {
   local packages files;
-  packages="libuci uci kmod-zram zram-swap";
+  packages="libuci uci";
   files="files/";
   echo "${packages}|${files}";
 }
@@ -179,6 +179,14 @@ function addBase() {
 function addTools() {
   local packages files;
   packages="tar htop iftop";
+  files="";
+  echo "${packages}|${files}";
+}
+
+# ZRAM Swap (zram-swap)
+function addZRAMSwap() {
+  local packages files;
+  packages="kmod-zram zram-swap";
   files="";
   echo "${packages}|${files}";
 }
@@ -931,6 +939,9 @@ decideNoConfig "Base" "addBase";
 
 # Tools (...)
 decideOnBoolean "Tools (...)" "addTools" "FUNCTION_TOOLS_STATUS";
+
+# ZRAM Swap (zram-swap)
+decideOnBoolean "ZRAM Swap (zram-swap)" "addZRAMSwap" "FUNCTION_ZRAMSWAP_STATUS";
 
 # LuCi (luci)
 decideOnBoolean "LuCi (luci)" "addLuCi" "FUNCTION_LUCI_STATUS";
