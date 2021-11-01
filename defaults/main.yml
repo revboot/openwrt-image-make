@@ -1,2 +1,8 @@
 ---
 # defaults file for revboot.openwrt
+
+# do not require root privileges
+ansible_become: no
+
+# actions to take with possible values:
+openwrt_action: []

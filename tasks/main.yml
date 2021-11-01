@@ -1,2 +1,5 @@
 ---
 # tasks file for revboot.openwrt
+
+- name: "Facts"
+  include_tasks: facts.yml
