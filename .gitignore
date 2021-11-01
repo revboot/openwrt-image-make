@@ -1,0 +1,32 @@
+# Created by https://www.toptal.com/developers/gitignore/api/ansibletower,ansible
+# Edit at https://www.toptal.com/developers/gitignore?templates=ansibletower,ansible
+
+### Ansible ###
+*.retry
+
+### AnsibleTower ###
+# Ansible runtime and backups
+*.original
+*.tmp
+*.bkp
+*.*~
+
+# Tower runtime roles
+#roles/**
+#!roles/requirements.yml
+
+# Avoid plain-text passwords
+*pwd*
+*pass*
+*password*
+*.txt
+
+# Exclude all binaries
+*.bin
+*.jar
+*.tar
+*.zip
+*.gzip
+*.tgz
+
+# End of https://www.toptal.com/developers/gitignore/api/ansibletower,ansible

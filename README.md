@@ -1,7 +1,7 @@
-Role Name
-=========
+Revboot Ansible :: OpenWrt role
+===============================
 
-A brief description of the role goes here.
+Builds OpenWrt firmware images with the OpenWrt Image Builder.
 
 Requirements
 ------------
@@ -16,7 +16,7 @@ A description of the settable variables for this role should go here, including 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Has no Ansible Galaxy dependencies.
 
 Example Playbook
 ----------------
@@ -27,12 +27,48 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - { role: username.rolename, x: 42 }
 
+More Information
+----------------
+
+For more information, see the OpenWrt project resources:
+- [Website](https://openwrt.org)
+- [Version history](https://openwrt.org/about/history)
+- [Table of Hardware](https://openwrt.org/toh/views/toh_fwdownload)
+- [Firmware Selector](https://firmware-selector.openwrt.org)
+- [Technical Downloads](https://downloads.openwrt.org/releases)
+- [GitHub Project](https://github.com/openwrt/openwrt)
+- [Documentation](https://openwrt.org/docs/start)
+- [Developer Guide](https://openwrt.org/docs/guide-developer/overview)
+
+Building OpenWrt and firmware images:
+- [Quick image building guide](https://openwrt.org/docs/guide-developer/toolchain/beginners-build-guide)
+- [Using the Image Builder](https://openwrt.org/docs/guide-user/additional-software/imagebuilder)
+- [Using the toolchain](https://openwrt.org/docs/guide-developer/start#using_the_toolchain)
+- [Using the SDK](https://openwrt.org/docs/guide-developer/toolchain/using_the_sdk)
+- [Build system setup](https://openwrt.org/docs/guide-developer/toolchain/install-buildsystem)
+- [Build system usage](https://openwrt.org/docs/guide-developer/toolchain/use-buildsystem)
+
 License
 -------
 
-BSD
+Revboot Ansible :: OpenWrt role
+
+Copyright (C) 2021 [Revboot - Tecnologias de Informação e Comunicação, Unipessoal Lda](https://github.com/revboot).
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Created and maintained by [Luís Pedro Algarvio](https://github.com/lpalgarvio).
