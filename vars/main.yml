@@ -1,2 +1,16 @@
 ---
 # vars file for revboot.openwrt
+
+# set the runtime variables
+openwrt_vars:
+  download_root: "{{
+    'https://downloads.openwrt.org/releases/' +
+    openwrt_image['release'] + '/targets/' +
+    openwrt_device['target'] + '/' +
+    openwrt_device['sub_target'] }}"
+  download_archive: "{{
+    'openwrt-imagebuilder-' +
+    openwrt_image['release'] + '-' +
+    openwrt_device['target'] + '-' +
+    openwrt_device['sub_target'] + '.' +
+    'Linux-x86_64' }}"

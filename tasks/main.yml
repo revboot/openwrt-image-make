@@ -3,3 +3,8 @@
 
 - name: "Facts"
   include_tasks: facts.yml
+
+- name: "Download"
+  include_tasks: download.yml
+  when:
+    - "'download' in openwrt_action"

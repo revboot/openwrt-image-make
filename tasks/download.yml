@@ -1,0 +1,65 @@
+---
+# download file for revboot.openwrt
+# Downloads the OpenWrt firmware archives for the build process.
+
+- name: "Download | Prepare work directory"
+  file:
+    path:  "{{ openwrt_paths['workdir'] }}"
+    mode:  "u=rwx,g=rx,o="
+    state: directory
+  delegate_to: localhost
+
+- name: "Download | Download the checksums from the download root URL"
+  get_url:
+    url:   "{{ openwrt_vars['download_root'] + '/sha256sums' }}"
+    dest:  "{{ openwrt_paths['workdir'] }}"
+    mode:  "u=rw,g=r,o="
+    force: yes
+  check_mode: false
+  delegate_to: localhost
+
+- name: "Download | Grep the downloaded checksums"
+  shell: >-
+    grep -i -m 1
+    {{ openwrt_vars['download_archive'] }}.tar.xz
+    {{ openwrt_paths['workdir'] }}/sha256sums |
+    cut -d ' ' -f1
+  register: openwrt_download_checksums_grep
+  check_mode: false
+  delegate_to: localhost
+
+- name: "Download | Stat the download archive and store checksums (if exists)"
+  stat:
+    path:  "{{ openwrt_paths['workdir'] + '/' +
+               openwrt_vars['download_archive'] + '.tar.xz' }}"
+    get_checksum: yes
+    checksum_algorithm: sha256
+  register: openwrt_download_archive_stat
+  delegate_to: localhost
+
+- name: "Download | Download the archive from the download root URL (if needed)"
+  get_url:
+    url:   "{{ openwrt_vars['download_root'] + '/' +
+               openwrt_vars['download_archive'] + '.tar.xz' }}"
+    dest:  "{{ openwrt_paths['workdir'] }}"
+    mode:  "u=rw,g=r,o="
+    checksum: "{{ 'sha256:' + openwrt_download_checksums_grep.stdout }}"
+  register: openwrt_download_archive_get
+  when: >
+    openwrt_download_archive_stat.stat.exists is not defined or
+    openwrt_download_archive_stat.stat.checksum is not defined or
+    openwrt_download_archive_stat.stat.checksum != openwrt_download_checksums_grep.stdout
+  delegate_to: localhost
+
+- name: "Download | Extract the download archive (if needed)"
+  unarchive:
+    src:   "{{ openwrt_paths['workdir'] + '/' +
+               openwrt_vars['download_archive'] + '.tar.xz' }}"
+    dest:  "{{ openwrt_paths['workdir'] }}"
+    mode:  "u=rwx,g=rx,o="
+    keep_newer: yes
+  when:
+    - openwrt_download_archive_get.changed
+    - openwrt_download_archive_get.state is defined
+    - openwrt_download_archive_get.state == 'file'
+  delegate_to: localhost

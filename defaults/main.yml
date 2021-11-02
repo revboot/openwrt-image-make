@@ -5,4 +5,21 @@
 ansible_become: no
 
 # actions to take with possible values:
+# - download
 openwrt_action: []
+
+# set various paths
+openwrt_paths:
+  # the path for the workdir
+  workdir: "{{ lookup('env', 'HOME') }}/workdir"
+
+# device selection
+openwrt_device:
+  # the target (ie, ath79)
+  target:       ""
+  # the subtarget (generic, nand)
+  sub_target:   ""
+# image configuration
+openwrt_image:
+  # the openwrt release (ie, 21.02.1)
+  release:      "21.02.1"

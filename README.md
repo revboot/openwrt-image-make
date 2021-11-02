@@ -28,6 +28,9 @@ Actions control which task(s) are run to achievde a result.
 
 They can be set using `openwrt_action` variable.
 
+Supported actions:
+- `download`, to download image builder (for a _target_, _sub-target_ and _release_ combination)
+
 Role Variables
 --------------
 
@@ -37,6 +40,22 @@ Dependencies
 ------------
 
 Has no Ansible Galaxy dependencies.
+
+Example Playbook
+----------------
+
+To build firmware images:
+```
+    - name: "OpenWrt :: Build firmware image"
+      hosts: openwrt_devices
+      gather_facts: no
+      tasks:
+        - include_role:
+            name: revboot.openwrt
+          vars:
+            openwrt_action:
+              - "download"
+```
 
 More Information
 ----------------

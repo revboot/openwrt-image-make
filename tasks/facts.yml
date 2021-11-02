@@ -1,2 +1,15 @@
 ---
 # facts file for revboot.openwrt
+
+- name: "Facts | Output inventory variables and runtime vars"
+  debug:
+    msg:
+      - "openwrt_paths:"
+      - "{{ openwrt_paths | default([]) }}"
+      - "openwrt_device:"
+      - "{{ openwrt_device | default([]) }}"
+      - "openwrt_image:"
+      - "{{ openwrt_image | default([]) }}"
+      - "openwrt_vars:"
+      - "{{ openwrt_vars | default([]) }}"
+  delegate_to: localhost
