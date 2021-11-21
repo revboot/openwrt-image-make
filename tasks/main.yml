@@ -8,3 +8,8 @@
   include_tasks: download.yml
   when:
     - "'download' in openwrt_action"
+
+- name: "Make | Image"
+  include_tasks: make-image.yml
+  when:
+    - "'build' in openwrt_action"

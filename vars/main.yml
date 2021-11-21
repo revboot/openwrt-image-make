@@ -14,3 +14,14 @@ openwrt_vars:
     openwrt_device['target'] + '-' +
     openwrt_device['sub_target'] + '.' +
     'Linux-x86_64' }}"
+  build_path: "{{
+    'bin/targets/' +
+    openwrt_device['target'] + '/' +
+    openwrt_device['sub_target'] }}"
+  image_filename: "{{
+    'openwrt-' +
+    openwrt_image['release'] + '-' +
+    openwrt_image['extra_name'] + '-' +
+    openwrt_device['target'] + '-' +
+    openwrt_device['sub_target'] + '-' +
+    openwrt_device['profile'] }}"

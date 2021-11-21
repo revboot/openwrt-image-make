@@ -10,6 +10,8 @@
       - "{{ openwrt_device | default([]) }}"
       - "openwrt_image:"
       - "{{ openwrt_image | default([]) }}"
+      - "openwrt_software:"
+      - "{{ openwrt_software | default([]) }}"
       - "openwrt_vars:"
       - "{{ openwrt_vars | default([]) }}"
   delegate_to: localhost

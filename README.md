@@ -30,6 +30,7 @@ They can be set using `openwrt_action` variable.
 
 Supported actions:
 - `download`, to download image builder (for a _target_, _sub-target_ and _release_ combination)
+- `build`, to build a firmware image for a device
 
 Role Variables
 --------------
@@ -55,6 +56,7 @@ To build firmware images:
           vars:
             openwrt_action:
               - "download"
+              - "build"
 ```
 
 More Information

@@ -6,12 +6,15 @@ ansible_become: no
 
 # actions to take with possible values:
 # - download
+# - build
 openwrt_action: []
 
 # set various paths
 openwrt_paths:
   # the path for the workdir
   workdir: "{{ lookup('env', 'HOME') }}/workdir"
+  # the path for the files
+  files:   "{{ playbook_dir }}/files/{{ inventory_hostname }}"
 
 # device selection
 openwrt_device:
@@ -19,7 +22,23 @@ openwrt_device:
   target:       ""
   # the subtarget (generic, nand)
   sub_target:   ""
+  # the profile (ie, tplink_tl-wr1043nd-v1)
+  profile:      ""
+
 # image configuration
 openwrt_image:
   # the openwrt release (ie, 21.02.1)
   release:      "21.02.1"
+  # suffix to append to filename (ie, custom)
+  extra_name:   ""
+
+# software selection
+openwrt_software:
+  # the packages to add (...)
+  packages_add: []
+  # the packages to delete (...)
+  packages_del: []
+  # the files to add (...)
+  files_add:    []
+  # the files to delete (...)
+  files_del:    []

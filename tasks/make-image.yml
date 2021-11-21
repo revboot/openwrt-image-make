@@ -1,0 +1,92 @@
+---
+# make-image file for revboot.openwrt
+# Uses make to build an OpenWrt firmware image.
+
+- name: "Make | Image | Prepare the make params"
+  set_fact:
+    openwrt_make_params: >-
+      PROFILE="{{ openwrt_device['profile'] }}"
+      EXTRA_IMAGE_NAME="{{ openwrt_image['extra_name'] }}"
+      PACKAGES="{{ openwrt_software['packages_add'] | join(' ') }} -{{ openwrt_software['packages_del'] | join(' -') }}"
+      FILES="files"
+  delegate_to: localhost
+
+- name: "Make | Image | Create the workdir files directory"
+  file:
+    path:  "{{ openwrt_paths['workdir'] + '/' +
+               openwrt_vars['download_archive'] + '/files' }}"
+    state: directory
+  delegate_to: localhost
+
+- name: "Make | Image | Build the firmware manifest"
+  make:
+    chdir: "{{ openwrt_paths['workdir'] + '/' +
+               openwrt_vars['download_archive'] }}"
+    file:  "Makefile"
+    target: "manifest"
+    params: "{{ openwrt_make_params }}"
+  register: openwrt_make_manifest
+  delegate_to: localhost
+
+- name: "Make | Image | Output the results for Build the firmware manifest"
+  debug:
+    msg:
+      - "params:"
+      - "{{ openwrt_make_manifest.params | default([]) }}"
+      - "stderr:"
+      - "{{ openwrt_make_manifest.stderr_lines | default([]) }}"
+      - "stdout:"
+      - "{{ openwrt_make_manifest.stdout_lines | default([]) }}"
+  when:
+    - openwrt_make_manifest.changed
+  delegate_to: localhost
+
+- name: "Make | Image | Output the new firmware manifest to a temporary file"
+  copy:
+    dest:  "{{ openwrt_paths['workdir'] + '/' +
+               openwrt_vars['download_archive'] + '/' +
+               openwrt_vars['build_path'] + '/' +
+               openwrt_vars['image_filename'] +
+               '.manifest.new' }}"
+    content: "{{ openwrt_make_manifest.stdout }}\n"
+  register: openwrt_make_manifest_output_new
+  delegate_to: localhost
+
+- name: "Make | Image | Stat the old firmware manifest and store checksums"
+  stat:
+    path:  "{{ openwrt_paths['workdir'] + '/' +
+               openwrt_vars['download_archive'] + '/' +
+               openwrt_vars['build_path'] + '/' +
+               openwrt_vars['image_filename'] +
+               '.manifest' }}"
+    get_checksum: yes
+    checksum_algorithm: sha1
+  register: openwrt_make_manifest_stat_old
+  delegate_to: localhost
+
+- name: "Make | Image | Build the firmware image (if needed)"
+  make:
+    chdir: "{{ openwrt_paths['workdir'] + '/' +
+               openwrt_vars['download_archive'] }}"
+    file:  "Makefile"
+    target: "image"
+    params: "{{ openwrt_make_params }}"
+  register: openwrt_make_image
+  when: >
+    openwrt_make_manifest_stat_old.stat.exists is not defined or
+    openwrt_make_manifest_stat_old.stat.checksum is not defined or
+    openwrt_make_manifest_stat_old.stat.checksum != openwrt_make_manifest_output_new.checksum
+  delegate_to: localhost
+
+- name: "Make | Image | Output the results for Build the firmware image"
+  debug:
+    msg:
+      - "params:"
+      - "{{ openwrt_make_image.params | default([]) }}"
+      - "stderr:"
+      - "{{ openwrt_make_image.stderr_lines | default([]) }}"
+      - "stdout:"
+      - "{{ openwrt_make_image.stdout_lines | default([]) }}"
+  when:
+    - openwrt_make_image.changed
+  delegate_to: localhost
