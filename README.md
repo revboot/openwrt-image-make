@@ -3,6 +3,8 @@ Revboot Ansible :: OpenWrt role
 
 Builds OpenWrt firmware images with the OpenWrt Image Builder.
 
+Optionally, can also flash firmware images to compatible devices.
+
 Requirements
 ------------
 
@@ -31,6 +33,7 @@ They can be set using `openwrt_action` variable.
 Supported actions:
 - `download`, to download image builder (for a _target_, _sub-target_ and _release_ combination)
 - `build`, to build a firmware image for a device
+- `flash-sysupgrade`, to flash a firmware image to a device using `sysupgrade`
 
 Role Variables
 --------------
@@ -58,6 +61,22 @@ To build firmware images:
               - "download"
               - "build"
 ```
+
+To flash firmware images with the OpenWrt Sysupgrade:
+```
+    - name: "OpenWrt :: Flash firmware image (Sysupgrade)"
+      hosts: openwrt_devices
+      gather_facts: no
+      tasks:
+        - include_role:
+            name: revboot.openwrt
+          vars:
+            openwrt_action:
+              - "flash-sysupgrade"
+```
+
+> **_NOTE:_** The `sysupgrade` image flash method will only work on devices
+previously flashed with OpenWrt using a `*squashfs-factory.bin` file.
 
 More Information
 ----------------

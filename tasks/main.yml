@@ -13,3 +13,8 @@
   include_tasks: make-image.yml
   when:
     - "'build' in openwrt_action"
+
+- name: "Flash | Sysupgrade"
+  include_tasks: flash-sysupgrade.yml
+  when:
+    - "'flash-sysupgrade' in openwrt_action"

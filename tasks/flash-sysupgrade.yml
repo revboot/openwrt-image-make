@@ -1,0 +1,70 @@
+---
+# flash-sysupgrade file for revboot.openwrt
+# Flashes an OpenWrt firmware to the target device with sysupgrade.
+
+- name: "Flash | Sysupgrade | Prompt user to proceed"
+  pause:
+    prompt: "Continue with flashing (1/2)? [y/n]"
+  register: openwrt_flash_prompt_1
+
+- name: "Flash | Sysupgrade | Delete the previous uploads on target device"
+  raw: "rm -f /tmp/openwrt-*.bin"
+  when:
+    - openwrt_flash_prompt_1.user_input == 'y'
+
+- name: "Flash | Sysupgrade | Upload the firmware to target device"
+  shell: >-
+    sshpass -p "{{ ansible_password }}"
+    scp -o TCPKeepAlive=true -o ServerAliveInterval=3 -o ServerAliveCountMax=3
+    -P {{ ansible_port }}
+    "{{ openwrt_paths['workdir'] }}/{{ openwrt_vars['download_archive'] }}/{{ openwrt_vars['build_path'] }}/{{ openwrt_vars['image_filename'] }}-squashfs-sysupgrade.bin"
+    "{{ ansible_user }}@{{ ansible_host }}":/tmp
+  when:
+    - openwrt_flash_prompt_1.user_input == 'y'
+  delegate_to: localhost
+
+- name: "Flash | Sysupgrade | Prompt user to proceed"
+  pause:
+    prompt: "Continue with flashing (2/2)? [y/n]"
+  when:
+    - openwrt_flash_prompt_1.user_input == 'y'
+  register: openwrt_flash_prompt_2
+
+- name: "Flash | Sysupgrade | Flash the firmware with sysupgrade"
+  shell: >-
+    sshpass -p "{{ ansible_password }}"
+    ssh -o TCPKeepAlive=true -o ServerAliveInterval=3 -o ServerAliveCountMax=3
+    -p {{ ansible_port }}
+    "{{ ansible_user }}@{{ ansible_host }}"
+    sysupgrade -v "/tmp/{{ openwrt_vars['image_filename'] }}-squashfs-sysupgrade.bin"
+  register: openwrt_flash_raw
+  ignore_errors: yes
+  ignore_unreachable: yes
+  when:
+    - openwrt_flash_prompt_1.user_input == 'y'
+    - openwrt_flash_prompt_2.user_input == 'y'
+  delegate_to: localhost
+
+- name: "Flash | Sysupgrade | Output the flash results"
+  debug:
+    msg:
+      - "stderr:"
+      - "{{ openwrt_flash_raw.stderr_lines | default([]) }}"
+      - "stdout:"
+      - "{{ openwrt_flash_raw.stdout_lines | default([]) }}"
+  when:
+    - openwrt_flash_prompt_1.user_input == 'y'
+    - openwrt_flash_prompt_2.user_input == 'y'
+    - openwrt_flash_raw is defined
+
+- name: "Flash | Sysupgrade | Wait for target device to reboot"
+  wait_for:
+    host: "{{ ( ansible_ssh_host | default(ansible_host) ) | default(inventory_hostname) }}"
+    port: "{{ ( ansible_ssh_port | default(ansible_port) ) | default(22) }}"
+    search_regex: ".*dropbear.*|.*OpenSSH.*"
+    delay: 30
+    timeout: 600
+  connection: local
+  when:
+    - openwrt_flash_prompt_1.user_input == 'y'
+    - openwrt_flash_prompt_2.user_input == 'y'

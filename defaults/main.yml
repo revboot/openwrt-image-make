@@ -4,9 +4,19 @@
 # do not require root privileges
 ansible_become: no
 
+# device address and login
+# note: default and after first flash
+ansible_host: "192.168.1.1"
+ansible_port: 22
+ansible_user: "root"
+ansible_become_user: "root"
+ansible_password: "\n"
+ansible_become_password: "\n"
+
 # actions to take with possible values:
 # - download
 # - build
+# - flash-sysupgrade
 openwrt_action: []
 
 # set various paths
