@@ -1,0 +1,32 @@
+---
+################################################################################
+# Scanner service
+# https://openwrt.org/docs/guide-user/services/scanner_server/start
+################################################################################
+scanner:
+
+  ### USB module: Printer
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-printer (8kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  scanner-usb:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-usb-printer' ]
+    files: [ 'scanner/usb' ]
+
+  ### Application: SANE (Scanner Access Now Easy)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/sane-daemon (20kB) + specific driver
+  # - https://openwrt.org/packages/pkgdata/sane-frontends (19kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libsane (50kB)
+  # - https://openwrt.org/packages/pkgdata/libusb-1.0-0 (26kB)
+  # - https://openwrt.org/packages/pkgdata/libjpeg (?kB)
+  # - https://openwrt.org/packages/pkgdata/libpng (76kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/scanner_server/saned
+  scanner-sane:
+    pkgs_luci: []
+    pkgs_uci: [ 'sane-daemon', 'sane-frontends' ]
+    files: [ 'scanner/sane' ]

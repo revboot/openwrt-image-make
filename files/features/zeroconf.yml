@@ -1,0 +1,111 @@
+---
+################################################################################
+# Zeroconf
+# https://openwrt.org/docs/guide-user/network/zeroconfig/start
+################################################################################
+zeroconf:
+
+  ### Application: umdns, for mDNS
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/umdns (15kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libblobmsg-json20210516 (3kB)
+  # - https://openwrt.org/packages/pkgdata/libjson-c5 (28kB)
+  # - https://openwrt.org/packages/pkgdata/libubox20210516 (23kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/zeroconfig/zeroconf
+  # - https://openwrt.org/docs/guide-developer/mdns
+  zeroconf-umdns:
+    pkgs_luci: []
+    pkgs_uci: [ 'umdns' ]
+    files: [ 'zeroconf/umdns' ]
+
+  ### Application: mdnsresponder/Bonjour, for mDNS
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/mdnsresponder (0kB)
+  # - https://openwrt.org/packages/pkgdata/announce (8kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/mdnsd (188kB)
+  # - https://openwrt.org/packages/pkgdata/mdns-utils (770kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/zeroconfig/zeroconf
+  zeroconf-mdnsresponder:
+    pkgs_luci: []
+    pkgs_uci: [ 'mdnsresponder', 'announce' ]
+    files: [ 'zeroconf/mdnsresponder' ]
+
+  ### Application: Avahi, without D-BUS, for mDNS/DNS-SD
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/avahi-nodbus-daemon (23kB)
+  # - https://openwrt.org/packages/pkgdata/avahi-daemon-service-http (0kB)
+  # - https://openwrt.org/packages/pkgdata/avahi-daemon-service-ssh (0kB)
+  # - https://openwrt.org/packages/pkgdata/avahi-dnsconfd (7kB)
+  # - https://openwrt.org/packages/pkgdata/avahi-autoipd (14kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libavahi-nodbus-support (79kB)
+  # - https://openwrt.org/packages/pkgdata/libdaemon (9kB)
+  # - https://openwrt.org/packages/pkgdata/libexpat (44kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/zeroconfig/zeroconf
+  # - https://blog.christophersmart.com/2020/03/30/resolving-mdns-across-vlans-with-avahi-on-openwrt/
+  zeroconf-avahi-nodbus:
+    pkgs_luci: []
+    pkgs_uci: [ 'avahi-nodbus-daemon', 'avahi-daemon-service-http', 'avahi-daemon-service-ssh', 'avahi-dnsconfd', 'avahi-autoipd' ]
+    files: [ 'zeroconf/avahi' ]
+
+  ### Application: Avahi, with D-BUS, for mDNS/DNS-SD
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/avahi-dbus-daemon (39kB)
+  # - https://openwrt.org/packages/pkgdata/avahi-daemon-service-http (0kB)
+  # - https://openwrt.org/packages/pkgdata/avahi-daemon-service-ssh (0kB)
+  # - https://openwrt.org/packages/pkgdata/avahi-dnsconfd (7kB)
+  # - https://openwrt.org/packages/pkgdata/avahi-autoipd (14kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libavahi-dbus-support (63kB)
+  # - https://openwrt.org/packages/pkgdata/libdaemon (9kB)
+  # - https://openwrt.org/packages/pkgdata/libexpat (44kB)
+  # - https://openwrt.org/packages/pkgdata/dbus (98kB)
+  # - https://openwrt.org/packages/pkgdata/libdbus (128kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/zeroconfig/zeroconf
+  # - https://blog.christophersmart.com/2020/03/30/resolving-mdns-across-vlans-with-avahi-on-openwrt/
+  zeroconf-avahi-dbus:
+    pkgs_luci: []
+    pkgs_uci: [ 'avahi-dbus-daemon', 'avahi-daemon-service-http', 'avahi-daemon-service-ssh', 'avahi-dnsconfd', 'avahi-autoipd' ]
+    files: [ 'zeroconf/avahi' ]
+
+  ### Application: HNET, for HNCP (Homenet Control Protocol)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-hnet (55kB)
+  # - https://openwrt.org/packages/pkgdata/luci-proto-hnet (0kB)
+  # - https://openwrt.org/packages/pkgdata/hnet-full (0kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/hnetd-nossl (85kB)
+  # - https://openwrt.org/packages/pkgdata/odhcpd (46kB)
+  # - https://openwrt.org/packages/pkgdata/libuci20130104 (17kB)
+  # - https://openwrt.org/packages/pkgdata/libubox20210516 (23kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  # - https://openwrt.org/packages/pkgdata/odhcp6c (24kB)
+  # - https://openwrt.org/packages/pkgdata/netifd (84kB)
+  # - https://openwrt.org/packages/pkgdata/jshn (6kB)
+  # - https://openwrt.org/packages/pkgdata/libblobmsg-json20210516 (3kB)
+  # - https://openwrt.org/packages/pkgdata/libjson-c5 (28kB)
+  # - https://openwrt.org/packages/pkgdata/babeld (59kB)
+  # - https://openwrt.org/packages/pkgdata/ohybridproxy (11kB)
+  # - https://openwrt.org/packages/pkgdata/mdnsd (188kB)
+  # - https://openwrt.org/packages/pkgdata/zonestitcher (8kB)
+  # - https://openwrt.org/packages/pkgdata/miniupnpd (61kB)
+  # - https://openwrt.org/packages/pkgdata/libuuid1 (12kB)
+  # - https://openwrt.org/packages/pkgdata/libcap-ng (7kB)
+  # - https://openwrt.org/packages/pkgdata/iptables (23kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/ip6tables (0kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-ip6tables (6kB)
+  # - https://openwrt.org/packages/pkgdata/minimalist-pcproxy (6kB)
+  # Docs:
+  # - https://openwrt.org/docs/guide-user/network/zeroconfig/hncp_configuration
+  # - https://toreanderson.github.io/2015/10/11/making-a-homenet-router-out-of-openwrt.html
+  # - https://gist.github.com/richb-hanover/ec88b851c4da074e48003e6fe9276901
+  zeroconf-hnet:
+    pkgs_luci: [ 'luci-app-hnet', 'luci-proto-hnet' ]
+    pkgs_uci: [ 'hnet-full' ]
+    files: [ 'zeroconf/hnet' ]

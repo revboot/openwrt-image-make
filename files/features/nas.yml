@@ -1,0 +1,118 @@
+---
+################################################################################
+# NAS (Network Attached Storage)
+# https://openwrt.org/docs/guide-user/services/nas/start
+################################################################################
+nas:
+
+  ### Application: SSHFS (Secure Shell Protocol Filesystem)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/sshfs (26kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/glib2 (871kB)
+  # - https://openwrt.org/packages/pkgdata/libffi (10kB)
+  # - https://openwrt.org/packages/pkgdata/libattr (6kB)
+  # - https://openwrt.org/packages/pkgdata/fuse3-utils (14kB)
+  # - https://openwrt.org/packages/pkgdata/libfuse3-3 (52kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-fuse (58kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/announce (8kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/ssh/sshfs.client
+  # - https://openwrt.org/docs/guide-user/services/ssh/sshfs.server
+  # - https://openwrt.org/docs/guide-user/services/nas/sftp.server
+  nas-sshfs:
+    pkgs_luci: []
+    pkgs_uci: [ 'sshfs' ]
+    files: [ 'nas/sshfs' ]
+
+  ### Application: NFS, with client (Network File System)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/nfs-utils (44kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-fs-nfs-v4 (0kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-fs-nfs-v3 (0kB) + (...) deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/nas/nfs.client
+  # - https://openwrt.org/docs/guide-user/services/nas/nfs_configuration
+  nas-nfs-client:
+    pkgs_luci: []
+    pkgs_uci: [ 'nfs-utils', 'kmod-fs-nfs-v4', 'kmod-fs-nfs-v3' ]
+    files: [ 'nas/nfs-client' ]
+
+  ### Application: NFS, with server (Network File System)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/nfs-kernel-server (139kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-fs-nfsd (146kB) + (...) deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/nas/nfs.server
+  # - https://openwrt.org/docs/guide-user/services/nas/nfs_configuration
+  nas-nfs-server:
+    pkgs_luci: []
+    pkgs_uci: [ 'nfs-kernel-server', 'kmod-fs-nfsd' ]
+    files: [ 'nas/nfs-server' ]
+
+  ### Application: Samba, with client, for SMB/CIFS (Server Message Block/Common Internet File System)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-samba4 (2kB)
+  # - https://openwrt.org/packages/pkgdata/samba4-client (100kB)
+  # - https://openwrt.org/packages/pkgdata/cifsmount (13kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-fs-cifs (224kB) + (...) deps
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/samba4-libs (7904kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-nls-base (0kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/samba4-utils (38kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/nas/cifs.client
+  # - https://openwrt.org/docs/guide-user/services/nas/samba_configuration
+  # - https://openwrt.org/docs/guide-user/services/nas/samba
+  # - https://openwrt.org/docs/guide-user/services/nas/usb-storage-samba-webinterface
+  nas-samba-client:
+    pkgs_luci: [ 'luci-app-samba4' ]
+    pkgs_uci: [ 'samba4-client', 'cifsmount', 'kmod-fs-cifs' ]
+    files: [ 'nas/samba-client' ]
+
+  ### Application: Samba, with server, for SMB/CIFS (Server Message Block/Common Internet File System)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-samba4 (2kB)
+  # - https://openwrt.org/packages/pkgdata/samba4-server (247kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/samba4-libs (7904kB) + (...) deps
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/samba4-utils (38kB)
+  # - https://openwrt.org/packages/pkgdata/samba4-admin (884kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/nas/cifs.server
+  # - https://openwrt.org/docs/guide-user/services/nas/samba_configuration
+  # - https://openwrt.org/docs/guide-user/services/nas/samba
+  # - https://openwrt.org/docs/guide-user/services/nas/usb-storage-samba-webinterface
+  nas-samba-server:
+    pkgs_luci: [ 'luci-app-samba4' ]
+    pkgs_uci: [ 'samba4-server' ]
+    files: [ 'nas/samba-server' ]
+
+  ### Application: Netatalk, for AFP (Apple Filing Protocol)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/netatalk (320kB)
+  # - https://openwrt.org/packages/pkgdata/avahi-utils (17kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-appletalk (?)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libattr (6kB)
+  # - https://openwrt.org/packages/pkgdata/libdb47 (539kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/libgcrypt (328kB)
+  # - https://openwrt.org/packages/pkgdata/libgpg-error (56kB)
+  # - https://openwrt.org/packages/pkgdata/libgdbm (22kB)
+  # - https://openwrt.org/packages/pkgdata/libavahi-client (18kB)
+  # - https://openwrt.org/packages/pkgdata/avahi-dbus-daemon (39kB)
+  # - https://openwrt.org/packages/pkgdata/libavahi-dbus-support (63kB)
+  # - https://openwrt.org/packages/pkgdata/libdaemon (9kB)
+  # - https://openwrt.org/packages/pkgdata/libexpat (44kB)
+  # - https://openwrt.org/packages/pkgdata/dbus (98kB)
+  # - https://openwrt.org/packages/pkgdata/libdbus (128kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/nas/netatalk_configuration
+  nas-netatalk:
+    pkgs_luci: []
+    pkgs_uci: [ 'netatalk', 'avahi-utils', 'kmod-appletalk' ]
+    files: [ 'nas/netatalk' ]

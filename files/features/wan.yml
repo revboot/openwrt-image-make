@@ -1,0 +1,81 @@
+---
+################################################################################
+# WAN (Wide Area Network)
+# https://openwrt.org/docs/guide-user/network/wan/start
+################################################################################
+wan:
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wan/wan_interface_protocols
+  # - https://openwrt.org/docs/guide-user/network/wan/isp-configurations
+  # - https://openwrt.org/docs/guide-user/network/wan/bridge-mode
+  # - https://openwrt.org/docs/guide-user/network/wan/dmz-based-bridge-mode
+  # - https://openwrt.org/docs/guide-user/network/wan/internet.connection
+  # - https://openwrt.org/docs/guide-user/network/wan/access.modem.through.nat
+  # - https://openwrt.org/docs/guide-user/network/wan/x.play
+  # - https://openwrt.org/docs/guide-user/network/wan/udp_multicast
+
+  ### Protocol: PPP core
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-proto-ppp (2kB)
+  # - https://openwrt.org/packages/pkgdata/ppp (133kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-ppp (24kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-slhc (3kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-lib-crc-ccitt (2kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wan/smartphone.usb.tethering
+  # - https://openwrt.org/docs/guide-user/network/wan/smartphone.usb.reverse.tethering
+  wan-ppp-core:
+    pkgs_luci: [ 'luci-proto-ppp' ]
+    pkgs_uci: [ 'ppp', 'kmod-ppp' ]
+    files: [ 'wan/ppp' ]
+
+  ### Protocol: PPPoE (PPP over Ethernet)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ppp-mod-pppoe (11kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-pppoe (8kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-pppox (1kB)
+  wan-ppp-pppoe:
+    pkgs_luci: []
+    pkgs_uci: [ 'ppp-mod-pppoe', 'kmod-pppoe' ]
+    files: []
+
+  ### Protocol: PPPoA (PPP over ATM)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ppp-mod-pppoa (6kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-pppoa (3kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/linux-atm (17kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-atm (30kB)
+  wan-ppp-pppoa:
+    pkgs_luci: []
+    pkgs_uci: [ 'ppp-mod-pppoa', 'kmod-pppoa' ]
+    files: []
+
+  ### Protocol: PPPoL2TP (PPP over L2TP)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ppp-mod-pppol2tp (4kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-pppol2tp (9kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-l2tp (14kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-udptunnel4 (2kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-udptunnel6 (1kB)
+  wan-ppp-pppol2tp:
+    pkgs_luci: []
+    pkgs_uci: [ 'ppp-mod-pppol2tp', 'kmod-pppol2tp' ]
+    files: []
+
+  ### Protocol: PPTP (PPP over TP)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ppp-mod-pptp (18kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-pptp (5kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-pppox (1kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-mppe (3kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-gre (14kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-iptunnel (9kB)
+  wan-ppp-pptp:
+    pkgs_luci: []
+    pkgs_uci: [ 'ppp-mod-pptp', 'kmod-pptp' ]
+    files: []

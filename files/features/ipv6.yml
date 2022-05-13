@@ -1,0 +1,61 @@
+---
+################################################################################
+# IPv6
+# https://openwrt.org/docs/guide-user/network/ipv6/start
+################################################################################
+ipv6:
+
+  ### Core
+  # - https://openwrt.org/packages/pkgdata/luci-proto-ipv6 (8kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/ipv6/configuration
+  # - https://openwrt.org/docs/guide-user/network/ipv6/ipv6_extras
+  ipv6-core:
+    pkgs_luci: [ 'luci-proto-ipv6' ]
+    pkgs_uci: []
+    files: [ 'ipv6/core' ]
+
+  ### Protocol: 6in4/6to4/6rd (IPv6 transition mechanism)
+  # - https://openwrt.org/packages/pkgdata/6in4 (1kB)
+  # - https://openwrt.org/packages/pkgdata/6to4 (1kB)
+  # - https://openwrt.org/packages/pkgdata/6rd (3kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/uclient-fetch (8kB)
+  # - https://openwrt.org/packages/pkgdata/libuclient20201210 (10kB)
+  # - https://openwrt.org/packages/pkgdata/libubox20210516 (23kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-sit (14kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-iptunnel (9kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-iptunnel4 (2kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/ipv6_ipv4_transitioning
+  # - https://openwrt.org/docs/guide-user/network/ipv6/ipv6_henet
+  # - https://openwrt.org/docs/guide-user/network/ipv6/ipv6tunnel-luci
+  ipv6-6intord4:
+    pkgs_luci: []
+    pkgs_uci: [ '6in4', '6to4', '6rd' ]
+    files: [ 'ipv6/6intord4' ]
+
+  ### Protocol: xl2tpd (IPv6 over L2TP, IPv6 transition mechanism)
+  # - https://openwrt.org/packages/pkgdata/xl2tpd (44kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/ppp-mod-pppol2tp (4kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-pppol2tp (9kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/ipv6_ipv4_transitioning
+  # - https://openwrt.org/docs/guide-user/network/ipv6/ipv6.softwire
+  ipv6-xl2tpd:
+    pkgs_luci: []
+    pkgs_uci: [ 'xl2tpd' ]
+    files: [ 'ipv6/xl2tpd' ]
+
+  ### Protocol: ds-lite (Dual-Stack Lite, IPv6 transition mechanism)
+  # - https://openwrt.org/packages/pkgdata/ds-lite (1kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-ip6-tunnel (17kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-iptunnel6 (2kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/ipv6_ipv4_transitioning
+  ipv6-ds-lite:
+    pkgs_luci: []
+    pkgs_uci: [ 'ds-lite' ]
+    files: [ 'ipv6/ds-lite' ]

@@ -9,6 +9,16 @@
   when:
     - "'download' in openwrt_action"
 
+- name: "Facts | Recipes"
+  include_tasks: facts-recipes.yml
+  when:
+    - "'build' in openwrt_action"
+
+- name: "Facts | Features"
+  include_tasks: facts-features.yml
+  when:
+    - "'build' in openwrt_action"
+
 - name: "Make | Image"
   include_tasks: make-image.yml
   when:

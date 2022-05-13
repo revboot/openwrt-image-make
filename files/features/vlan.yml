@@ -1,0 +1,9 @@
+---
+################################################################################
+# VLAN (Virtual Local Area Network)
+# https://openwrt.org/docs/guide-user/network/vlan/start
+################################################################################
+vlan: []
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/vlan/switch_configuration
+  # - https://openwrt.org/docs/guide-user/network/vlan/switch

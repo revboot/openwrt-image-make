@@ -1,0 +1,270 @@
+---
+################################################################################
+# LuCi (Web Interface)
+# https://openwrt.org/docs/guide-user/luci/start
+################################################################################
+luci:
+
+  ### Suite: minimal
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-base (126kB)
+  # - https://openwrt.org/packages/pkgdata/uhttpd (30kB)
+  # - https://openwrt.org/packages/pkgdata/uhttpd-mod-ubus (7kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/luci-lib-base (12kB)
+  # - https://openwrt.org/packages/pkgdata/luci-lib-nixio (28kB)
+  # - https://openwrt.org/packages/pkgdata/luci-lib-ip (10kB)
+  # - https://openwrt.org/packages/pkgdata/luci-lib-jsonc (4kB)
+  # - https://openwrt.org/packages/pkgdata/cgi-io (9kB)
+  # - https://openwrt.org/packages/pkgdata/lua (4kB)
+  # - https://openwrt.org/packages/pkgdata/rpcd (26kB)
+  # - https://openwrt.org/packages/pkgdata/rpcd-mod-luci (11kB)
+  # - https://openwrt.org/packages/pkgdata/rpcd-mod-file (7kB)
+  # - https://openwrt.org/packages/pkgdata/rpcd-mod-rrdns (3kB)
+  # - https://openwrt.org/packages/pkgdata/liblucihttp-lua (3kB)
+  # - https://openwrt.org/packages/pkgdata/liblucihttp0 (6kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  # - https://openwrt.org/packages/pkgdata/libuci20130104 (17kB)
+  # - https://openwrt.org/packages/pkgdata/libubox20210516 (23kB)
+  # - https://openwrt.org/packages/pkgdata/libblobmsg-json20210516 (3kB)
+  # - https://openwrt.org/packages/pkgdata/libjson-c5 (28kB)
+  # - https://openwrt.org/packages/pkgdata/libjson-script20210516 (4kB)
+  # - https://openwrt.org/packages/pkgdata/liblua5.1.5 (76kB)
+  # - https://openwrt.org/packages/pkgdata/libubus-lua (7kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/luci/webinterface.overview
+  # - https://openwrt.org/docs/guide-user/luci/luci.essentials
+  # - https://openwrt.org/docs/techref/luci
+  luci-suite-minimal:
+    pkgs_luci: [ 'luci-base' ]
+    pkgs_uci: [ 'uhttpd', 'uhttpd-mod-ubus' ]
+    files: [ 'luci/core' ]
+
+  ### Suite: full
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci (0kB)
+  # - https://openwrt.org/packages/pkgdata/luci-mod-admin-full (22kB)
+  # - https://openwrt.org/packages/pkgdata/luci-theme-bootstrap (22kB)
+  # - https://openwrt.org/packages/pkgdata/luci-app-opkg (8kB)
+  # - https://openwrt.org/packages/pkgdata/luci-app-firewall (13kB)
+  # - https://openwrt.org/packages/pkgdata/luci-proto-ppp
+  # - https://openwrt.org/packages/pkgdata/luci-proto-ipv6
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/luci-lib-base (12kB)
+  # - https://openwrt.org/packages/pkgdata/luci-lib-nixio (28kB)
+  # - https://openwrt.org/packages/pkgdata/luci-lib-ip (10kB)
+  # - https://openwrt.org/packages/pkgdata/luci-lib-jsonc (4kB)
+  # - https://openwrt.org/packages/pkgdata/uhttpd (30kB)
+  # - https://openwrt.org/packages/pkgdata/uhttpd-mod-ubus (7kB)
+  # - https://openwrt.org/packages/pkgdata/cgi-io (9kB)
+  # - https://openwrt.org/packages/pkgdata/lua (4kB)
+  # - https://openwrt.org/packages/pkgdata/rpcd (26kB)
+  # - https://openwrt.org/packages/pkgdata/rpcd-mod-luci (11kB)
+  # - https://openwrt.org/packages/pkgdata/rpcd-mod-file (7kB)
+  # - https://openwrt.org/packages/pkgdata/rpcd-mod-rrdns (3kB)
+  # - https://openwrt.org/packages/pkgdata/rpcd-mod-iwinfo (6kB)
+  # - https://openwrt.org/packages/pkgdata/liblucihttp-lua (3kB)
+  # - https://openwrt.org/packages/pkgdata/liblucihttp0 (6kB)
+  # - https://openwrt.org/packages/pkgdata/libiwinfo20210430 (24kB)
+  # - https://openwrt.org/packages/pkgdata/libiwinfo-lua (7kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  # - https://openwrt.org/packages/pkgdata/libuci20130104 (17kB)
+  # - https://openwrt.org/packages/pkgdata/libubox20210516 (23kB)
+  # - https://openwrt.org/packages/pkgdata/libblobmsg-json20210516 (3kB)
+  # - https://openwrt.org/packages/pkgdata/libjson-c5 (28kB)
+  # - https://openwrt.org/packages/pkgdata/libjson-script20210516 (4kB)
+  # - https://openwrt.org/packages/pkgdata/liblua5.1.5 (76kB)
+  # - https://openwrt.org/packages/pkgdata/libubus-lua (7kB)
+  # - https://openwrt.org/packages/pkgdata/opkg (63kB)
+  # - https://openwrt.org/packages/pkgdata/uclient-fetch (8kB)
+  # - https://openwrt.org/packages/pkgdata/libuclient20201210 (10kB)
+  # - https://openwrt.org/packages/pkgdata/firewall (52kB) + iptables deps
+  # - https://openwrt.org/packages/pkgdata/libip4tc2 (24kB)
+  # - https://openwrt.org/packages/pkgdata/libip6tc2 (18kB)
+  # - https://openwrt.org/packages/pkgdata/libxtables12 (40kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/luci/webinterface.overview
+  # - https://openwrt.org/docs/guide-user/luci/luci.essentials
+  # - https://openwrt.org/docs/techref/luci
+  luci-suite-full:
+    pkgs_luci: [ 'luci' ]
+    pkgs_uci: []
+    files: [ 'luci/core' ]
+
+  ### Protocol: HTTPS/SSL, with WolfSSL
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/px5g-wolfssl (4kB)
+  # - https://openwrt.org/packages/pkgdata/libustream-wolfssl20201210 (4kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libwolfssl5.2.0.99a5b54a (518kB)
+  # - https://openwrt.org/packages/pkgdata/libubox20210516 (23kB)
+  # Not using
+  # - https://openwrt.org/packages/pkgdata/luci-ssl (0kB) - metapackage that loads many dependencies
+  # Docs
+  # - https://openwrt.org/docs/guide-user/luci/luci.secure
+  # - https://openwrt.org/docs/guide-user/luci/getting_rid_of_luci_https_certificate_warnings
+  luci-proto-wolfssl:
+    pkgs_luci: []
+    pkgs_uci: [ 'px5g-wolfssl', 'libustream-wolfssl20201210' ]
+    files: [ 'luci/ssl' ]
+
+  ### Protocol: HTTPS/SSL, with OpenSSL
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/openssl-util (241kB)
+  # - https://openwrt.org/packages/pkgdata/libustream-openssl20201210 (4kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libopenssl-conf (4kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/libubox20210516 (23kB)
+  # Not using
+  # - https://openwrt.org/packages/pkgdata/luci-ssl-openssl (0kB) - metapackage that loads many dependencies
+  # Docs
+  # - https://openwrt.org/docs/guide-user/luci/luci.secure
+  # - https://openwrt.org/docs/guide-user/luci/getting_rid_of_luci_https_certificate_warnings
+  luci-proto-openssl:
+    pkgs_luci: []
+    pkgs_uci: [ 'openssl-util', 'libustream-openssl20201210' ]
+    files: [ 'luci/ssl' ]
+
+  ### Theme: Bootstrap
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-theme-bootstrap (15kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/luci/luci.themes
+  # - https://github.com/teohhanhui/openwrt-luci-bootstrap-dark
+  luci-theme-bootstrap:
+    pkgs_luci: [ 'luci-theme-bootstrap' ]
+    pkgs_uci: []
+    files: []
+
+  ### Theme: Material
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-theme-material (22kB)
+  # Docs
+  # - https://github.com/LuttyYang/luci-theme-material
+  luci-theme-material:
+    pkgs_luci: [ 'luci-theme-material' ]
+    pkgs_uci: []
+    files: []
+
+  ### Theme: OpenWrt 2020
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-theme-openwrt-2020 (40kB)
+  # Docs
+  # - https://github.com/openwrt/luci/tree/openwrt-21.02/themes/luci-theme-openwrt-2020
+  luci-theme-openwrt-2020:
+    pkgs_luci: [ 'luci-theme-openwrt-2020' ]
+    pkgs_uci: []
+    files: []
+
+  ### Module: System
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-mod-system (17kB)
+  luci-mod-system:
+    pkgs_luci: [ 'luci-mod-system' ]
+    pkgs_uci: []
+    files: []
+
+  ### Module: Status
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-mod-status (28kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libiwinfo20210430 (24kB)
+  # - https://openwrt.org/packages/pkgdata/libiwinfo-lua (7kB)
+  luci-mod-status:
+    pkgs_luci: [ 'luci-mod-status' ]
+    pkgs_uci: []
+    files: []
+
+  ### Module: Network
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-mod-network (45kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/rpcd-mod-iwinfo (6kB)
+  # - https://openwrt.org/packages/pkgdata/libiwinfo-lua (7kB)
+  luci-mod-network:
+    pkgs_luci: [ 'luci-mod-network' ]
+    pkgs_uci: []
+    files: []
+
+  ### Module: Dashboard
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-mod-dashboard (6kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libiwinfo20210430 (24kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/luci/dashboard
+  luci-mod-dashboard:
+    pkgs_luci: [ 'luci-mod-dashboard' ]
+    pkgs_uci: []
+    files: []
+
+  ### Module: Failsafe
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-mod-failsafe (3kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/troubleshooting/failsafe_and_factory_reset
+  luci-mod-failsafe:
+    pkgs_luci: [ 'luci-mod-failsafe' ]
+    pkgs_uci: []
+    files: []
+
+  ### Application: Attended Sysupgrade
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/lluci-app-attendedsysupgrade (4kB)
+  # - https://openwrt.org/packages/pkgdata/attendedsysupgrade-common (0kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/rpcd-mod-rpcsys (3kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-quick-start/sysupgrade.luci
+  # - https://openwrt.org/docs/guide-user/installation/sysupgrade.cli
+  # - https://openwrt.org/docs/techref/sysupgrade
+  # - https://sysupgrade.openwrt.org/
+  luci-app-attendedsysupgrade:
+    pkgs_luci: [ 'luci-app-attendedsysupgrade' ]
+    pkgs_uci: [ 'attendedsysupgrade-common' ]
+    files: []
+
+  ### Application: ACL (Access Control List)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-acl (3kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/base-system/users
+  luci-app-acl:
+    pkgs_luci: [ 'luci-app-acl' ]
+    pkgs_uci: []
+    files: []
+
+  ### Application: Commands
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-commands (4kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/luci-compat (44kB)
+  luci-app-commands:
+    pkgs_luci: [ 'luci-app-commands' ]
+    pkgs_uci: []
+    files: []
+
+  ### Application: ttyd (Command-line tool for sharing terminal over the web)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-ttyd (1kB)
+  # - https://openwrt.org/packages/pkgdata/ttyd (227kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libwebsockets-full (104kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/libcap (11kB)
+  # - https://openwrt.org/packages/pkgdata/zlib (37kB)
+  # - https://openwrt.org/packages/pkgdata/libjson-c5 (28kB)
+  # - https://openwrt.org/packages/pkgdata/libuv1 (50kB)
+  luci-app-ttyd:
+    pkgs_luci: [ 'luci-app-ttyd' ]
+    pkgs_uci: [ 'ttyd' ]
+    files: []
+
+  ### Application: diag-core (Diagnostics)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-diag-core (0kB)
+  luci-app-diag-core:
+    pkgs_luci: [ 'luci-app-diag-core' ]
+    pkgs_uci: []
+    files: []

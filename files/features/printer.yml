@@ -1,0 +1,42 @@
+---
+################################################################################
+# Printer service
+# https://openwrt.org/docs/guide-user/services/print_server/start
+################################################################################
+printer:
+
+  ### USB module: Printer
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-printer (8kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  printer-usb:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-usb-printer' ]
+    files: [ 'printer/usb' ]
+
+  ### Application: P910nd
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-p910nd (1kB)
+  # - https://openwrt.org/packages/pkgdata/p910nd (7kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/print_server/p910nd
+  # - https://openwrt.org/docs/guide-user/services/print_server/p910nd.server
+  # - https://openwrt.org/docs/guide-user/services/print_server/p910ndprinterserver
+  printer-p910nd:
+    pkgs_luci: [ 'luci-app-p910nd' ]
+    pkgs_uci: [ 'p910nd' ]
+    files: [ 'printer/p910nd' ]
+
+  ### Application: CUPS (Common UNIX Printing System)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/cups (?kB) + deps (...)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libjpeg (?kB)
+  # - https://openwrt.org/packages/pkgdata/libpng (76kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/print_server/cups.server
+  printer-cups:
+    pkgs_luci: []
+    pkgs_uci: [ 'cups' ]
+    files: [ 'printer/cups' ]

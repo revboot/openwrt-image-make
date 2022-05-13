@@ -1,0 +1,192 @@
+---
+# facts-features file for revboot.openwrt
+# Generates package and file selection for the build process.
+
+- name: "Facts | Features | Initialize variables"
+  set_fact:
+    openwrt_features_yaml: []
+    openwrt_features_dicts: []
+    openwrt_pkgs_add: []
+    openwrt_pkgs_del: []
+    openwrt_files_add: []
+    openwrt_files_del: []
+  delegate_to: localhost
+
+- name: "Facts | Features | Prepare feature dictionaries"
+  block:
+  - name: "Facts | Features | Import feature yaml files"
+    set_fact:
+      openwrt_features_yaml: "{{ openwrt_features_yaml | default([]) |
+                                 combine([ item ]) }}"
+    loop:
+      - "{{ lookup('file', 'features/base.yml')       | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/luci.yml')       | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/ipv6.yml')       | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/dhcp.yml')       | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/vlan.yml')       | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/firewall.yml')   | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/upnp.yml')       | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/zeroconf.yml')   | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/wifi.yml')       | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/wan.yml')        | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/wwan.yml')       | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/multiwan.yml')   | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/tshape.yml')     | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/wol.yml')        | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/ntp.yml')        | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/dns.yml')        | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/ddns.yml')       | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/anon.yml')       | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/vpn.yml')        | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/ssh.yml')        | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/usb.yml')        | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/storage.yml')    | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/nas.yml')        | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/media.yml')      | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/audio.yml')      | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/video.yml')      | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/printer.yml')    | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/scanner.yml')    | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/ups.yml')        | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/perfandlog.yml') | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/tool.yml')       | from_yaml | trim }}"
+      - "{{ lookup('file', 'features/other.yml')      | from_yaml | trim }}"
+    loop_control:
+      index_var: "item_index"
+      label: "{{ item_index }}"
+  - name: "Facts | Features | Prepare feature dictionaries from yaml import"
+    set_fact:
+      openwrt_features_dicts: "{{ openwrt_features_dicts | default([]) |
+                                  combine([ item.value ]) }}"
+    loop: "{{ openwrt_features_yaml | dict2items }}"
+    loop_control:
+      label: "{{ item.key }}"
+  delegate_to: localhost
+
+- name: "Facts | Features | Prepare list of packages to add"
+  block:
+  - name: "Facts | Features | Prepare list of uCi packages to add (features)"
+    set_fact:
+      openwrt_pkgs_add: "{{ openwrt_pkgs_add | default([]) +
+                            [ item.1 ] }}"
+    with_subelements:
+      - "{{ openwrt_features_dicts | dict2items }}"
+      - value.pkgs_uci
+    when:
+      - openwrt_features_add is defined
+      - openwrt_features_add | length > 0
+      - item.0.key in openwrt_features_add
+      - item.1 | length > 0
+  - name: "Facts | Features | Prepare list of LuCi packages to add (features)"
+    set_fact:
+      openwrt_pkgs_add: "{{ openwrt_pkgs_add | default([]) +
+                            [ item.1 ] }}"
+    with_subelements:
+      - "{{ openwrt_features_dicts | dict2items }}"
+      - value.pkgs_luci
+    when:
+      - openwrt_features_add is defined
+      - openwrt_features_add | length > 0
+      - item.0.key in openwrt_features_add
+      - item.1 | length > 0
+      - "openwrt_features_add is search('luci-suite-')"
+  - name: "Facts | Features | Merge list of packages to add (features + custom)"
+    set_fact:
+      openwrt_pkgs_add: "{{ openwrt_pkgs_add | default([]) +
+                            openwrt_software['packages_add'] }}"
+    when:
+      - openwrt_software['packages_add'] is defined
+      - openwrt_software['packages_add'] | length > 0
+  delegate_to: localhost
+
+- name: "Facts | Features | Prepare list of packages to delete"
+  block:
+  - name: "Facts | Features | Prepare list of uCi packages to delete (features)"
+    set_fact:
+      openwrt_pkgs_del: "{{ openwrt_pkgs_del | default([]) +
+                            [ item.1 ] }}"
+    with_subelements:
+      - "{{ openwrt_features_dicts | dict2items }}"
+      - value.pkgs_uci
+    when:
+      - openwrt_features_del is defined
+      - openwrt_features_del | length > 0
+      - item.0.key in openwrt_features_del
+      - item.1 | length > 0
+  - name: "Facts | Features | Prepare list of LuCi packages to delete (features)"
+    set_fact:
+      openwrt_pkgs_del: "{{ openwrt_pkgs_del | default([]) +
+                            [ item.1 ] }}"
+    with_subelements:
+      - "{{ openwrt_features_dicts | dict2items }}"
+      - value.pkgs_luci
+    when:
+      - openwrt_features_del is defined
+      - openwrt_features_del | length > 0
+      - item.0.key in openwrt_features_del
+      - item.1 | length > 0
+  - name: "Facts | Features | Merge list of packages to delete (features + custom)"
+    set_fact:
+      openwrt_pkgs_del: "{{ openwrt_pkgs_del | default([]) +
+                            openwrt_software['packages_del'] }}"
+    when:
+      - openwrt_software['packages_del'] is defined
+      - openwrt_software['packages_del'] | length > 0
+  delegate_to: localhost
+
+- name: "Facts | Features | Prepare list of files to add/delete"
+  block:
+  - name: "Facts | Features | Prepare list of files to add"
+    set_fact:
+      openwrt_files_add: "{{ openwrt_files_add | default([]) +
+                             [ item.1 ] }}"
+    with_subelements:
+      - "{{ openwrt_features_dicts | dict2items }}"
+      - value.files
+    when:
+      - openwrt_features_add is defined
+      - openwrt_features_add | length > 0
+      - item.0.key in openwrt_features_add
+      - item.1 | length > 0
+  - name: "Facts | Features | Merge list of files to add (features + custom)"
+    set_fact:
+      openwrt_files_add: "{{ openwrt_files_add | default([]) +
+                             [ item ] }}"
+    loop: "{{ openwrt_software['files_add'] }}"
+    when:
+      - item is defined
+      - item | length > 0
+  - name: "Facts | Features | Prepare list of files to delete"
+    set_fact:
+      openwrt_files_del: "{{ openwrt_files_del | default([]) +
+                             [ item.1 ] }}"
+    with_subelements:
+      - "{{ openwrt_features_dicts | dict2items }}"
+      - value.files
+    when:
+      - openwrt_features_del is defined
+      - openwrt_features_del | length > 0
+      - item.0.key in openwrt_features_del
+      - item.1 | length > 0
+  - name: "Facts | Features | Merge list of files to delete (features + custom)"
+    set_fact:
+      openwrt_files_del: "{{ openwrt_files_del | default([]) +
+                             [ item ] }}"
+    loop: "{{ openwrt_software['files_del'] }}"
+    when:
+      - item is defined
+      - item | length > 0
+  delegate_to: localhost
+
+- name: "Facts | Features | Output features vars"
+  debug:
+    msg:
+      - "openwrt_pkgs_add:"
+      - "{{ openwrt_pkgs_add | default([]) }}"
+      - "openwrt_pkgs_del:"
+      - "{{ openwrt_pkgs_del | default([]) }}"
+      - "openwrt_files_add:"
+      - "{{ openwrt_files_add | default([]) }}"
+      - "openwrt_files_del:"
+      - "{{ openwrt_files_del | default([]) }}"
+  delegate_to: localhost

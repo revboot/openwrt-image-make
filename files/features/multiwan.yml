@@ -1,0 +1,41 @@
+---
+################################################################################
+# Multi-WAN (Internet access through more than one modem/device)
+# https://openwrt.org/docs/guide-user/network/wan/multiwan/start
+################################################################################
+multiwan:
+
+  ### Application: mwan3
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-mwan3 (11kB)
+  # - https://openwrt.org/packages/pkgdata/mwan3 (21kB) + (...) deps
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/jshn (6kB)
+  # - https://openwrt.org/packages/pkgdata/libblobmsg-json20210516 (3kB)
+  # - https://openwrt.org/packages/pkgdata/libjson-c5 (28kB)
+  # - https://openwrt.org/packages/pkgdata/iptables (23kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/ipset (1kB) + (...) deps
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/kmod-macvlan (12kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wan/multiwan/mwan3
+  # - https://openwrt.org/docs/guide-user/network/wan/multiwan/failower
+  multiwan-mwan3:
+    pkgs_luci: [ 'luci-app-mwan3' ]
+    pkgs_uci: [ 'mwan3' ]
+    files: [ 'multiwan/mwan3' ]
+
+  ### Application: mwan (legacy)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-multiwan (11kB)
+  # - https://openwrt.org/packages/pkgdata/multiwan (21kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/iptables (23kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/ipset (1kB) + (...) deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wan/multiwan/multiwan_package
+  # - https://openwrt.org/docs/guide-user/network/wan/multiwan/failower
+  multiwan-mwan:
+    pkgs_luci: [ 'luci-app-multiwan' ]
+    pkgs_uci: [ 'multiwan' ]
+    files: [ 'multiwan/mwan' ]

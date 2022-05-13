@@ -1,0 +1,51 @@
+---
+################################################################################
+# Traffic shaping
+# https://openwrt.org/docs/guide-user/network/traffic-shaping/start
+################################################################################
+tshape:
+
+  ### Application: QOS, with iptables (Quality of Service)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-qos (1kB)
+  # - https://openwrt.org/packages/pkgdata/qos-scripts (6kB) + (...) deps
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/iptables (23kB) + (...) deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/traffic-shaping/packet.scheduler
+  # - https://openwrt.org/docs/guide-user/network/traffic-shaping/traffic_shaping
+  tshape-qos-iptables:
+    pkgs_luci: [ 'luci-app-qos' ]
+    pkgs_uci: [ 'qos-scripts' ]
+    files: [ 'tshape/qos-iptables' ]
+
+  ### Application: QOS, with nftables (Quality of Service)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-nft-qos (4kB)
+  # - https://openwrt.org/packages/pkgdata/nft-qos (4kB) + (...) deps
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/nftables (?kB) + (...) deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/traffic-shaping/packet.scheduler
+  # - https://openwrt.org/docs/guide-user/network/traffic-shaping/traffic_shaping
+  tshape-qos-nftables:
+    pkgs_luci: [ 'luci-app-nft-qos' ]
+    pkgs_uci: [ 'nft-qos' ]
+    files: [ 'tshape/qos-nftables' ]
+
+  ### Application: SQM (Smart Queue Management)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-sqm (3kB)
+  # - https://openwrt.org/packages/pkgdata/sqm-scripts (17kB) + (...) deps
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/iptables (23kB) + (...) deps
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/sqm-scripts-extra (2kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/traffic-shaping/sqm
+  # - https://openwrt.org/docs/guide-user/network/traffic-shaping/sqm-details
+  # - https://openwrt.org/docs/guide-user/network/traffic-shaping/sqm_configuration
+  tshape-sqm:
+    pkgs_luci: [ 'luci-app-sqm' ]
+    pkgs_uci: [ 'sqm-scripts' ]
+    files: [ 'tshape/sqm' ]

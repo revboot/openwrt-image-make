@@ -1,0 +1,64 @@
+---
+################################################################################
+# USB (Universal Serial Bus)
+# https://openwrt.org/docs/guide-user/hardware/start
+################################################################################
+usb:
+
+  ### Suite: XHCI (USB 3.x, Extensible Host Controller Interface)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-usb3 (67kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/usbutils (51kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/usb-installing
+  # - https://openwrt.org/docs/guide-user/network/wifi/usb3.0-wifi-issues
+  usb-usb3:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-usb3' ]
+    files: []
+
+  ### Suite: EHCI (USB 2.x, Enhanced Host Controller Interface)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-usb2 (7kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-ehci (26kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/usbutils (51kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/usb-installing
+  usb-usb2:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-usb2' ]
+    files: []
+
+  ### Suite: UHCI (USB 1.x, Universal Host Controller Interface) (legacy)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-uhci (0kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/usbutils (51kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/usb-installing
+  usb-uhci:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-usb-uhci' ]
+    files: []
+
+  ### Suite: OHCI (USB 1.1, Open Host Controller Interface) (legacy)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-ohci (18kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/usbutils (51kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/usb-installing
+  usb-ohci:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-usb-ohci' ]
+    files: []

@@ -1,0 +1,52 @@
+---
+################################################################################
+# Other services
+# https://openwrt.org/docs/guide-user/services/start
+################################################################################
+other:
+
+  ### Application: OpenWISP, with WolfSSL
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/openwisp-config-wolfssl (13kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libwolfssl5.2.0.99a5b54a (518kB)
+  # - https://openwrt.org/packages/pkgdata/ca-certificates (122kB)
+  # - https://openwrt.org/packages/pkgdata/curl (52kB)
+  # - https://openwrt.org/packages/pkgdata/libcurl (?kB)
+  # - https://openwrt.org/packages/pkgdata/luci-lib-nixio (28kB)
+  # - https://openwrt.org/packages/pkgdata/luafilesystem (5kB)
+  # - https://openwrt.org/packages/pkgdata/liblua5.1.5 (76kB)
+  # - https://openwrt.org/packages/pkgdata/libuci-lua (7kB)
+  # - https://openwrt.org/packages/pkgdata/libuci20130104 (17kB)
+  # Docs
+  # - https://openwisp.org/whatis.html
+  # - https://openwisp.io/docs/index.html
+  # - https://github.com/openwisp/luci-openwisp
+  # - https://github.com/openwisp/openwisp-config
+  other-openwisp-wolfssl:
+    pkgs_luci: []
+    pkgs_uci: [ 'openwisp-config-wolfssl' ]
+    files: [ 'other/openwisp' ]
+
+  ### Application: OpenWISP, with OpenSSL
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/openwisp-config-openssl (13kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/ca-certificates (122kB)
+  # - https://openwrt.org/packages/pkgdata/curl (52kB)
+  # - https://openwrt.org/packages/pkgdata/libcurl (?kB)
+  # - https://openwrt.org/packages/pkgdata/luci-lib-nixio (28kB)
+  # - https://openwrt.org/packages/pkgdata/luafilesystem (5kB)
+  # - https://openwrt.org/packages/pkgdata/liblua5.1.5 (76kB)
+  # - https://openwrt.org/packages/pkgdata/libuci-lua (7kB)
+  # - https://openwrt.org/packages/pkgdata/libuci20130104 (17kB)
+  # Docs
+  # - https://openwisp.org/whatis.html
+  # - https://openwisp.io/docs/index.html
+  # - https://github.com/openwisp/luci-openwisp
+  # - https://github.com/openwisp/openwisp-config
+  other-openwisp-openssl:
+    pkgs_luci: []
+    pkgs_uci: [ 'openwisp-config-openssl' ]
+    files: [ 'other/openwisp' ]

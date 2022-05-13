@@ -1,0 +1,59 @@
+---
+################################################################################
+# DNS (Domain Name System)
+# https://openwrt.org/docs/guide-user/services/dns/start
+################################################################################
+dns:
+
+  ### Application: dnsmasq, with Recursive DNS and DHCPv4
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/dnsmasq (116kB)
+  # Docs
+  # - https://openwrt.org/ru/doc/howto/dhcp.dnsmasq
+  dns-dnsmasq-dhcpv4:
+    pkgs_luci: []
+    pkgs_uci: [ 'dnsmasq' ]
+    files: [ 'dns/dnsmasq' ]
+
+  ### Application: dnsmasq, with Authoritative DNS, DNSSEC, DHCPv4, DHCPv6, IPset, Conntrack and NO_ID
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/dnsmasq-full (156kB) + iptables deps
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libnettle8 (291kB)
+  # Docs
+  # - https://openwrt.org/ru/doc/howto/dhcp.dnsmasq
+  dns-dnsmasq-full:
+    pkgs_luci: []
+    pkgs_uci: [ 'dnsmasq-full' ]
+    files: [ 'dns/dnsmasq' ]
+
+  ### Application: Unbound
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-unbound (8kB)
+  # - https://openwrt.org/packages/pkgdata/unbound-daemon (126kB)
+  # - https://openwrt.org/packages/pkgdata/unbound-host (47kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libunbound
+  # - https://openwrt.org/packages/pkgdata/libmnl0 (5kB)
+  # - https://openwrt.org/packages/pkgdata/libevent2-7 (107kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/ca-bundle (113kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/dns/unbound
+  dns-unbound:
+    pkgs_luci: [ 'luci-app-unbound' ]
+    pkgs_uci: [ 'unbound-daemon', 'unbound-host' ]
+    files: [ 'dns/unbound' ]
+
+  ### Application: SmartDNS
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-smartdns (3kB)
+  # - https://openwrt.org/packages/pkgdata/smartdns (79kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # Docs
+  # - https://github.com/pymumu/smartdns
+  dns-smartdns:
+    pkgs_luci: [ 'luci-app-smartdns' ]
+    pkgs_uci: [ 'smartdns' ]
+    files: [ 'dns/smartdns' ]

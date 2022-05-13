@@ -1,0 +1,305 @@
+---
+################################################################################
+# Tool
+################################################################################
+tool:
+
+  ### Application: nano
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/nano (52kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libncurses6 (180kB)
+  # - https://openwrt.org/packages/pkgdata/terminfo (7kB)
+  tool-nano:
+    pkgs_luci: []
+    pkgs_uci: [ 'nano' ]
+    files: [ 'tool/nano' ]
+
+  ### Application: ncdu
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ncdu (26kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libncurses6 (180kB)
+  # - https://openwrt.org/packages/pkgdata/terminfo (7kB)
+  tool-ncdu:
+    pkgs_luci: []
+    pkgs_uci: [ 'ncdu' ]
+    files: [ 'tool/ncdu' ]
+
+  ### Application: htop
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/htop (86kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libncurses6 (180kB)
+  # - https://openwrt.org/packages/pkgdata/terminfo (7kB)
+  tool-htop:
+    pkgs_luci: []
+    pkgs_uci: [ 'htop' ]
+    files: [ 'tool/htop' ]
+
+  ### Application: iftop
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/iftop (21kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libncurses6 (180kB)
+  # - https://openwrt.org/packages/pkgdata/terminfo (7kB)
+  # - https://openwrt.org/packages/pkgdata/libpcap1 (113kB)
+  tool-iftop:
+    pkgs_luci: []
+    pkgs_uci: [ 'iftop' ]
+    files: [ 'tool/iftop' ]
+
+  ### Application: iptraf-ng
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/iptraf-ng (61kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libncurses6 (180kB)
+  # - https://openwrt.org/packages/pkgdata/terminfo (7kB)
+  # - https://openwrt.org/packages/pkgdata/libpcap1 (113kB)
+  tool-iptraf-ng:
+    pkgs_luci: []
+    pkgs_uci: [ 'iptraf-ng' ]
+    files: [ 'tool/iptraf-ng' ]
+
+  ### Application: ifstat
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ifstat (10kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libnetsnmp (463kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  # - https://openwrt.org/packages/pkgdata/libpci (20kB)
+  tool-ifstat:
+    pkgs_luci: []
+    pkgs_uci: [ 'ifstat' ]
+    files: []
+
+  ### Application: vnstat
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-vnstat (2kB)
+  # - https://openwrt.org/packages/pkgdata/vnstat (75kB)
+  # - https://openwrt.org/packages/pkgdata/vnstati (33kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/luci-compat (44kB)
+  # - https://openwrt.org/packages/pkgdata/libgd (84kB)
+  # - https://openwrt.org/packages/pkgdata/libjpeg (?kB)
+  # - https://openwrt.org/packages/pkgdata/libpng (76kB)
+  # - https://openwrt.org/packages/pkgdata/libwebp (119kB)
+  tool-vnstat:
+    pkgs_luci: [ 'luci-app-vnstat' ]
+    pkgs_uci: [ 'vnstat', 'vnstati' ]
+    files: [ 'tool/vnstat' ]
+
+  ### Application: dnstop
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/dnstop (24kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libncurses6 (180kB)
+  # - https://openwrt.org/packages/pkgdata/terminfo (7kB)
+  # - https://openwrt.org/packages/pkgdata/libpcap1 (113kB)
+  tool-dnstop:
+    pkgs_luci: []
+    pkgs_uci: [ 'dnstop' ]
+    files: []
+
+  ### Application: horst
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/horst (39kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libncurses6 (180kB)
+  # - https://openwrt.org/packages/pkgdata/terminfo (7kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wifi/wireless-tool/horst
+  tool-horst:
+    pkgs_luci: []
+    pkgs_uci: [ 'horst' ]
+    files: [ 'tool/horst' ]
+
+  ### Application: wavemon
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wavemon (28kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libncurses6 (180kB)
+  # - https://openwrt.org/packages/pkgdata/terminfo (7kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-genl200 (7kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-core200 (34kB)
+  tool-wavemon:
+    pkgs_luci: []
+    pkgs_uci: [ 'wavemon' ]
+    files: [ 'tool/wavemon' ]
+
+  ### Application: iputils-arping
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/iputils-arping (8kB)
+  tool-iputils-arping:
+    pkgs_luci: []
+    pkgs_uci: [ 'iputils-arping' ]
+    files: []
+
+  ### Application: iputils-ping
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/iputils-ping (28kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-crypto-md5 (3kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-crypto-hash (0kB)
+  tool-iputils-ping:
+    pkgs_luci: []
+    pkgs_uci: [ 'iputils-ping' ]
+    files: []
+
+  ### Application: fping
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/fping (16kB)
+  tool-fping:
+    pkgs_luci: []
+    pkgs_uci: [ 'fping' ]
+    files: []
+
+  ### Application: iputils-tracepath
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/iputils-tracepath (6kB)
+  tool-iputils-tracepath:
+    pkgs_luci: []
+    pkgs_uci: [ 'iputils-tracepath' ]
+    files: []
+
+  ### Application: mtr
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/mtr (33kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libncurses6 (180kB)
+  # - https://openwrt.org/packages/pkgdata/terminfo (7kB)
+  tool-mtr:
+    pkgs_luci: []
+    pkgs_uci: [ 'mtr' ]
+    files: []
+
+  ### Application: tcpdump-mini
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/tcpdump-mini (129kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libpcap1 (113kB)
+  tool-tcpdump-mini:
+    pkgs_luci: []
+    pkgs_uci: [ 'tcpdump-mini' ]
+    files: []
+
+  ### Application: netcat
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/netcat (14kB)
+  tool-netcat:
+    pkgs_luci: []
+    pkgs_uci: [ 'netcat' ]
+    files: []
+
+  ### Application: ncat
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ncat (57kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libpcap1 (113kB)
+  tool-ncat:
+    pkgs_luci: []
+    pkgs_uci: [ 'ncat' ]
+    files: []
+
+  ### Application: httping, no SSL
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/httping-nossl (22kB)
+  tool-httping-nossl:
+    pkgs_luci: []
+    pkgs_uci: [ 'httping-nossl' ]
+    files: []
+
+  ### Application: httping, with OpenSSL
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/httping (22kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  tool-httping-openssl:
+    pkgs_luci: []
+    pkgs_uci: [ 'httping' ]
+    files: []
+
+  ### Application: wget, no SSL
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wget-nossl (189kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/zlib (37kB)
+  # - https://openwrt.org/packages/pkgdata/libpcre (79kB)
+  tool-wget-nossl:
+    pkgs_luci: []
+    pkgs_uci: [ 'wget-nossl' ]
+    files: [ 'tool/wget' ]
+
+  ### Application: wget, with OpenSSL
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wget-ssl (189kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/zlib (37kB)
+  # - https://openwrt.org/packages/pkgdata/libpcre (79kB)
+  tool-wget-openssl:
+    pkgs_luci: []
+    pkgs_uci: [ 'wget-ssl' ]
+    files: [ 'tool/wget' ]
+
+  ### Application: curl
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/curl (189kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libcurl (?kB)
+  tool-curl:
+    pkgs_luci: []
+    pkgs_uci: [ 'curl' ]
+    files: [ 'tool/curl' ]
+
+  ### Application: rsync
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/rsync (175kB)
+  # - https://openwrt.org/packages/pkgdata/rsyncd (0kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/zlib (37kB)
+  # - https://openwrt.org/packages/pkgdata/libpopt0 (19kB)
+  tool-rsync:
+    pkgs_luci: []
+    pkgs_uci: [ 'rsync' ]
+    files: [ 'tool/rsync' ]
+
+  ### Application: screen
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/screen (154kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libncurses6 (180kB)
+  # - https://openwrt.org/packages/pkgdata/terminfo (7kB)
+  tool-screen:
+    pkgs_luci: []
+    pkgs_uci: [ 'screen' ]
+    files: [ 'tool/screen' ]
+
+  ### Application: tmux
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/tmux (208kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libncurses6 (180kB)
+  # - https://openwrt.org/packages/pkgdata/terminfo (7kB)
+  # - https://openwrt.org/packages/pkgdata/libevent2-7 (107kB)
+  tool-tmux:
+    pkgs_luci: []
+    pkgs_uci: [ 'tmux' ]
+    files: [ 'tool/tmux' ]
+
+  ### Application: tmate
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/tmate (206kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libssh (133kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/zlib (37kB)
+  # - https://openwrt.org/packages/pkgdata/msgpack-c (8kB)
+  # - https://openwrt.org/packages/pkgdata/libncurses6 (180kB)
+  # - https://openwrt.org/packages/pkgdata/terminfo (7kB)
+  # - https://openwrt.org/packages/pkgdata/libevent2-7 (107kB)
+  tool-tmate:
+    pkgs_luci: []
+    pkgs_uci: [ 'tmate' ]
+    files: [ 'tool/tmate' ]

@@ -1,0 +1,53 @@
+---
+################################################################################
+# SSH (Secure Shell Protocol)
+# https://openwrt.org/docs/guide-user/services/ssh/start
+################################################################################
+ssh:
+
+  ### Application: Dropbear
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/dropbear (95kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/dropbearconvert (21kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/base-system/dropbear
+  ssh-dropbear:
+    pkgs_luci: []
+    pkgs_uci: [ 'dropbear' ]
+    files: [ 'ssh/dropbear' ]
+
+  ### Application: OpenSSH, with client
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/openssh-client (317kB)
+  # - https://openwrt.org/packages/pkgdata/openssh-sftp-client (65kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/openssh-keygen (171kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/zlib (37kB)
+  # Docs
+  # - https://oldwiki.archive.openwrt.org/inbox/replacingdropbearbyopensshserver
+  ssh-openssh-client:
+    pkgs_luci: []
+    pkgs_uci: [ 'openssh-client', 'openssh-sftp-client' ]
+    files: [ 'ssh/openssh-client' ]
+
+  ### Application: OpenSSH, with server
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/openssh-server (332kB)
+  # - https://openwrt.org/packages/pkgdata/openssh-sftp-server (44kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/openssh-keygen (171kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/zlib (37kB)
+  # - https://openwrt.org/packages/pkgdata/libfido2-1 (46kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/openssh-server-pam (347kB) + libpam deps
+  # - https://openwrt.org/packages/pkgdata/announce (8kB)
+  # Docs
+  # - https://oldwiki.archive.openwrt.org/inbox/replacingdropbearbyopensshserver
+  # - https://openwrt.org/docs/guide-user/services/ssh/sshfs.server
+  ssh-openssh-server:
+    pkgs_luci: []
+    pkgs_uci: [ 'openssh-server', 'openssh-sftp-server' ]
+    files: [ 'ssh/openssh-server' ]

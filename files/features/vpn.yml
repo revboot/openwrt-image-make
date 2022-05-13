@@ -1,0 +1,194 @@
+---
+################################################################################
+# VPN (Virtual Private Network)
+# https://openwrt.org/docs/guide-user/services/vpn/start
+################################################################################
+vpn:
+
+  ### Application: VPN Bypass
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-vpnbypass (3kB)
+  # - https://openwrt.org/packages/pkgdata/vpnbypass (2kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/iptables (23kB)
+  # - https://openwrt.org/packages/pkgdata/ipset (1kB) + (...) deps
+  # Docs
+  # - https://docs.openwrt.melmac.net/vpnbypass
+  vpn-vpnbypass:
+    pkgs_luci: [ 'luci-app-vpnbypass' ]
+    pkgs_uci: [ 'vpnbypass' ]
+    files: [ 'vpn/vpnbypass' ]
+
+  ### Application: VPN Policy Routing
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-vpn-policy-routing (7kB)
+  # - https://openwrt.org/packages/pkgdata/vpn-policy-routing (13kB) + (...) deps
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/iptables (23kB)
+  # - https://openwrt.org/packages/pkgdata/ipset (1kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/ip-full (173kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/jshn (6kB)
+  # - https://openwrt.org/packages/pkgdata/libblobmsg-json20210516 (3kB)
+  # - https://openwrt.org/packages/pkgdata/libjson-c5 (28kB)
+  # Docs
+  # - https://docs.openwrt.melmac.net/vpn-policy-routing
+  vpn-vpnpolicyrouting:
+    pkgs_luci: [ 'luci-app-vpn-policy-routing' ]
+    pkgs_uci: [ 'vpn-policy-routing' ]
+    files: [ 'vpn/vpnpolicyrouting' ]
+
+  ### Application: WireGuard
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-wireguard (3kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-wireguard (31kB) + (...) deps
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/luci-proto-wireguard (2kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-udptunnel4 (2kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-udptunnel6 (1kB)
+  # - https://openwrt.org/packages/pkgdata/wireguard-tools (27kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/vpn/wireguard/start
+  vpn-wireguard:
+    pkgs_luci: [ 'luci-app-wireguard' ]
+    pkgs_uci: [ 'kmod-wireguard' ]
+    files: [ 'vpn/wireguard' ]
+
+  ### Application: SoftEtherVPN
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-softether (1kB)
+  # - https://openwrt.org/packages/pkgdata/softethervpn5-client (2kB)
+  # - https://openwrt.org/packages/pkgdata/softethervpn5-server (2kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/softethervpn5-libs (3731kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/zlib (37kB)
+  # - https://openwrt.org/packages/pkgdata/libsodium (106kB)
+  # - https://openwrt.org/packages/pkgdata/libncurses6 (180kB)
+  # - https://openwrt.org/packages/pkgdata/terminfo (7kB)
+  # - https://openwrt.org/packages/pkgdata/libreadline8 (111kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/vpn/wireguard/start
+  vpn-softethervpn:
+    pkgs_luci: [ 'luci-app-softether' ]
+    pkgs_uci: [ 'softethervpn5-client', 'softethervpn5-server' ]
+    files: [ 'vpn/softethervpn' ]
+
+  ### Application: OpenVPN, with mbedTLS
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-openvpn (11kB)
+  # - https://openwrt.org/packages/pkgdata/openvpn-mbedtls (219kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libmbedtls12 (162kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-tun (24kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/vpn/openvpn/start
+  vpn-openvpn-mbedtls:
+    pkgs_luci: [ 'luci-app-openvpn' ]
+    pkgs_uci: [ 'openvpn-mbedtls' ]
+    files: [ 'vpn/openvpn' ]
+
+  ### Application: OpenVPN, with OpenSSL
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-openvpn (11kB)
+  # - https://openwrt.org/packages/pkgdata/openvpn-openssl (226kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/liblzo2 (38kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-tun (24kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/openvpn-easy-rsa (27kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/vpn/openvpn/start
+  vpn-openvpn-openssl:
+    pkgs_luci: [ 'luci-app-openvpn' ]
+    pkgs_uci: [ 'openvpn-openssl' ]
+    files: [ 'vpn/openvpn' ]
+
+  ### Application: OpenConnect
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-proto-openconnect (2kB)
+  # - https://openwrt.org/packages/pkgdata/openconnect (161kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/vpnc-scripts (2kB)
+  # - https://openwrt.org/packages/pkgdata/libgnutls (783kB)
+  # - https://openwrt.org/packages/pkgdata/libgmp10 (216kB)
+  # - https://openwrt.org/packages/pkgdata/libnettle8 (291kB)
+  # - https://openwrt.org/packages/pkgdata/libxml2 (415kB)
+  # - https://openwrt.org/packages/pkgdata/zlib (37kB)
+  # - https://openwrt.org/packages/pkgdata/libtasn1 (31kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-tun (24kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/vpn/openconnect/start
+  vpn-openconnect:
+    pkgs_luci: [ 'luci-proto-openconnect' ]
+    pkgs_uci: [ 'openconnect' ]
+    files: [ 'vpn/openconnect' ]
+
+  ### Application: vpnc
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-proto-vpnc (1kB)
+  # - https://openwrt.org/packages/pkgdata/vpnc (49kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/vpnc-scripts (2kB)
+  # - https://openwrt.org/packages/pkgdata/libgcrypt (328kB)
+  # - https://openwrt.org/packages/pkgdata/libgpg-error (56kB)
+  # - https://openwrt.org/packages/pkgdata/libgnutls (783kB)
+  # - https://openwrt.org/packages/pkgdata/libgmp10 (216kB)
+  # - https://openwrt.org/packages/pkgdata/libnettle8 (291kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-tun (24kB)
+  # Docs
+  # - https://github.com/openwrt/packages/blob/master/net/vpnc/README
+  vpn-vpnc:
+    pkgs_luci: [ 'luci-proto-vpnc' ]
+    pkgs_uci: [ 'vpnc' ]
+    files: [ 'vpn/vpnc' ]
+
+  ### Application: strongSwan (uses IPsec)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/strongswan (131kB) + iptables + (...) deps
+  # - https://openwrt.org/packages/pkgdata/strongswan-ipsec (5kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-ipsec (35kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-ipsec4 (11kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-ipsec6 (13kB)
+  # - https://openwrt.org/packages/pkgdata/iptables-mod-ipsec (6kB) + iptables deps
+  # - https://openwrt.org/packages/pkgdata/kmod-ipt-ipsec (2kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-iptunnel4 (2kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-iptunnel6 (2kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/vpn/strongswan/start
+  vpn-strongswan-ipsec:
+    pkgs_luci: []
+    pkgs_uci: [ 'strongswan', 'strongswan-ipsec' ]
+    files: [ 'vpn/strongswan' ]
+
+  ### Application: Libreswan (uses IPsec)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/libreswan (985kB) + iptables + (...) deps
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/nspr (82kB)
+  # - https://openwrt.org/packages/pkgdata/nss-utils (90kB)
+  # - https://openwrt.org/packages/pkgdata/libnss (1095kB)
+  # - https://openwrt.org/packages/pkgdata/libsqlite3-0 (495kB)
+  # - https://openwrt.org/packages/pkgdata/zlib (37kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/libmnl0 (5kB)
+  # - https://openwrt.org/packages/pkgdata/libldns (146kB)
+  # - https://openwrt.org/packages/pkgdata/libunbound (385kB)
+  # - https://openwrt.org/packages/pkgdata/libevent2-7 (107kB)
+  # - https://openwrt.org/packages/pkgdata/libevent2-pthreads7 (1kB)
+  # - https://openwrt.org/packages/pkgdata/libevent2-core7 (51kB)
+  # - https://openwrt.org/packages/pkgdata/libcap-ng (7kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-ipsec (35kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-ipsec4 (11kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-ipsec6 (13kB)
+  # - https://openwrt.org/packages/pkgdata/iptables-mod-ipsec (6kB) + iptables deps
+  # - https://openwrt.org/packages/pkgdata/kmod-ipt-ipsec (2kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-iptunnel4 (2kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-iptunnel6 (2kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/vpn/libreswan/start
+  vpn-libreswan:
+    pkgs_luci: []
+    pkgs_uci: [ 'libreswan' ]
+    files: [ 'vpn/libreswan' ]

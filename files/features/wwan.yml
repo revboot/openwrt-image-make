@@ -1,0 +1,182 @@
+---
+################################################################################
+# WWAN (Wireless Wide Area Network - 3G/4G/LTE and similar)
+# https://openwrt.org/docs/guide-user/network/wan/wwan/start
+################################################################################
+wwan:
+
+  ### Core
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wwan (9kB)
+  # - https://openwrt.org/packages/pkgdata/usb-modeswitch (13kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wan/smartphone.usb.tethering
+  # - https://openwrt.org/docs/guide-user/network/wan/smartphone.usb.reverse.tethering
+  wwan-core:
+    pkgs_luci: []
+    pkgs_uci: [ 'wwan', 'usb-modeswitch' ]
+    files: [ 'wwan/core' ]
+
+  ### Protocol: RNDIS (usb-net)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net-rndis (4kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net-cdc-ether (3kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net (13kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-mii (0kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wan/wwan/ethernetoverusb_rndis
+  wwan-rndis:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-usb-net-rndis' ]
+    files: []
+
+  ### Protocol: CDC Ether (usb-net)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net-cdc-ether (3kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net (13kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-mii (0kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wan/wwan/ethernetoverusb_cdc
+  wwan-cdc-ether:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-usb-net-cdc-ether' ]
+    files: []
+
+  ### Protocol: CDC Subset (usb-net)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net-cdc-subset (1kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net (13kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-mii (0kB)
+  wwan-cdc-subset:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-usb-net-cdc-subset' ]
+    files: []
+
+  ### Protocol: CDC EEM (usb-net)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net-cdc-eem (2kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net (13kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-mii (0kB)
+  wwan-cdc-eem:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-usb-net-cdc-eem' ]
+    files: []
+
+  ### Protocol: HSO (usb-net)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net-hso (17kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net (13kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-mii (0kB)
+  wwan-hso:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-usb-net-hso' ]
+    files: []
+
+  ### Protocol: QMI (usb-net)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-proto-qmi (1kB)
+  # - https://openwrt.org/packages/pkgdata/uqmi (27kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net-qmi-wwan (8kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/wwan (9kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-wdm (7kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net (13kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-mii (0kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/qmi-utils (167kB) + (...) deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wan/wwan/ltedongle
+  wwan-qmi:
+    pkgs_luci: [ 'luci-proto-qmi' ]
+    pkgs_uci: [ 'uqmi', 'kmod-usb-net-qmi-wwan' ]
+    files: []
+
+  ### Protocol: MBIM (usb-serial/net)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/umbim (13kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net-cdc-mbim (3kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-serial-option (5kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/wwan (9kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-serial-wwan (4kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-serial (13kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net-cdc-ncm (10kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-wdm (7kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net (13kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-mii (0kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/mbim-utils (26kB) + (...) deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wan/wwan/ltedongle
+  wwan-mbim:
+    pkgs_luci: []
+    pkgs_uci: [ 'umbim', 'kmod-usb-net-cdc-mbim', 'kmod-usb-serial-option' ]
+    files: []
+
+  ### Protocol: NCM (usb-serial/net)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-proto-ncm (1kB)
+  # - https://openwrt.org/packages/pkgdata/comgt-ncm (2kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net-huawei-cdc-ncm (1kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-serial-option (5kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/comgt (19kB)
+  # - https://openwrt.org/packages/pkgdata/chat (8kB)
+  # - https://openwrt.org/packages/pkgdata/wwan (9kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-serial-wwan (4kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-serial (13kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net-cdc-ncm (10kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-wdm (7kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-net (13kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-mii (0kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wan/wwan/ethernetoverusb_ncm
+  wwan-ncm:
+    pkgs_luci: [ 'luci-proto-ncm' ]
+    pkgs_uci: [ 'comgt-ncm', 'kmod-usb-net-huawei-cdc-ncm', 'kmod-usb-serial-option' ]
+    files: []
+
+  ### Protocol: PPP (usb-serial, legacy)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-proto-3g (1kB)
+  # - https://openwrt.org/packages/pkgdata/comgt (19kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-serial-option (5kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-acm (11kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/chat (8kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-serial-wwan (4kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-serial (13kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wan/wwan/3gdongle
+  wwan-ppp:
+    pkgs_luci: [ 'luci-proto-3g' ]
+    pkgs_uci: [ 'comgt', 'kmod-usb-serial-option', 'kmod-usb-acm' ]
+    files: []
+
+  ### Application: Modem Manager
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-proto-modemmanager (1kB)
+  # - https://openwrt.org/packages/pkgdata/modemmanager (1027kB) + (...) deps
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/comgt (19kB)
+  # - https://openwrt.org/packages/pkgdata/chat (8kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wan/wwan/modemmanager
+  wwan-modemmanager:
+    pkgs_luci: [ 'luci-proto-modemmanager' ]
+    pkgs_uci: [ 'modemmanager' ]
+    files: [ 'wwan/modemmanager' ]

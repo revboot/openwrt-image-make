@@ -1,0 +1,40 @@
+---
+################################################################################
+# Performance and Logging
+# https://openwrt.org/docs/guide-user/perf_and_log/start
+################################################################################
+perfandlog:
+
+  ### Application: collectd
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-statistics (30kB)
+  # - https://openwrt.org/packages/pkgdata/collectd (93kB)
+  # - https://openwrt.org/packages/pkgdata/collectd-mod-load (2kB)
+  # - https://openwrt.org/packages/pkgdata/collectd-mod-cpu (4kB)
+  # - https://openwrt.org/packages/pkgdata/collectd-mod-memory (2kB)
+  # - https://openwrt.org/packages/pkgdata/collectd-mod-network (15kB)
+  # - https://openwrt.org/packages/pkgdata/collectd-mod-interface (3kB)
+  # - https://openwrt.org/packages/pkgdata/collectd-mod-iwinfo (4kB)
+  # - https://openwrt.org/packages/pkgdata/collectd-mod-rrdtool (11kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/rrdtool1 (11kB)
+  # - https://openwrt.org/packages/pkgdata/librrd1 (122kB)
+  # - https://openwrt.org/packages/pkgdata/zlib (37kB)
+  # - https://openwrt.org/packages/pkgdata/luci-lib-jsonc (4kB)
+  # - https://openwrt.org/packages/pkgdata/jshn (6kB)
+  # - https://openwrt.org/packages/pkgdata/libblobmsg-json20210516 (3kB)
+  # - https://openwrt.org/packages/pkgdata/libjson-c5 (28kB)
+  # - https://openwrt.org/packages/pkgdata/liblua5.1.5 (76kB)
+  # - https://openwrt.org/packages/pkgdata/libip4tc2 (24kB)
+  # - https://openwrt.org/packages/pkgdata/libxtables12 (40kB)
+  # - https://openwrt.org/packages/pkgdata/libltdl7 (14kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/luci/luci_app_statistics
+  # - https://openwrt.org/docs/guide-user/luci/statistics.chart.public
+  # - https://openwrt.org/docs/guide-user/perf_and_log/statistical.data.overview
+  # - https://openwrt.org/docs/guide-user/perf_and_log/statistic.collectd
+  # - https://openwrt.org/docs/guide-user/perf_and_log/statistic.custom
+  perfandlog-collectd:
+    pkgs_luci: [ 'luci-app-statistics' ]
+    pkgs_uci: [ 'collectd', 'collectd-mod-load', 'collectd-mod-cpu', 'collectd-mod-memory', 'collectd-mod-network', 'collectd-mod-interface', 'collectd-mod-iwinfo', 'collectd-mod-rrdtool' ]
+    files: [ 'perfandlog/collectd' ]

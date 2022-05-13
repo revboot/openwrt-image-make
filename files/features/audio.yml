@@ -1,0 +1,57 @@
+---
+################################################################################
+# Audio service
+# https://openwrt.org/docs/guide-user/hardware/audio/start
+################################################################################
+audio:
+
+  ### USB module: Audio
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-audio (101kB)
+  # - https://openwrt.org/packages/pkgdata/alsa-utils (136kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/alsa-lib (316kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-sound-core (157kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-input-core (19kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/hardware/audio/start
+  # - https://openwrt.org/docs/guide-user/hardware/audio/usb.audio
+  audio-usb:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-usb-audio', 'alsa-utils' ]
+    files: [ 'audio/usb' ]
+
+  ### Application: PulseAudio
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/pulseaudio-daemon (928kB)
+  # - https://openwrt.org/packages/pkgdata/pulseaudio-profiles (16kB)
+  # - https://openwrt.org/packages/pkgdata/pulseaudio-tools (88kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/alsa-lib (316kB)
+  # - https://openwrt.org/packages/pkgdata/libsndfile (158kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/libcap (11kB)
+  # - https://openwrt.org/packages/pkgdata/libltdl7 (14kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-sound-core (157kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-input-core (19kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/pulseaudio-daemon-avahi (1055kB) + libavahi-client + dbus + sbc deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/hardware/audio/pulseaudio
+  audio-pulseaudio:
+    pkgs_luci: []
+    pkgs_uci: [ 'pulseaudio-daemon', 'pulseaudio-profiles', 'pulseaudio-tools' ]
+    files: [ 'audio/pulseaudio' ]
+
+  ### Application: PortAudio
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/portaudio (38kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/alsa-lib (316kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-sound-core (157kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-input-core (19kB)
+  audio-portaudio:
+    pkgs_luci: []
+    pkgs_uci: [ 'portaudio' ]
+    files: [ 'audio/portaudio' ]

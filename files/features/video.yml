@@ -1,0 +1,80 @@
+---
+################################################################################
+# Video service
+# https://openwrt.org/docs/guide-user/hardware/video/start
+################################################################################
+video:
+  # Docs
+  # - https://openwrt.org/docs/guide-user/hardware/video/usb.video
+  # - https://openwrt.org/docs/guide-user/hardware/video/webcam
+
+  ### USB module: Video via UVC protocol (USB Video Class)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-video-uvc (43kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-video-videobuf2 (26kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-video-core (71kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-input-core (19kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-i2c-core (21kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  video-usb-uvc:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-video-uvc' ]
+    files: [ 'video/usb-uvc' ]
+
+  ### USB module: Video via GSPCA protocol (legacy)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-video-gspca-core (11kB) + specific driver
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-video-videobuf2 (26kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-video-core (71kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-input-core (19kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-i2c-core (21kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  video-usb-gspca:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-video-gspca-core' ]
+    files: [ 'video/usb-gspca' ]
+
+  ### Application: MJPG-Streamer
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-mjpg-streamer (2kB)
+  # - https://openwrt.org/packages/pkgdata/mjpg-streamer (7kB)
+  # - https://openwrt.org/packages/pkgdata/mjpg-streamer-input-uvc (16kB)
+  # - https://openwrt.org/packages/pkgdata/mjpg-streamer-output-file (6kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libjpeg (?)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/mjpg-streamer-input-file (4kB) + mjpg-streamer deps
+  # - https://openwrt.org/packages/pkgdata/mjpg-streamer-input-http (4kB) + mjpg-streamer deps
+  # - https://openwrt.org/packages/pkgdata/mjpg-streamer-output-http (12kB) + mjpg-streamer deps
+  # - https://openwrt.org/packages/pkgdata/mjpg-streamer-output-rtsp (3kB) + mjpg-streamer deps
+  # - https://openwrt.org/packages/pkgdata/uvcdynctrl (72kB) + libxml deps
+  video-mjpg-streamer:
+    pkgs_luci: [ 'luci-app-mjpg-streamer' ]
+    pkgs_uci: [ 'mjpg-streamer', 'mjpg-streamer-input-uvc', 'mjpg-streamer-output-file' ]
+    files: [ 'video/mjpg-streamer' ]
+
+  ### Application: fswebcam
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/fswebcam (7kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libgd (84kB)
+  # - https://openwrt.org/packages/pkgdata/libjpeg (?kB)
+  # - https://openwrt.org/packages/pkgdata/libpng (76kB)
+  # - https://openwrt.org/packages/pkgdata/libwebp (119kB)
+  video-fswebcam:
+    pkgs_luci: []
+    pkgs_uci: [ 'fswebcam' ]
+    files: [ 'video/fswebcam' ]
+
+  ### Application: Motion
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/motion (101kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libjpeg (?kB)
+  # - https://openwrt.org/packages/pkgdata/libmicrohttpd (?kB)
+  video-motion:
+    pkgs_luci: []
+    pkgs_uci: [ 'motion' ]
+    files: [ 'video/motion' ]

@@ -1,0 +1,168 @@
+---
+################################################################################
+# WiFi/WLAN (Wireless Local Area Network)
+# https://openwrt.org/docs/guide-user/network/wifi/start
+################################################################################
+wifi:
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wifi/wireless.overview
+  # - https://openwrt.org/docs/guide-user/network/wifi/wireless-tool/wireless.utilities
+  # - https://openwrt.org/docs/guide-user/network/wifi/wifi_countrycode
+  # - https://openwrt.org/docs/guide-user/network/wifi/transmit.power.limits
+  # - https://openwrt.org/docs/techref/wireless.modes
+  # - https://openwrt.org/docs/guide-user/network/wifi/bridgedap
+  # - https://openwrt.org/docs/guide-user/network/wifi/routedap
+  # - https://openwrt.org/docs/guide-user/network/wifi/dumbap
+  # - https://openwrt.org/docs/guide-user/network/wifi/atheroswds
+  # - https://openwrt.org/docs/guide-user/network/wifi/vlan-multiple-wifi-ssid-repeater
+  # - https://openwrt.org/docs/guide-user/network/wifi/ap_sta
+  # - https://openwrt.org/docs/guide-user/network/wifi/encryption
+  # - https://forum.openwrt.org/t/successfully-get-wpa3-support-for-old-hardware-with-a-self-compiled-openwrt-snapshot-source-code/90476/5
+  # - https://openwrt.org/docs/guide-user/network/wifi/basic
+  # - https://openwrt.org/docs/guide-user/network/wifi/connect_client_wifi
+  # - https://openwrt.org/docs/guide-user/network/wifi/iwchan
+  # - https://openwrt.org/docs/guide-user/network/wifi/ms-meteredconnection
+  # - https://openwrt.org/docs/guide-user/network/wifi/linux-meteredconnection
+  # - https://openwrt.org/docs/guide-user/network/wifi/usb3.0-wifi-issues
+  # - https://openwrt.org/docs/guide-user/network/wifi/guestwifi/start
+  # - https://openwrt.org/docs/guide-user/network/wifi/guestwifi/guest-wlan
+  # - https://openwrt.org/docs/guide-user/network/wifi/guestwifi/extras
+  # - https://openwrt.org/docs/guide-user/network/wifi/guestwifi/configuration_command_line_interface
+  # - https://openwrt.org/docs/guide-user/network/wifi/guestwifi/configuration_webinterface
+  # - https://openwrt.org/docs/guide-user/network/wifi/guestwifi/guestwifi_dumbap
+
+  ### Core
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/iw (48kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  wifi-core:
+    pkgs_luci: []
+    pkgs_uci: [ 'iw' ]
+    files: [ 'wifi/core' ]
+
+  ### Suite: WPAd mini (minimal IEEE 802.1x/WPA Authenticator and Supplicant, with WPA-PSK support only)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wpad-mini (280kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/hostapd-common (11kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  wifi-wpad-mini:
+    pkgs_luci: []
+    pkgs_uci: [ 'wpad-mini' ]
+    files: []
+
+  ### Suite: WPAd basic, no SSL (basic IEEE 802.1x/WPA Authenticator and Supplicant, with WPA-PSK, 802.11r and 802.11w support)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wpad-basic (387kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/hostapd-common (11kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  wifi-wpad-basic-nossl:
+    pkgs_luci: []
+    pkgs_uci: [ 'wpad-basic' ]
+    files: []
+
+  ### Suite: WPAd basic, with WolfSSL (basic IEEE 802.1x/WPA Authenticator and Supplicant, with WPA-PSK, SAE (WPA3-Personal), 802.11r and 802.11w support)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wpad-basic-wolfssl (405kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/hostapd-common (11kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  # - https://openwrt.org/packages/pkgdata/libwolfssl5.2.0.99a5b54a (518kB)
+  wifi-wpad-basic-wolfssl:
+    pkgs_luci: []
+    pkgs_uci: [ 'wpad-basic-wolfssl' ]
+    files: []
+
+  ### Suite: WPAd basic, with OpenSSL (basic IEEE 802.1x/WPA Authenticator and Supplicant, with WPA-PSK, SAE (WPA3-Personal), 802.11r and 802.11w support)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wpad-basic-openssl (405kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/hostapd-common (11kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  wifi-wpad-basic-openssl:
+    pkgs_luci: []
+    pkgs_uci: [ 'wpad-basic-openssl' ]
+    files: []
+
+  ### Suite: WPAd mesh, with WolfSSL (minimal IEEE 802.1x/WPA Authenticator and Supplicant, with 802.11s mesh and SAE (WPA3-Personal) support)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wpad-mesh-wolfssl (520kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/hostapd-common (11kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  # - https://openwrt.org/packages/pkgdata/libwolfssl5.2.0.99a5b54a (518kB)
+  wifi-wpad-mesh-wolfssl:
+    pkgs_luci: []
+    pkgs_uci: [ 'wpad-mesh-wolfssl' ]
+    files: []
+
+  ### Suite: WPAd mesh, with OpenSSL (minimal IEEE 802.1x/WPA Authenticator and Supplicant, (with 802.11s mesh and SAE (WPA3-Personal) support)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wpad-mesh-openssl (647kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/hostapd-common (11kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  wifi-wpad-mesh-openssl:
+    pkgs_luci: []
+    pkgs_uci: [ 'wpad-mesh-openssl' ]
+    files: []
+
+  ### Suite: WPAd full, with WolfSSL (full IEEE 802.1x/WPA/EAP/RADIUS Authenticator and Supplicant)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wpad-wolfssl (654kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/hostapd-common (11kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  # - https://openwrt.org/packages/pkgdata/libwolfssl5.2.0.99a5b54a (518kB)
+  wifi-wpad-full-wolfssl:
+    pkgs_luci: []
+    pkgs_uci: [ 'wpad-wolfssl' ]
+    files: []
+
+  ### Suite: WPAd full, with OpenSSL (full IEEE 802.1x/WPA/EAP/RADIUS Authenticator and Supplicant)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wpad-openssl (652kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/hostapd-common (11kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  wifi-wpad-full-openssl:
+    pkgs_luci: []
+    pkgs_uci: [ 'wpad-openssl' ]
+    files: []
+
+  ### Application: relayd (Transparent routing / relay daemon)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-proto-relay (1kB)
+  # - https://openwrt.org/packages/pkgdata/relayd (9kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wifi/relay_configuration
+  wifi-relayd:
+    pkgs_luci: [ 'luci-proto-relay' ]
+    pkgs_uci: [ 'relayd' ]
+    files: [ 'wifi/relayd' ]
+
+  ### Application: Schedule
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-wifischedule (3kB)
+  # - https://openwrt.org/packages/pkgdata/wifischedule (3kB)
+  # Docs
+  # - https://forum.openwrt.org/t/scheduling-on-off-wifi/3385/29
+  wifi-schedule:
+    pkgs_luci: [ 'luci-app-wifischedule' ]
+    pkgs_uci: [ 'wifischedule' ]
+    files: [ 'wifi/wifischedule' ]
+
+  ### Application: Toggle
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wifitoggle (1kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/wifi/wifitoggle
+  wifi-wifitoggle:
+    pkgs_luci: []
+    pkgs_uci: [ 'wifitoggle' ]
+    files: [ 'wifi/wifitoggle' ]

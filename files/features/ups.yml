@@ -1,0 +1,32 @@
+---
+################################################################################
+# UPS (Uninterruptible Power Supply)
+# https://openwrt.org/docs/guide-user/services/ups/start
+################################################################################
+ups:
+
+  ### Application: NUT (Network UPS Tools)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-nut (4kB)
+  # - https://openwrt.org/packages/pkgdata/nut (0kB) + specific driver
+  # - https://openwrt.org/packages/pkgdata/nut-server (47kB)
+  # - https://openwrt.org/packages/pkgdata/nut-upsmon (20kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/luci-compat (44kB)
+  # - https://openwrt.org/packages/pkgdata/nut-common (15kB)
+  # - https://openwrt.org/packages/pkgdata/libusb-compat4 (15kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/nut-upsmon-sendmail-notify (0kB)
+  # - https://openwrt.org/packages/pkgdata/nut-upslog (9kB)
+  # - https://openwrt.org/packages/pkgdata/nut-upssched (13kB)
+  # - https://openwrt.org/packages/pkgdata/nut-upsc (7kB)
+  # - https://openwrt.org/packages/pkgdata/nut-upscmd (8kB)
+  # - https://openwrt.org/packages/pkgdata/nut-upsrw (11kB)
+  # - https://openwrt.org/packages/pkgdata/nut-web-cgi (43kB) + libdg deps
+  # - https://openwrt.org/packages/pkgdata/nut-avahi-service (0kB) + avahi-daemon deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/ups/software.nut
+  ups-nut:
+    pkgs_luci: [ 'luci-app-nut' ]
+    pkgs_uci: [ 'nut', 'nut-server', 'nut-upsmon' ]
+    files: [ 'ups/nut' ]

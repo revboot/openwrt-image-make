@@ -1,0 +1,70 @@
+---
+################################################################################
+# DDNS (Dynamic DNS)
+# https://openwrt.org/docs/guide-user/services/ddns/start
+################################################################################
+ddns:
+
+  ### Core
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-ddns (12kB)
+  # - https://openwrt.org/packages/pkgdata/ddns-scripts (23kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/luci-mod-admin-full (0kB)
+  # - https://openwrt.org/packages/pkgdata/ddns-scripts-services (3kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/base-system/ddns
+  # - https://openwrt.org/docs/guide-user/services/ddns/client
+  ddns-core:
+    pkgs_luci: [ 'luci-app-ddns' ]
+    pkgs_uci: [ 'ddns-scripts' ]
+    files: [ 'ddns/core' ]
+
+  ### Module: Cloudflare
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ddns-scripts-cloudflare (3kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/ddns-scripts (23kB)
+  # - https://openwrt.org/packages/pkgdata/curl (52kB)
+  # - https://openwrt.org/packages/pkgdata/libcurl (?kB)
+  ddns-cloudflare:
+    pkgs_luci: []
+    pkgs_uci: [ 'ddns-scripts-cloudflare' ]
+    files: []
+
+  ### Module: Amazon Route53
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ddns-scripts-route53 (1kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/ddns-scripts (23kB)
+  # - https://openwrt.org/packages/pkgdata/curl (52kB)
+  # - https://openwrt.org/packages/pkgdata/libcurl (?kB)
+  # - https://openwrt.org/packages/pkgdata/openssl-util (241kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl-conf (4kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  ddns-route53:
+    pkgs_luci: []
+    pkgs_uci: [ 'ddns-scripts-route53' ]
+    files: []
+
+  ### Module: DigitalOcean
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ddns-scripts-digitalocean (1kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/ddns-scripts (23kB)
+  # - https://openwrt.org/packages/pkgdata/curl (52kB)
+  # - https://openwrt.org/packages/pkgdata/libcurl (?kB)
+  ddns-digitalocean:
+    pkgs_luci: []
+    pkgs_uci: [ 'ddns-scripts-digitalocean' ]
+    files: []
+
+  ### Module: NoIP
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ddns-scripts-noip (1kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/ddns-scripts (23kB)
+  ddns-noip:
+    pkgs_luci: []
+    pkgs_uci: [ 'ddns-scripts-noip' ]
+    files: []

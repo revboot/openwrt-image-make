@@ -44,6 +44,12 @@ openwrt_image:
 
 # software selection
 openwrt_software:
+  # the recipe to use
+  recipe:       false
+  # the features to add (...)
+  features_add: []
+  # the features to delete (...)
+  features_del: []
   # the packages to add (...)
   packages_add: []
   # the packages to delete (...)

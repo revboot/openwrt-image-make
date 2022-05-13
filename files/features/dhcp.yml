@@ -1,0 +1,97 @@
+---
+################################################################################
+# DHCP
+# https://openwrt.org/docs/guide-user/network/start
+################################################################################
+dhcp:
+  # Docs
+  # - https://openwrt.org/docs/guide-user/base-system/dhcp
+  # - https://openwrt.org/docs/guide-user/base-system/dhcp_configuration
+  # - https://openwrt.org/docs/guide-user/network/protocol.dhcp
+  # - https://openwrt.org/docs/guide-user/network/ipv4/configuration
+
+  ### Application: dnsmasq, with Recursive DNS and DHCPv4
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/dnsmasq (116kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/base-system/dhcp.dnsmasq
+  # - https://openwrt.org/ru/doc/howto/dhcp.dnsmasq
+  dhcp-dnsmasq-dhcpv4:
+    pkgs_luci: []
+    pkgs_uci: [ 'dnsmasq' ]
+    files: [ 'dns/dnsmasq' ]
+
+  ### Application: dnsmasq, with Recursive DNS and DHCPv4/DHCPv6
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/dnsmasq-dhcpv6 (157kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/base-system/dhcp.dnsmasq
+  # - https://openwrt.org/ru/doc/howto/dhcp.dnsmasq
+  dhcp-dnsmasq-dhcpv6:
+    pkgs_luci: []
+    pkgs_uci: [ 'dnsmasq-dhcpv6' ]
+    files: [ 'dns/dnsmasq' ]
+
+  ### Application: dnsmasq, with Authoritative DNS, DNSSEC, DHCPv4, DHCPv6, IPset, Conntrack and NO_ID
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/dnsmasq-full (156kB) + iptables deps
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libnettle8 (291kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/base-system/dhcp.dnsmasq
+  # - https://openwrt.org/ru/doc/howto/dhcp.dnsmasq
+  dhcp-dnsmasq-full:
+    pkgs_luci: []
+    pkgs_uci: [ 'dnsmasq-full' ]
+    files: [ 'dns/dnsmasq' ]
+
+  ### Application: odhcp6c, with DHCPv6 client
+  # - https://openwrt.org/packages/pkgdata/odhcp6c (24kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libubox20210516 (23kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/ipv6/configuration
+  # - https://github.com/openwrt/odhcp6c/blob/master/README
+  dhcp-odhcp6c:
+    pkgs_luci: []
+    pkgs_uci: [ 'odhcp6c' ]
+    files: [ 'dhcp/odhcp6c' ]
+
+  ### Application: odhcpd, with DHCPv6/RA server and NDP relay
+  # - https://openwrt.org/packages/pkgdata/odhcpd-ipv6only (40kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libuci20130104 (17kB)
+  # - https://openwrt.org/packages/pkgdata/libubox20210516 (23kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/ipv6/configuration
+  # - https://openwrt.org/docs/techref/odhcpd
+  # - https://github.com/openwrt/odhcpd/blob/master/README
+  dhcp-odhcpd-ipv6only:
+    pkgs_luci: []
+    pkgs_uci: [ 'odhcpd-ipv6only' ]
+    files: [ 'dhcp/odhcpd' ]
+
+  ### Application: odhcpd, with DHCPv4/DHCPv6/RA server and NDP relay
+  # - https://openwrt.org/packages/pkgdata/odhcpd (46kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libuci20130104 (17kB)
+  # - https://openwrt.org/packages/pkgdata/libubox20210516 (23kB)
+  # - https://openwrt.org/packages/pkgdata/libnl-tiny1 (16kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/ipv6/configuration
+  # - https://openwrt.org/docs/techref/odhcpd
+  # - https://github.com/openwrt/odhcpd/blob/master/README
+  dhcp-odhcpd-full:
+    pkgs_luci: []
+    pkgs_uci: [ 'odhcpd' ]
+    files: [ 'dhcp/odhcpd' ]
+
+  ### Application: dhcpcd, with DHCPv4/DHCPv6/IPv6RS/IPv4LL client
+  # - https://openwrt.org/packages/pkgdata/dhcpcd (128kB)
+  # Docs
+  # - https://roy.marples.name/projects/dhcpcd
+  dhcp-dhcpcd:
+    pkgs_luci: []
+    pkgs_uci: [ 'dhcpcd' ]
+    files: [ 'dhcp/dhcpcd' ]

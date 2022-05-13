@@ -1,0 +1,36 @@
+---
+################################################################################
+# WOL (Wake-on-LAN)
+# https://openwrt.org/docs/guide-user/services/w_o_l/start
+################################################################################
+wol:
+
+  ### Application: etherwake
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-wol (1kB)
+  # - https://openwrt.org/packages/pkgdata/etherwake (5kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/w_o_l/etherwake
+  # - https://openwrt.org/docs/guide-user/advanced/auto_wake_on_lan
+  wol-etherwake:
+    pkgs_luci: [ 'luci-app-wol' ]
+    pkgs_uci: [ 'etherwake' ]
+    files: [ 'wol/etherwake' ]
+
+  ### Application: wakeonlan
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/wakeonlan (2kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/perl (1103kB)
+  # - https://openwrt.org/packages/pkgdata/perlbase-essential (21kB)
+  # - https://openwrt.org/packages/pkgdata/perlbase-config (18kB)
+  # - https://openwrt.org/packages/pkgdata/perlbase-getopt (12kB)
+  # - https://openwrt.org/packages/pkgdata/perlbase-socket (18kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/perlbase-net (43kB) + (...) deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/w_o_l/wol
+  # - https://openwrt.org/docs/guide-user/advanced/auto_wake_on_lan
+  wol-wakeonlan:
+    pkgs_luci: []
+    pkgs_uci: [ 'wakeonlan' ]
+    files: [ 'wol/wakeonlan' ]

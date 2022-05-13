@@ -1,0 +1,23 @@
+---
+################################################################################
+# UPnP (Universal Plug and Play)
+# https://openwrt.org/docs/guide-user/firewall/upnp/start
+################################################################################
+upnp:
+
+  ### Application: miniupnpd
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-upnp (4kB)
+  # - https://openwrt.org/packages/pkgdata/miniupnpd (61kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libuuid1 (12kB)
+  # - https://openwrt.org/packages/pkgdata/libcap-ng (7kB)
+  # - https://openwrt.org/packages/pkgdata/iptables (23kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/ip6tables (0kB) + (...) deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/firewall/upnp/miniupnpd
+  # - https://openwrt.org/docs/guide-user/firewall/upnp/upnp_setup
+  upnp-miniupnpd:
+    pkgs_luci: [ 'luci-app-upnp' ]
+    pkgs_uci: [ 'miniupnpd' ]
+    files: [ 'upnp/miniupnpd' ]

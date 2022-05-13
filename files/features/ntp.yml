@@ -1,0 +1,35 @@
+---
+################################################################################
+# NTP (Network Time Protocol)
+# https://openwrt.org/docs/guide-user/services/ntp/start
+################################################################################
+ntp:
+
+  ### Application: ntpclient
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-ntpc (1kB)
+  # - https://openwrt.org/packages/pkgdata/ntpclient (12kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/luci-compat (44kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/ntp/client
+  ntp-ntpclient:
+    pkgs_luci: [ 'luci-app-ntpc' ]
+    pkgs_uci: [ 'ntpclient' ]
+    files: [ 'ntp/ntpclient' ]
+
+  ### Application: ntpd
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ntpd (252kB)
+  # - https://openwrt.org/packages/pkgdata/ntpdate (52kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/ntp-utils (344kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/libcap (11kB)
+  # - https://openwrt.org/packages/pkgdata/libevent2-pthreads7 (1kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/ntp/client-server
+  ntp-ntpd:
+    pkgs_luci: []
+    pkgs_uci: [ 'ntpd', 'ntpdate' ]
+    files: [ 'ntp/ntpd' ]

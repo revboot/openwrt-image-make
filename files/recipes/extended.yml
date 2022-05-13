@@ -1,0 +1,192 @@
+---
+################################################################################
+# Extended recipes
+################################################################################
+extended:
+
+  ### Extended, small
+  # Features: minimal-luci-ipv6 recipe +
+  # LuCi OpenWrt 2020 theme, LuCi Dashboard module, LuCi ACL/Commands apps,
+  # mDNS/DNS-SD (umDNS), SQM (sqm-scripts), WoL (etherwake),
+  # NTP server sync (ntpclient) and DDNS.
+  # Size: 3427.71 Kbytes (3.35 Mbytes) on 21.02.3.
+  extended-small:
+    features_add:
+      - 'base-opkg'
+      - 'luci-suite-minimal'
+      - 'luci-proto-wolfssl'
+      - 'luci-theme-bootstrap'
+      - 'luci-theme-openwrt-2020'
+      - 'luci-mod-system'
+      - 'luci-mod-status'
+      - 'luci-mod-network'
+      - 'luci-mod-dashboard'
+      - 'luci-app-acl'
+      - 'luci-app-commands'
+      - 'ipv6-core'
+      - 'dhcp-dnsmasq-dhcpv4'
+      - 'dhcp-odhcp6c'
+      - 'dhcp-odhcpd-ipv6only'
+      - 'firewall-core'
+      - 'firewall-iptables'
+      - 'firewall-ip6tables'
+      - 'zeroconf-umdns'
+      - 'wifi-core'
+      - 'wifi-wpad-basic-wolfssl'
+      - 'tshape-sqm'
+      - 'wol-etherwake'
+      - 'ntp-ntpclient'
+      - 'dns-dnsmasq-dhcpv4'
+      - 'ddns-core'
+      - 'ssh-dropbear'
+    features_del:
+      - 'wan-ppp-core'
+      - 'wan-ppp-pppoe'
+      - 'usb-usb2'
+
+  ### Extended, medium
+  # Features: extended-small recipe +
+  # BanIP, UPnP (MiniUPnP), mDNS/DNS-SD (mdnsresponder), Mesh WolfSSL WPAd,
+  # VPN bypass, VPN Policy Routing, VPN (WireGuard), collectd, and tools.
+  # Size: 7111.50 Kbytes (6.94 Mbytes) on 21.02.3.
+  extended-medium:
+    features_add:
+      - 'base-opkg'
+      - 'luci-suite-minimal'
+      - 'luci-proto-wolfssl'
+      - 'luci-theme-bootstrap'
+      - 'luci-theme-openwrt-2020'
+      - 'luci-mod-system'
+      - 'luci-mod-status'
+      - 'luci-mod-network'
+      - 'luci-mod-dashboard'
+      - 'luci-app-acl'
+      - 'luci-app-commands'
+      - 'ipv6-core'
+      - 'dhcp-dnsmasq-dhcpv4'
+      - 'dhcp-odhcp6c'
+      - 'dhcp-odhcpd-ipv6only'
+      - 'firewall-core'
+      - 'firewall-iptables'
+      - 'firewall-ip6tables'
+      - 'firewall-banip'
+      - 'upnp-miniupnpd'
+      - 'zeroconf-mdnsresponder'
+      - 'wifi-core'
+      - 'wifi-wpad-mesh-wolfssl'
+      - 'tshape-sqm'
+      - 'wol-etherwake'
+      - 'ntp-ntpclient'
+      - 'dns-dnsmasq-dhcpv4'
+      - 'ddns-core'
+      - 'vpn-vpnbypass'
+      - 'vpn-vpnpolicyrouting'
+      - 'vpn-wireguard'
+      - 'ssh-dropbear'
+      - 'perfandlog-collectd'
+      - 'tool-nano'
+      - 'tool-htop'
+      - 'tool-iftop'
+      - 'tool-vnstat'
+      - 'tool-dnstop'
+      - 'tool-wavemon'
+      - 'tool-fping'
+      - 'tool-mtr'
+      - 'tool-tcpdump-mini'
+      - 'tool-ncat'
+      - 'tool-httping-nossl'
+      - 'tool-curl'
+      - 'tool-rsync'
+      - 'tool-screen'
+      - 'tool-tmux'
+    features_del:
+      - 'zeroconf-umdns'
+      - 'wifi-wpad-basic-wolfssl'
+
+  ### Extended, large
+  # Features: extended-medium recipe +
+  # ttyd (OpenSSL), Full OpenSSL WPAd, Tor (OpenSSL), USB 2.0/3.0, USB Storage,
+  # FAT*/exFAT/F2FS/ext4/NTFS filesystems, block-mount, parted, hd-idle,
+  # hdparm, S.M.A.R.T. (smartmontools), Samba Client/Server,DLNA (miniDLNA),
+  # USB Printer, Printer (p910nd), Scanner (SANE) and tmate (OpenSSL).
+  # Note: LuCi Openssl (luci-proto-openssl) fails install without patching
+  # the OpenWrt Image Builder Makefile or other code.
+  # Size: 19864.62 Kbytes (19.40 Mbytes) on 21.02.3.
+  extended-large:
+    features_add:
+      - 'base-opkg'
+      - 'luci-suite-full'
+      - 'luci-proto-wolfssl'
+      - 'luci-theme-bootstrap'
+      - 'luci-theme-openwrt-2020'
+      - 'luci-mod-system'
+      - 'luci-mod-status'
+      - 'luci-mod-network'
+      - 'luci-mod-dashboard'
+      - 'luci-app-acl'
+      - 'luci-app-commands'
+      - 'luci-app-ttyd'
+      - 'ipv6-core'
+      - 'dhcp-dnsmasq-dhcpv4'
+      - 'dhcp-odhcp6c'
+      - 'dhcp-odhcpd-ipv6only'
+      - 'firewall-core'
+      - 'firewall-iptables'
+      - 'firewall-ip6tables'
+      - 'firewall-banip'
+      - 'upnp-miniupnpd'
+      - 'zeroconf-mdnsresponder'
+      - 'wifi-core'
+      - 'wifi-wpad-openssl'
+      - 'tshape-sqm'
+      - 'wol-etherwake'
+      - 'ntp-ntpclient'
+      - 'dns-dnsmasq-dhcpv4'
+      - 'ddns-core'
+      - 'anon-tor'
+      - 'vpn-vpnbypass'
+      - 'vpn-vpnpolicyrouting'
+      - 'vpn-wireguard'
+      - 'ssh-dropbear'
+      - 'usb-usb3'
+      - 'usb-usb2'
+      - 'storage-usb'
+      - 'storage-vfat'
+      - 'storage-exfat'
+      - 'storage-f2fs'
+      - 'storage-ext4'
+      - 'storage-ntfs'
+      - 'storage-mount'
+      - 'storage-parted'
+      - 'storage-hd-idle'
+      - 'storage-hdparm'
+      - 'storage-smartmontools'
+      - 'nas-samba-client'
+      - 'nas-samba-server'
+      - 'media-minidlna'
+      - 'printer-usb'
+      - 'printer-p910nd'
+      - 'scanner-sane'
+      - 'perfandlog-collectd'
+      - 'tool-ncdu'
+      - 'tool-nano'
+      - 'tool-htop'
+      - 'tool-iftop'
+      - 'tool-vnstat'
+      - 'tool-dnstop'
+      - 'tool-wavemon'
+      - 'tool-fping'
+      - 'tool-mtr'
+      - 'tool-tcpdump-mini'
+      - 'tool-ncat'
+      - 'tool-httping'
+      - 'tool-curl'
+      - 'tool-rsync'
+      - 'tool-screen'
+      - 'tool-tmux'
+      - 'tool-tmate'
+    features_del:
+      - 'luci-suite-minimal'
+      - 'zeroconf-umdns'
+      - 'wifi-wpad-basic-wolfssl'
+      - 'wifi-wpad-mesh-wolfssl'

@@ -1,0 +1,237 @@
+---
+################################################################################
+# Storage
+# https://openwrt.org/docs/guide-user/storage/start
+################################################################################
+storage:
+
+  ### USB module: Storage
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-storage (23kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-storage-uas (8kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-scsi-core (79kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-core (92kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/kmod-usb-storage-extras (31kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/start
+  # - https://openwrt.org/docs/guide-user/storage/usb-drives-quickstart
+  # - https://openwrt.org/docs/guide-user/storage/usb-drives
+  # - https://openwrt.org/docs/guide-user/storage/usb-installing
+  storage-usb:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-usb-storage', 'kmod-usb-storage-uas' ]
+    files: [ 'storage/usb' ]
+
+  ### Filesystem: (v)FAT* (legacy)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-fs-vfat (0kB)
+  # - https://openwrt.org/packages/pkgdata/dosfstools (56kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-nls-base (0kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nls-utf8 (1kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nls-iso8859-1 (1kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nls-cp437 (2kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/filesystems-and-partitions
+  storage-vfat:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-fs-vfat', 'dosfstools' ]
+    files: []
+
+  ### Filesystem: exFAT
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-fs-exfat (47kB)
+  # - https://openwrt.org/packages/pkgdata/exfat-mkfs (11kB)
+  # - https://openwrt.org/packages/pkgdata/exfat-fsck (12kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-nls-base (0kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/filesystems-and-partitions
+  storage-exfat:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-fs-exfat', 'exfat-mkfs', 'exfat-fsck' ]
+    files: []
+
+  ### Filesystem: F2FS
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-fs-f2fs (217kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/f2fs-tools (7kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/mkf2fs (14kB)
+  # - https://openwrt.org/packages/pkgdata/f2fsck (77kB)
+  # - https://openwrt.org/packages/pkgdata/libf2fs6 (39kB)
+  # - https://openwrt.org/packages/pkgdata/libuuid1 (12kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/filesystems-and-partitions
+  storage-f2fs:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-fs-f2fs', 'f2fs-tools' ]
+    files: []
+
+  ### Filesystem: btrfs
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-fs-btrfs (671kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/btrfs-progs (952kB) + (...) deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/filesystems-and-partitions
+  storage-btrfs:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-fs-btrfs', 'btrfs-progs' ]
+    files: []
+
+  ### Filesystem: ext2/3/4
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-fs-ext4 (309kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/e2fsprogs (168kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libext2fs2 (154kB) + (...) deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/filesystems-and-partitions
+  storage-ext4:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-fs-ext4', 'e2fsprogs' ]
+    files: []
+
+  ### Filesystem: NTFS
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-fs-ntfs (53kB)
+  # - https://openwrt.org/packages/pkgdata/ntfs-3g (175kB)
+  # - https://openwrt.org/packages/pkgdata/ntfs-3g-utils (264kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-nls-base (0kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-fuse (58kB)
+  # - https://openwrt.org/packages/pkgdata/libuuid1 (12kB)
+  # - https://openwrt.org/packages/pkgdata/libgcrypt (328kB)
+  # - https://openwrt.org/packages/pkgdata/libgpg-error (56kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/filesystems-and-partitions
+  # - https://openwrt.org/docs/guide-user/storage/writable_ntfs
+  storage-ntfs:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-fs-ntfs', 'ntfs-3g', 'ntfs-3g-utils' ]
+    files: []
+
+  ### Filesystem: HFS/HFS+ (legacy)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-fs-hfs (33kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-fs-hfsplus (64kB)
+  # - https://openwrt.org/packages/pkgdata/mkhfs (17kB)
+  # - https://openwrt.org/packages/pkgdata/hfsfsck (83kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-nls-base (0kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nls-utf8 (1kB)
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/libbsd0 (37kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/filesystems-and-partitions
+  storage-hfs:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-fs-hfs', 'kmod-fs-hfsplus', 'mkhfs', 'hfsfsck' ]
+    files: []
+
+  ### Application: Swap and ZRAM
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/swap-utils (35kB)
+  # - https://openwrt.org/packages/pkgdata/zram-swap (2kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libblkid1 (109kB)
+  # - https://openwrt.org/packages/pkgdata/libuuid1 (12kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-zram (20kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-lib-lzo (5kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-crypto-acompress (3kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/filesystems-and-partitions
+  # - https://openwrt.org/docs/guide-user/storage/fstab
+  # - https://openwrt.org/docs/guide-user/additional-software/saving_space
+  storage-swap:
+    pkgs_luci: []
+    pkgs_uci: [ 'swap-utils', 'zram-swap' ]
+    files: []
+
+  ### Application: Mount
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/block-mount (25kB) + (...) deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/filesystems-and-partitions
+  # - https://openwrt.org/docs/guide-user/storage/fstab
+  # - https://openwrt.org/docs/guide-user/additional-software/extroot_configuration
+  # - https://openwrt.org/docs/techref/block_mount
+  storage-mount:
+    pkgs_luci: []
+    pkgs_uci: [ 'block-mount' ]
+    files: [ 'storage/fstab' ]
+
+  ### Application: fdisk and gdisk
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/fdisk (52kB)
+  # - https://openwrt.org/packages/pkgdata/gdisk (59kB)
+  # - https://openwrt.org/packages/pkgdata/parted (217kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libfdisk1 (159kB)
+  # - https://openwrt.org/packages/pkgdata/libblkid1 (109kB)
+  # - https://openwrt.org/packages/pkgdata/libuuid1 (12kB)
+  # - https://openwrt.org/packages/pkgdata/libsmartcols1 (69kB)
+  # - https://openwrt.org/packages/pkgdata/libncursesw6 (?kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/filesystems-and-partitions
+  # - https://openwrt.org/docs/guide-user/storage/fstab
+  storage-fdisk:
+    pkgs_luci: []
+    pkgs_uci: [ 'fdisk', 'gdisk' ]
+    files: []
+
+  ### Application: parted
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/parted (217kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libblkid1 (109kB)
+  # - https://openwrt.org/packages/pkgdata/libuuid1 (12kB)
+  # - https://openwrt.org/packages/pkgdata/libreadline8 (111kB)
+  # - https://openwrt.org/packages/pkgdata/libncursesw6 (?kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/filesystems-and-partitions
+  # - https://openwrt.org/docs/guide-user/storage/fstab
+  storage-parted:
+    pkgs_luci: []
+    pkgs_uci: [ 'parted' ]
+    files: []
+
+  ### Application: hd-idle
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-hd-idle (1kB)
+  # - https://openwrt.org/packages/pkgdata/hd-idle (4kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/usb-drives
+  # - https://openwrt.org/docs/guide-user/storage/hd-idle
+  storage-hd-idle:
+    pkgs_luci: [ 'luci-app-hd-idle' ]
+    pkgs_uci: [ 'hd-idle' ]
+    files: [ 'storage/hd-idle' ]
+
+  ### Application: hdparm
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/hdparm (43kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/usb-drives
+  # - https://openwrt.org/docs/guide-user/perf_and_log/benchmark.usb
+  storage-hdparm:
+    pkgs_luci: []
+    pkgs_uci: [ 'hdparm' ]
+    files: []
+
+  ### Application: smartmontools
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/smartmontools (193kB)
+  # - https://openwrt.org/packages/pkgdata/smartmontools-drivedb (50kB)
+  # - https://openwrt.org/packages/pkgdata/smartd (131kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/smartd-mail (2kB) + msmtp-mta + nail + openssl deps
+  # Docs
+  # - https://openwrt.org/docs/guide-user/storage/usb-drives
+  # - https://openwrt.org/docs/guide-user/additional-software/smartmontools
+  storage-smartmontools:
+    pkgs_luci: []
+    pkgs_uci: [ 'smartmontools', 'smartmontools-drivedb', 'smartd' ]
+    files: [ 'storage/smartmontools' ]

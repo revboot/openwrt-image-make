@@ -7,7 +7,7 @@
     openwrt_make_params: >-
       PROFILE="{{ openwrt_device['profile'] }}"
       EXTRA_IMAGE_NAME="{{ openwrt_image['extra_name'] }}"
-      PACKAGES="{{ openwrt_software['packages_add'] | join(' ') }} -{{ openwrt_software['packages_del'] | join(' -') }}"
+      PACKAGES="{% if openwrt_pkgs_add | length > 0 %}{{ openwrt_pkgs_add | join(' ') }}{% endif %}{% if openwrt_pkgs_del | length > 0 %} -{{ openwrt_pkgs_del | join(' -') }}{% endif %}"
       FILES="files"
   delegate_to: localhost
 

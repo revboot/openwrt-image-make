@@ -1,0 +1,25 @@
+---
+################################################################################
+# Anonymity
+# https://openwrt.org/docs/guide-user/services/tor/start
+################################################################################
+anon:
+
+  ### Application: Tor (The Onion Router)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/tor-basic (1162kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libopenssl1.1 (1265kB)
+  # - https://openwrt.org/packages/pkgdata/zlib (37kB)
+  # - https://openwrt.org/packages/pkgdata/libevent2-7 (107kB)
+  # - https://openwrt.org/packages/pkgdata/libcap (11kB)
+  # Optional
+  # - https://openwrt.org/packages/pkgdata/tor (1409kB)
+  # - https://openwrt.org/packages/pkgdata/torsocks (35kB)
+  # - https://openwrt.org/packages/pkgdata/tor-geoip (1743kB)
+  # - https://openwrt.org/packages/pkgdata/tor-fw-helper (1769kB))
+  # - https://openwrt.org/packages/pkgdata/tor-gencert (220kB)
+  anon-tor:
+    pkgs_luci: []
+    pkgs_uci: [ 'tor-basic' ]
+    files: [ 'anon/tor' ]

@@ -1,0 +1,25 @@
+---
+################################################################################
+# Base
+# https://openwrt.org/docs/guide-user/start
+################################################################################
+base:
+  # Docs
+  # - https://openwrt.org/docs/guide-user/base-system/uci
+  # - https://openwrt.org/docs/techref/uci
+
+  ### Application: opkg (Open Package Management System)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-opkg (8kB)
+  # - https://openwrt.org/packages/pkgdata/opkg (63kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/uclient-fetch (8kB)
+  # - https://openwrt.org/packages/pkgdata/libuclient20201210 (10kB)
+  # - https://openwrt.org/packages/pkgdata/libubox20210516 (23kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/additional-software/managing_packages
+  # - https://openwrt.org/docs/guide-user/additional-software/opkg
+  base-opkg:
+    pkgs_luci: [ 'luci-app-opkg' ]
+    pkgs_uci: [ 'opkg' ]
+    files: [ 'base/opkg' ]

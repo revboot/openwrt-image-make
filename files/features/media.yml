@@ -1,0 +1,28 @@
+---
+################################################################################
+# Media Server
+# https://openwrt.org/docs/guide-user/services/media_server/start
+################################################################################
+media:
+
+  ### Application: minidlna (DLNA, Digital Living Network Alliance)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-minidlna (2kB)
+  # - https://openwrt.org/packages/pkgdata/minidlna (116kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/libjpeg (?kB)
+  # - https://openwrt.org/packages/pkgdata/libffmpeg (?kB)
+  # - https://openwrt.org/packages/pkgdata/libflac (67kB)
+  # - https://openwrt.org/packages/pkgdata/libvorbis (189kB)
+  # - https://openwrt.org/packages/pkgdata/libogg0 (17kB)
+  # - https://openwrt.org/packages/pkgdata/libexif (65kB)
+  # - https://openwrt.org/packages/pkgdata/libid3tag (25kB)
+  # - https://openwrt.org/packages/pkgdata/libsqlite3-0 (495kB)
+  # - https://openwrt.org/packages/pkgdata/zlib (37kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/services/media_server/dlna
+  # - https://openwrt.org/docs/guide-user/services/media_server/minidlna
+  media-minidlna:
+    pkgs_luci: [ 'luci-app-minidlna' ]
+    pkgs_uci: [ 'minidlna' ]
+    files: [ 'media/minidlna' ]

@@ -1,0 +1,53 @@
+---
+################################################################################
+# Default recipes
+################################################################################
+default:
+
+  ### Default, no LuCi
+  # Features: Default packages without LuCi.
+  # Size: 2778.17 Kbytes (2.71 Mbytes) on 21.02.3.
+  default-noluci:
+    features_add:
+      - 'base-opkg'
+      - 'ipv6-core'
+      - 'dhcp-dnsmasq-dhcpv4'
+      - 'dhcp-odhcp6c'
+      - 'dhcp-odhcpd-ipv6only'
+      - 'firewall-core'
+      - 'firewall-iptables'
+      - 'firewall-ip6tables'
+      - 'wifi-core'
+      - 'wifi-wpad-basic-wolfssl'
+      - 'wan-ppp-core'
+      - 'wan-ppp-pppoe'
+      - 'ssh-dropbear'
+      - 'usb-usb2'
+    features_del: []
+
+  ### Default, with LuCi
+  # Features: Default packages with LuCi.
+  # Size: 3204.08 Kbytes (3.13 Mbytes) on 21.02.3.
+  default-luci:
+    features_add:
+      - 'base-opkg'
+      - 'luci-suite-minimal'
+      - 'luci-proto-wolfssl'
+      - 'luci-theme-bootstrap'
+      - 'luci-mod-system'
+      - 'luci-mod-status'
+      - 'luci-mod-network'
+      - 'ipv6-core'
+      - 'dhcp-dnsmasq-dhcpv4'
+      - 'dhcp-odhcp6c'
+      - 'dhcp-odhcpd-ipv6only'
+      - 'firewall-core'
+      - 'firewall-iptables'
+      - 'firewall-ip6tables'
+      - 'wifi-core'
+      - 'wifi-wpad-basic-wolfssl'
+      - 'wan-ppp-core'
+      - 'wan-ppp-pppoe'
+      - 'ssh-dropbear'
+      - 'usb-usb2'
+    features_del: []

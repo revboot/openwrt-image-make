@@ -1,0 +1,158 @@
+---
+################################################################################
+# Firewall
+# https://openwrt.org/docs/guide-user/firewall/start
+################################################################################
+firewall:
+
+  ### Core
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-firewall (13kB)
+  # - https://openwrt.org/packages/pkgdata/firewall (52kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-ipt-nat (4kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-ipt-conntrack + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-conntrack (53kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-conntrack6 (0kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-ipt-core (18kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-ipt (20kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-reject (2kB)
+  # - https://openwrt.org/packages/pkgdata/libip4tc2 (18kB)
+  # - https://openwrt.org/packages/pkgdata/libip6tc2 (18kB)
+  # - https://openwrt.org/packages/pkgdata/libxtables12 (43kB)
+  # - https://openwrt.org/packages/pkgdata/libuci20130104 (17kB)
+  # - https://openwrt.org/packages/pkgdata/libubox20210516 (23kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/firewall/overview
+  # - https://openwrt.org/docs/guide-user/firewall/firewall_components
+  # - https://openwrt.org/docs/guide-user/firewall/firewall_configuration
+  # - https://openwrt.org/docs/guide-user/firewall/fw3_network
+  # - https://openwrt.org/docs/guide-user/firewall/fw3_configurations/start
+  firewall-core:
+    pkgs_luci: [ 'luci-app-firewall' ]
+    pkgs_uci: [ 'firewall' ]
+    files: [ 'firewall/core' ]
+
+  ### Suite: iptables (Legacy netfilter for IPv4)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/iptables (23kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-ipt-core (18kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-ipt (20kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-reject (2kB)
+  # - https://openwrt.org/packages/pkgdata/libip4tc2 (18kB)
+  # - https://openwrt.org/packages/pkgdata/libip6tc2 (18kB)
+  # - https://openwrt.org/packages/pkgdata/libxtables12 (43kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/firewall/netfilter_iptables/start
+  firewall-iptables:
+    pkgs_luci: []
+    pkgs_uci: [ 'iptables' ]
+    files: [ 'firewall/iptables' ]
+
+  ### Mobule: NAT for iptables
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-ipt-nat (4kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-nat (16kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-conntrack (53kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/switch_router_gateway_and_nat
+  firewall-iptables-nat:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-ipt-nat' ]
+    files: [ ]
+
+  ### Mobule: conntrack for iptables
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-ipt-conntrack (4kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-conntrack (53kB)
+  firewall-iptables-conntrack:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-ipt-conntrack' ]
+    files: [ ]
+
+  ### Mobule: iprange for iptables
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/iptables-mod-iprange (2kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-ipt-iprange (1kB)
+  firewall-iptables-iprange:
+    pkgs_luci: []
+    pkgs_uci: [ 'iptables-mod-iprange' ]
+    files: [ ]
+
+  ### Suite: ip6tables (Legacy netfilter for IPv4 and IPv6)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ip6tables (0kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/iptables (23kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-ip6tables (6kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-ipt6 (9kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-reject6 (2kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/firewall/netfilter_iptables/start
+  firewall-ip6tables:
+    pkgs_luci: []
+    pkgs_uci: [ 'ip6tables' ]
+    files: [ 'firewall/ip6tables' ]
+
+  ### Mobule: NAT for ip6tables
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/ip6tables-mod-nat (1kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-ipt-conntrack (4kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-ipt-nat (4kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/kmod-ipt-nat6 (3kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-nat6 (0kB)
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-conntrack6 (0kB)
+  # Docs
+  # - https://openwrt.org/docs/guide-user/network/ipv6/ipv6.nat6
+  firewall-ip6tables-nat:
+    pkgs_luci: []
+    pkgs_uci: [ 'ip6tables-mod-nat' ]
+    files: [ ]
+
+  ### Mobule: conntrack for ip6tables
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-conntrack6 (0kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/kmod-nf-conntrack (53kB)
+  firewall-ip6tables-conntrack:
+    pkgs_luci: []
+    pkgs_uci: [ 'kmod-nf-conntrack6' ]
+    files: [ ]
+
+  ### Suite: nftables (Modern netfilter for IPv4 and IPv6)
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/nftables (?kB) + (...) deps
+  # Dependencies
+  # Docs
+  # - https://openwrt.org/docs/guide-user/firewall/misc/nftables
+  # - https://openwrt.org/docs/guide-user/firewall/netfilter_iptables/netfilter_openwrt
+  # - https://openwrt.org/docs/guide-user/firewall/netfilter_iptables/netfilter_management
+  firewall-nftables:
+    pkgs_luci: []
+    pkgs_uci: [ 'nftables' ]
+    files: [ 'firewall/nftables' ]
+
+  ### Application: BanIP
+  # Packages
+  # - https://openwrt.org/packages/pkgdata/luci-app-banip (8kB)
+  # - https://openwrt.org/packages/pkgdata/banip (20kB)
+  # Dependencies
+  # - https://openwrt.org/packages/pkgdata/iptables (23kB) + (...) deps
+  # - https://openwrt.org/packages/pkgdata/ca-bundle (113kB)
+  # - https://openwrt.org/packages/pkgdata/luci-lib-jsonc (4kB)
+  # - https://openwrt.org/packages/pkgdata/jshn (6kB)
+  # - https://openwrt.org/packages/pkgdata/libblobmsg-json20210516 (3kB)
+  # - https://openwrt.org/packages/pkgdata/libjson-c5 (28kB)
+  # - https://openwrt.org/packages/pkgdata/jsonfilter (9kB)
+  # - https://openwrt.org/packages/pkgdata/libubox20210516 (23kB)
+  # Docs
+  # - https://github.com/openwrt/packages/blob/master/net/banip/README.md
+  firewall-banip:
+    pkgs_luci: [ 'luci-app-banip' ]
+    pkgs_uci: [ 'banip' ]
+    files: [ 'firewall/banip' ]
