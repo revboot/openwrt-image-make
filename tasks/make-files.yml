@@ -1,0 +1,52 @@
+---
+# make-files file for revboot.openwrt
+# Prepares files to include in the build process.
+
+- name: "Make | Files | Remove the existing files in workdir"
+  file:
+    path:  "{{ openwrt_paths['workdir'] + '/' +
+               openwrt_vars['download_archive'] + '/files' }}"
+    state: absent
+  delegate_to: localhost
+
+- name: "Make | Files | Create the files directory in workdir"
+  file:
+    path:  "{{ openwrt_paths['workdir'] + '/' +
+               openwrt_vars['download_archive'] + '/files' }}"
+    state: directory
+  delegate_to: localhost
+
+- name: "Make | Files | Find files to include in workdir files directory"
+  find:
+    paths: "{{ openwrt_paths['files'] + '/' + item }}"
+    file_type: file
+    recurse: yes
+  loop:  "{{ openwrt_files_add }}"
+  register: openwrt_make_files_find
+  delegate_to: localhost
+
+- name: "Make | Files | Build list of found files with paths"
+  set_fact:
+    openwrt_make_files_list: "{{ openwrt_make_files_list | default([]) +
+                                 [{ 'key': item.1.path |
+                                           replace(openwrt_paths['files'] |
+                                           realpath + '/', '') |
+                                           replace(item.0.item + '/', ''),
+                                    'value': item.0.item }] }}"
+  with_subelements:
+    - "{{ openwrt_make_files_find.results }}"
+    - files
+  loop_control:
+    label: "{{ item.1.path }}"
+  delegate_to: localhost
+
+- name: "Make | Files | Rsync any found files to workdir files directory"
+  shell: >
+    rsync -avh --checksum --relative
+    {{ openwrt_paths['files'] | realpath + '/' + item.value + '/./' + item.key }}
+    {{ openwrt_paths['workdir'] + '/' + openwrt_vars['download_archive'] + '/files' }}
+  loop: "{{ openwrt_make_files_list }}"
+  loop_control:
+    label: "{{ item.value + '/' + item.key }}"
+  register: openwrt_make_files_rsync
+  delegate_to: localhost

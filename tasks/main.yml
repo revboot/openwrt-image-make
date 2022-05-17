@@ -19,6 +19,11 @@
   when:
     - "'build' in openwrt_action"
 
+- name: "Make | Files"
+  include_tasks: make-files.yml
+  when:
+    - "'build' in openwrt_action"
+
 - name: "Make | Image"
   include_tasks: make-image.yml
   when:
