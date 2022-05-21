@@ -1,0 +1,30 @@
+---
+# make-clean file for revboot.openwrt
+# Uses make to cleanup the build environment.
+
+- name: "Make | Clean | Delete the files directory in workdir"
+  file:
+    path:  "{{ openwrt_paths['workdir'] + '/' +
+               openwrt_vars['download_archive'] + '/files' }}"
+    state: absent
+  delegate_to: localhost
+
+- name: "Make | Clean | Cleanup the build environment"
+  make:
+    chdir: "{{ openwrt_paths['workdir'] + '/' +
+               openwrt_vars['download_archive'] }}"
+    file:  "Makefile"
+    target: "clean"
+  register: openwrt_clean_command
+  delegate_to: localhost
+
+- name: "Make | Clean | Output the results for Cleanup the build environment"
+  debug:
+    msg:
+      - "stderr:"
+      - "{{ openwrt_clean_command.stderr_lines | default([]) }}"
+      - "stdout:"
+      - "{{ openwrt_clean_command.stdout_lines | default([]) }}"
+  when:
+    - openwrt_clean_command.changed
+  delegate_to: localhost

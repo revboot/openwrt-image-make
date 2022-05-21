@@ -32,6 +32,7 @@ They can be set using `openwrt_action` variable.
 
 Supported actions:
 - `download`, to download image builder (for a _target_, _sub-target_ and _release_ combination)
+- `clean`, to delete firmware images and build files (for a _target_, _sub-target_ and _release_ combination)
 - `build`, to build a firmware image for a device
 - `flash-sysupgrade`, to flash a firmware image to a device using `sysupgrade`
 
@@ -60,6 +61,19 @@ To build firmware images:
             openwrt_action:
               - "download"
               - "build"
+```
+
+To delete firmware images and build files:
+```
+    - name: "OpenWrt :: Delete firmware image and build files"
+      hosts: openwrt_devices
+      gather_facts: no
+      tasks:
+        - include_role:
+            name: revboot.openwrt
+          vars:
+            openwrt_action:
+              - "clean"
 ```
 
 To flash firmware images with the OpenWrt Sysupgrade:

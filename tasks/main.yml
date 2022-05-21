@@ -19,6 +19,11 @@
   when:
     - "'build' in openwrt_action"
 
+- name: "Make | Clean"
+  include_tasks: make-clean.yml
+  when:
+    - "'clean' in openwrt_action"
+
 - name: "Make | Files"
   include_tasks: make-files.yml
   when:

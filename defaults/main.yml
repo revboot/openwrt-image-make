@@ -15,6 +15,7 @@ ansible_become_password: "\n"
 
 # actions to take with possible values:
 # - download
+# - clean
 # - build
 # - flash-sysupgrade
 openwrt_action: []
