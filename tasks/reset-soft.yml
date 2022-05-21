@@ -1,0 +1,38 @@
+---
+# reset-soft file for revboot.openwrt
+# Soft-resets a target device via firstboot.
+
+- name: "Reset | Soft | Prompt user to proceed"
+  pause:
+    prompt: "Continue with soft-reset? [y/n]"
+  register: openwrt_reset_prompt
+
+- name: "Reset | Soft | Run firstboot on target device"
+  raw: "firstboot -y && reboot now"
+  register: openwrt_reset_raw
+  ignore_errors: yes
+  ignore_unreachable: yes
+  when:
+    - openwrt_reset_prompt.user_input == 'y'
+
+- name: "Reset | Soft | Output the reset results"
+  debug:
+    msg:
+      - "stderr:"
+      - "{{ openwrt_reset_raw.stderr_lines | default([]) }}"
+      - "stdout:"
+      - "{{ openwrt_reset_raw.stdout_lines | default([]) }}"
+  when:
+    - openwrt_reset_prompt.user_input == 'y'
+    - openwrt_reset_raw is defined
+
+- name: "Reset | Soft | Wait for target device to reboot"
+  wait_for:
+    host: "{{ ( ansible_ssh_host | default(ansible_host) ) | default(inventory_hostname) }}"
+    port: "{{ ( ansible_ssh_port | default(ansible_port) ) | default(22) }}"
+    search_regex: ".*dropbear.*|.*OpenSSH.*"
+    delay: 30
+    timeout: 300
+  connection: local
+  when:
+    - openwrt_reset_prompt.user_input == 'y'

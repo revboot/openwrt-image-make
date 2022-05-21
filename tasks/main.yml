@@ -38,3 +38,13 @@
   include_tasks: flash-sysupgrade.yml
   when:
     - "'flash-sysupgrade' in openwrt_action"
+
+- name: "Reset | Soft"
+  include_tasks: reset-soft.yml
+  when:
+    - "'reset-soft' in openwrt_action"
+
+- name: "Reset | Hard"
+  include_tasks: reset-hard.yml
+  when:
+    - "'reset-hard' in openwrt_action"
