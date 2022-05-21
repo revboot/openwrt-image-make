@@ -1,0 +1,38 @@
+---
+# reset-hard file for revboot.openwrt
+# Hard-resets a target device via firstboot.
+
+- name: "Reset | Hard | Prompt user to proceed"
+  pause:
+    prompt: "Continue with hard-reset? [y/n]"
+  register: openwrt_reset_prompt
+
+- name: "Reset | Hard | Run jffs2reset on target device"
+  raw: "umount -f /overlay && jffs2reset && reboot now"
+  register: openwrt_reset_raw
+  ignore_errors: yes
+  ignore_unreachable: yes
+  when:
+    - openwrt_reset_prompt.user_input == 'y'
+
+- name: "Reset | Hard | Output the reset results"
+  debug:
+    msg:
+      - "stderr:"
+      - "{{ openwrt_reset_raw.stderr_lines | default([]) }}"
+      - "stdout:"
+      - "{{ openwrt_reset_raw.stdout_lines | default([]) }}"
+  when:
+    - openwrt_reset_prompt.user_input == 'y'
+    - openwrt_reset_raw is defined
+
+- name: "Reset | Hard | Wait for target device to reboot"
+  wait_for:
+    host: "{{ ( ansible_ssh_host | default(ansible_host) ) | default(inventory_hostname) }}"
+    port: "{{ ( ansible_ssh_port | default(ansible_port) ) | default(22) }}"
+    search_regex: ".*dropbear.*|.*OpenSSH.*"
+    delay: 30
+    timeout: 600
+  connection: local
+  when:
+    - openwrt_reset_prompt.user_input == 'y'

@@ -35,6 +35,8 @@ Supported actions:
 - `clean`, to delete firmware images and build files (for a _target_, _sub-target_ and _release_ combination)
 - `build`, to build a firmware image for a device
 - `flash-sysupgrade`, to flash a firmware image to a device using `sysupgrade`
+- `reset-soft`, to soft reset a device using `firstboot`
+- `reset-hard`, to hard reset a device using `jffs2reset`
 
 Role Variables
 --------------
@@ -91,6 +93,32 @@ To flash firmware images with the OpenWrt Sysupgrade:
 
 > **_NOTE:_** The `sysupgrade` image flash method will only work on devices
 previously flashed with OpenWrt using a `*squashfs-factory.bin` file.
+
+To soft-reset devices:
+```
+    - name: "OpenWrt :: Soft-reset device"
+      hosts: openwrt_devices
+      gather_facts: no
+      tasks:
+        - include_role:
+            name: revboot.openwrt
+          vars:
+            openwrt_action:
+              - "reset-soft"
+```
+
+To hard-reset devices:
+```
+    - name: "OpenWrt :: Hard-reset device"
+      hosts: openwrt_devices
+      gather_facts: no
+      tasks:
+        - include_role:
+            name: revboot.openwrt
+          vars:
+            openwrt_action:
+              - "reset-hard"
+```
 
 More Information
 ----------------

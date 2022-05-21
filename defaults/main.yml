@@ -18,6 +18,8 @@ ansible_become_password: "\n"
 # - clean
 # - build
 # - flash-sysupgrade
+# - reset-soft
+# - reset-hard
 openwrt_action: []
 
 # set various paths
