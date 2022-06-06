@@ -8,13 +8,14 @@
       PROFILE="{{ openwrt_device['profile'] }}"
       EXTRA_IMAGE_NAME="{{ openwrt_image['extra_name'] }}"
       PACKAGES="{% if openwrt_pkgs_add | length > 0 %}{{ openwrt_pkgs_add | join(' ') }}{% endif %}{% if openwrt_pkgs_del | length > 0 %} -{{ openwrt_pkgs_del | join(' -') }}{% endif %}"
-      FILES="files"
+      FILES="files/{{ inventory_hostname }}"
   delegate_to: localhost
 
 - name: "Make | Image | Create the workdir files directory"
   file:
     path:  "{{ openwrt_paths['workdir'] + '/' +
-               openwrt_vars['download_archive'] + '/files' }}"
+               openwrt_vars['download_archive'] + '/files/' +
+               inventory_hostname }}"
     state: directory
   delegate_to: localhost
 
