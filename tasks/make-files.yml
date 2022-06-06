@@ -49,4 +49,7 @@
   loop_control:
     label: "{{ item.value + '/' + item.key }}"
   register: openwrt_make_files_rsync
+  when:
+    - openwrt_make_files_list is defined
+    - openwrt_make_files_list | length > 0
   delegate_to: localhost
