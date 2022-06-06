@@ -5,14 +5,16 @@
 - name: "Make | Files | Remove the existing files in workdir"
   file:
     path:  "{{ openwrt_paths['workdir'] + '/' +
-               openwrt_vars['download_archive'] + '/files' }}"
+               openwrt_vars['download_archive'] + '/files/' +
+               inventory_hostname }}"
     state: absent
   delegate_to: localhost
 
 - name: "Make | Files | Create the files directory in workdir"
   file:
     path:  "{{ openwrt_paths['workdir'] + '/' +
-               openwrt_vars['download_archive'] + '/files' }}"
+               openwrt_vars['download_archive'] + '/files/' +
+               inventory_hostname }}"
     state: directory
   delegate_to: localhost
 
@@ -44,7 +46,7 @@
   shell: >
     rsync -avh --checksum --relative
     {{ openwrt_paths['files'] | realpath + '/' + item.value + '/./' + item.key }}
-    {{ openwrt_paths['workdir'] + '/' + openwrt_vars['download_archive'] + '/files' }}
+    {{ openwrt_paths['workdir'] + '/' + openwrt_vars['download_archive'] + '/files/' + inventory_hostname }}
   loop: "{{ openwrt_make_files_list }}"
   loop_control:
     label: "{{ item.value + '/' + item.key }}"
