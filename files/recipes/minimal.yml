@@ -5,9 +5,10 @@
 minimal:
 
   ### Minimal, no LuCi, no IPv6
+  # Profile: >= 8MB flash and >= 32MB RAM (ie, tp-link_tl-wr1043nd_v1).
+  # Size: (2579.55 Kbytes (2.52 Mbytes) on 21.02.3/tplink_tl-wr1043nd-v1.
   # Features: Base packages + Package Manager (OPKG), DHCPv4/DNS (dnsmasq),
   # firewall, iptables, WiFi, Basic WolfSSL WPAd, SSH Client/Server (Dropbear).
-  # Size: (2579.55 Kbytes (2.52 Mbytes) on 21.02.3.
   minimal-noluci-noipv6:
     features_add:
       - 'base-opkg'
@@ -31,12 +32,14 @@ minimal:
       - 'firewall-ip6tables'
       - 'wan-ppp-core'
       - 'wan-ppp-pppoe'
+      - 'usb-usb3'
       - 'usb-usb2'
 
   ### Minimal, no LuCi, with IPv6
+  # Profile: >= 8MB flash and >= 32MB RAM (ie, tp-link_tl-wr1043nd_v1).
+  # Size: 2629.59 Kbytes (2.57 Mbytes) on 21.02.3/tplink_tl-wr1043nd-v1.
   # Features: minimal-noluci-noipv6 recipe +
   # IPv6, DHCPv6 Client (odhcp6c), DHCPv6 Server (odhcpd) and ip6tables.
-  # Size: 2629.59 Kbytes (2.57 Mbytes) on 21.02.3.
   minimal-noluci-ipv6:
     features_add:
       - 'base-opkg'
@@ -60,12 +63,14 @@ minimal:
       - 'luci-mod-network'
       - 'wan-ppp-core'
       - 'wan-ppp-pppoe'
+      - 'usb-usb3'
       - 'usb-usb2'
 
   ### Minimal, with LuCi, no IPv6
+  # Profile: >= 8MB flash and >= 32MB RAM (ie, tp-link_tl-wr1043nd_v1).
+  # Size: 2995.74 Kbytes (2.93 Mbytes) on 21.02.3/tplink_tl-wr1043nd-v1.
   # Features: minimal-noluci-noipv6 recipe + LuCi WolfSSL,
   # LuCi Bootstrap theme and LuCi System/Status/Network modules.
-  # Size: 2995.74 Kbytes (2.93 Mbytes) on 21.02.3.
   minimal-luci-noipv6:
     features_add:
       - 'base-opkg'
@@ -89,12 +94,14 @@ minimal:
       - 'firewall-ip6tables'
       - 'wan-ppp-core'
       - 'wan-ppp-pppoe'
+      - 'usb-usb3'
       - 'usb-usb2'
 
   ### Minimal, with LuCi, with IPv6
+  # Profile: >= 8MB flash and >= 32MB RAM (ie, tp-link_tl-wr1043nd_v1).
+  # Size: 3055.17 Kbytes (2.98 Mbytes) on 21.02.3/tplink_tl-wr1043nd-v1.
   # Features: minimal-luci-noipv6 recipe +
   # IPv6, DHCPv6 Client (odhcp6c), DHCPv6 Server (odhcpd) and ip6tables.
-  # Size: 3055.17 Kbytes (2.98 Mbytes) on 21.02.3.
   minimal-luci-ipv6:
     features_add:
       - 'base-opkg'
@@ -118,4 +125,5 @@ minimal:
     features_del:
       - 'wan-ppp-core'
       - 'wan-ppp-pppoe'
+      - 'usb-usb3'
       - 'usb-usb2'

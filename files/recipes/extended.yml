@@ -4,13 +4,13 @@
 ################################################################################
 extended:
 
-  ### Extended, small
+  ### Extended, extra small
+  # Profile: >= 8MB flash and >= 32MB RAM (ie, tp-link_tl-wr1043nd_v1).
+  # Size: 3156.94 Kbytes (3.08 Mbytes) on 21.02.3/tplink_tl-wr1043nd-v1.
   # Features: minimal-luci-ipv6 recipe +
   # LuCi OpenWrt 2020 theme, LuCi Dashboard module, LuCi ACL/Commands apps,
-  # mDNS/DNS-SD (umDNS), SQM (sqm-scripts), WoL (etherwake),
-  # NTP server sync (ntpclient) and DDNS.
-  # Size: 3427.71 Kbytes (3.35 Mbytes) on 21.02.3.
-  extended-small:
+  # mDNS/DNS-SD (umDNS), and NTP server sync (ntpclient).
+  extended-xsmall:
     features_add:
       - 'base-opkg'
       - 'luci-suite-minimal'
@@ -33,22 +33,64 @@ extended:
       - 'zeroconf-umdns'
       - 'wifi-core'
       - 'wifi-wpad-basic-wolfssl'
-      - 'tshape-sqm'
-      - 'wol-etherwake'
       - 'ntp-ntpclient'
       - 'dns-dnsmasq-dhcpv4'
-      - 'ddns-core'
       - 'ssh-dropbear'
     features_del:
       - 'wan-ppp-core'
       - 'wan-ppp-pppoe'
+      - 'usb-usb3'
+      - 'usb-usb2'
+
+  ### Extended, small
+  # Profile: >= 8MB flash and >= 64MB RAM (ie, tp-link_tl-wr1043nd_v2).
+  # Size: 3636.78 Kbytes (3.55 Mbytes) on 21.02.3/tplink_tl-wr1043nd-v1.
+  # Features: extended-xsmall recipe +
+  # UPnP (MiniUPnP), Mesh WolfSSL WPAd, SQM (sqm-scripts) and WoL (etherwake).
+  extended-small:
+    features_add:
+      - 'base-opkg'
+      - 'luci-suite-minimal'
+      - 'luci-proto-wolfssl'
+      - 'luci-theme-bootstrap'
+      - 'luci-theme-openwrt-2020'
+      - 'luci-mod-system'
+      - 'luci-mod-status'
+      - 'luci-mod-network'
+      - 'luci-mod-dashboard'
+      - 'luci-app-acl'
+      - 'luci-app-commands'
+      - 'ipv6-core'
+      - 'dhcp-dnsmasq-dhcpv4'
+      - 'dhcp-odhcp6c'
+      - 'dhcp-odhcpd-ipv6only'
+      - 'firewall-core'
+      - 'firewall-iptables'
+      - 'firewall-ip6tables'
+      - 'upnp-miniupnpd'
+      - 'zeroconf-umdns'
+      - 'wifi-core'
+      - 'wifi-wpad-mesh-wolfssl'
+      - 'tshape-sqm'
+      - 'wol-etherwake'
+      - 'ntp-ntpclient'
+      - 'dns-dnsmasq-dhcpv4'
+      - 'ssh-dropbear'
+    features_del:
+      - 'wifi-wpad-basic-wolfssl'
+      - 'wan-ppp-core'
+      - 'wan-ppp-pppoe'
+      - 'usb-usb3'
       - 'usb-usb2'
 
   ### Extended, medium
+  # Profile: >= 16MB flash and >= 128MB RAM (ie, tplink_archer-c7-v2).
+  # Size: 5523.76 Kbytes (5.39 Mbytes) on 21.02.3/tplink_tl-wr1043nd-v1.
+  # Size: 5868.03 Kbytes (5.73 Mbytes) on 21.02.3/tplink_archer-c7-v2.
   # Features: extended-small recipe +
-  # BanIP, UPnP (MiniUPnP), mDNS/DNS-SD (mdnsresponder), Mesh WolfSSL WPAd,
-  # VPN bypass, VPN Policy Routing, VPN (WireGuard), collectd, and tools.
-  # Size: 7111.50 Kbytes (6.94 Mbytes) on 21.02.3.
+  # BanIP, Full WolfSSL WPAd, PPPoE, Dynamic DNS (DDNS),
+  # VPN Bypass, VPN Policy Routing, VPN (WireGuard),
+  # USB 2.0/3.0, Statistics (collectd), and tools.
   extended-medium:
     features_add:
       - 'base-opkg'
@@ -71,9 +113,11 @@ extended:
       - 'firewall-ip6tables'
       - 'firewall-banip'
       - 'upnp-miniupnpd'
-      - 'zeroconf-mdnsresponder'
+      - 'zeroconf-umdns'
       - 'wifi-core'
-      - 'wifi-wpad-mesh-wolfssl'
+      - 'wifi-wpad-full-wolfssl'
+      - 'wan-ppp-core'
+      - 'wan-ppp-pppoe'
       - 'tshape-sqm'
       - 'wol-etherwake'
       - 'ntp-ntpclient'
@@ -83,6 +127,8 @@ extended:
       - 'vpn-vpnpolicyrouting'
       - 'vpn-wireguard'
       - 'ssh-dropbear'
+      - 'usb-usb3'
+      - 'usb-usb2'
       - 'perfandlog-collectd'
       - 'tool-nano'
       - 'tool-htop'
@@ -90,29 +136,83 @@ extended:
       - 'tool-vnstat'
       - 'tool-dnstop'
       - 'tool-wavemon'
-      - 'tool-fping'
-      - 'tool-mtr'
-      - 'tool-tcpdump-mini'
-      - 'tool-ncat'
-      - 'tool-httping-nossl'
-      - 'tool-curl'
-      - 'tool-rsync'
-      - 'tool-screen'
-      - 'tool-tmux'
     features_del:
-      - 'zeroconf-umdns'
       - 'wifi-wpad-basic-wolfssl'
+      - 'wifi-wpad-mesh-wolfssl'
 
   ### Extended, large
+  # Profile: >= 32MB flash and >= 256MB RAM.
+  # Size: 15054.84 Kbytes (14.70 Mbytes) on 21.02.3/tplink_archer-c7-v2.
   # Features: extended-medium recipe +
-  # ttyd (OpenSSL), Full OpenSSL WPAd, Tor (OpenSSL), USB 2.0/3.0, USB Storage,
-  # FAT*/exFAT/F2FS/ext4/NTFS filesystems, block-mount, parted, hd-idle,
-  # hdparm, S.M.A.R.T. (smartmontools), Samba Client/Server,DLNA (miniDLNA),
-  # USB Printer, Printer (p910nd), Scanner (SANE) and tmate (OpenSSL).
+  # USB Storage, FAT*/exFAT filesystems, block-mount,
+  # Samba Server, DLNA (miniDLNA) and ncdu.
+  extended-large:
+    features_add:
+      - 'base-opkg'
+      - 'luci-suite-minimal'
+      - 'luci-proto-wolfssl'
+      - 'luci-theme-bootstrap'
+      - 'luci-theme-openwrt-2020'
+      - 'luci-mod-system'
+      - 'luci-mod-status'
+      - 'luci-mod-network'
+      - 'luci-mod-dashboard'
+      - 'luci-app-acl'
+      - 'luci-app-commands'
+      - 'ipv6-core'
+      - 'dhcp-dnsmasq-dhcpv4'
+      - 'dhcp-odhcp6c'
+      - 'dhcp-odhcpd-ipv6only'
+      - 'firewall-core'
+      - 'firewall-iptables'
+      - 'firewall-ip6tables'
+      - 'firewall-banip'
+      - 'upnp-miniupnpd'
+      - 'zeroconf-umdns'
+      - 'wifi-core'
+      - 'wifi-wpad-full-wolfssl'
+      - 'wan-ppp-core'
+      - 'wan-ppp-pppoe'
+      - 'tshape-sqm'
+      - 'wol-etherwake'
+      - 'ntp-ntpclient'
+      - 'dns-dnsmasq-dhcpv4'
+      - 'ddns-core'
+      - 'vpn-vpnbypass'
+      - 'vpn-vpnpolicyrouting'
+      - 'vpn-wireguard'
+      - 'ssh-dropbear'
+      - 'usb-usb3'
+      - 'usb-usb2'
+      - 'storage-usb'
+      - 'storage-vfat'
+      - 'storage-exfat'
+      - 'storage-mount'
+      - 'nas-samba-server'
+      - 'media-minidlna'
+      - 'perfandlog-collectd'
+      - 'tool-ncdu'
+      - 'tool-nano'
+      - 'tool-htop'
+      - 'tool-iftop'
+      - 'tool-vnstat'
+      - 'tool-dnstop'
+      - 'tool-wavemon'
+    features_del:
+      - 'wifi-wpad-basic-wolfssl'
+      - 'wifi-wpad-mesh-wolfssl'
+
+  ### Extended, extra large
+  # Profile: >= 64MB flash and >= 512MB RAM.
+  # Size: 21304.36 Kbytes (20.81 Mbytes) on 21.02.3/tplink_archer-c7-v2.
+  # Features: extended-large recipe +
+  # LuCi Suite Full, ttyd (OpenSSL), Full OpenSSL WPAd, Tor (OpenSSL),
+  # F2FS/ext4/NTFS filesystems, parted, hd-idle, hdparm,
+  # S.M.A.R.T. (smartmontools), SSHFS, NFS Client/Server, Samba Client,
+  # USB Printer, Printer (p910nd), Scanner (SANE), tools and tmate (OpenSSL).
   # Note: LuCi Openssl (luci-proto-openssl) fails install without patching
   # the OpenWrt Image Builder Makefile or other code.
-  # Size: 19864.62 Kbytes (19.40 Mbytes) on 21.02.3.
-  extended-large:
+  extended-xlarge:
     features_add:
       - 'base-opkg'
       - 'luci-suite-full'
@@ -135,9 +235,11 @@ extended:
       - 'firewall-ip6tables'
       - 'firewall-banip'
       - 'upnp-miniupnpd'
-      - 'zeroconf-mdnsresponder'
+      - 'zeroconf-umdns'
       - 'wifi-core'
-      - 'wifi-wpad-openssl'
+      - 'wifi-wpad-full-openssl'
+      - 'wan-ppp-core'
+      - 'wan-ppp-pppoe'
       - 'tshape-sqm'
       - 'wol-etherwake'
       - 'ntp-ntpclient'
@@ -161,6 +263,9 @@ extended:
       - 'storage-hd-idle'
       - 'storage-hdparm'
       - 'storage-smartmontools'
+      - 'nas-sshfs'
+      - 'nas-nfs-client'
+      - 'nas-nfs-server'
       - 'nas-samba-client'
       - 'nas-samba-server'
       - 'media-minidlna'
@@ -182,11 +287,10 @@ extended:
       - 'tool-httping'
       - 'tool-curl'
       - 'tool-rsync'
-      - 'tool-screen'
       - 'tool-tmux'
       - 'tool-tmate'
     features_del:
       - 'luci-suite-minimal'
-      - 'zeroconf-umdns'
       - 'wifi-wpad-basic-wolfssl'
       - 'wifi-wpad-mesh-wolfssl'
+      - 'wifi-wpad-full-wolfssl'

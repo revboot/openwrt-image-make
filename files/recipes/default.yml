@@ -5,8 +5,9 @@
 default:
 
   ### Default, no LuCi
+  # Profile: none.
+  # Size: 2778.17 Kbytes (2.71 Mbytes) on 21.02.3/tplink_tl-wr1043nd-v1.
   # Features: Default packages without LuCi.
-  # Size: 2778.17 Kbytes (2.71 Mbytes) on 21.02.3.
   default-noluci:
     features_add:
       - 'base-opkg'
@@ -21,13 +22,15 @@ default:
       - 'wifi-wpad-basic-wolfssl'
       - 'wan-ppp-core'
       - 'wan-ppp-pppoe'
+      - 'dns-dnsmasq-dhcpv4'
       - 'ssh-dropbear'
       - 'usb-usb2'
     features_del: []
 
   ### Default, with LuCi
+  # Profile: none.
+  # Size: 3204.08 Kbytes (3.13 Mbytes) on 21.02.3/tplink_tl-wr1043nd-v1.
   # Features: Default packages with LuCi.
-  # Size: 3204.08 Kbytes (3.13 Mbytes) on 21.02.3.
   default-luci:
     features_add:
       - 'base-opkg'
@@ -48,6 +51,7 @@ default:
       - 'wifi-wpad-basic-wolfssl'
       - 'wan-ppp-core'
       - 'wan-ppp-pppoe'
+      - 'dns-dnsmasq-dhcpv4'
       - 'ssh-dropbear'
       - 'usb-usb2'
     features_del: []
